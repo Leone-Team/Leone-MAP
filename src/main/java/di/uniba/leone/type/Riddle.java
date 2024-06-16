@@ -8,6 +8,10 @@ package di.uniba.leone.type;
  *
  * @author giann
  */
+/**
+ * Classe rappresentativa degli indovinelli presenti in alcune sezioni del gioco. 
+ * @author giann
+ */
 public class Riddle {
     private static int ID;
     private String question;
