@@ -9,6 +9,10 @@ import java.util.List;
  *
  * @author giann
  */
+/**
+ * Classe rappresentativa delle varie stanza del gioco.
+ * @author giann
+ */
 public class Room {
     private String name;
     private Room eastR, westR, southR, northR, upR, downR;
