@@ -9,8 +9,6 @@ import java.util.Set;
 import java.util.Arrays;
 
 public class Command {
-
-public class Command {
     
     private CommandType type;
     private Set<String> names;
