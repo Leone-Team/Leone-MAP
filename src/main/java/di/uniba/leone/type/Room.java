@@ -16,14 +16,15 @@ import java.util.List;
 public class Room {
     private String name;
     private Room eastR, westR, southR, northR, upR, downR;
-    private final List<Item> Items = new ArrayList<>();
+    private List<Item> Items = new ArrayList<>();
     private boolean lighted;
+    private boolean locked;
     private String description;
 
     public Room() {
     }
 
-    public Room(String name, Room eastR, Room westR, Room southR, Room northR, Room upR, Room downR, boolean lighted, String description) {
+    public Room(String name, Room eastR, Room westR, Room southR, Room northR, Room upR, Room downR, boolean lighted, boolean locked, String description) {
         this.name = name;
         this.eastR = eastR;
         this.westR = westR;
@@ -32,6 +33,13 @@ public class Room {
         this.upR = upR;
         this.downR = downR;
         this.lighted = lighted;
+        this.description = description;
+    }
+    
+    public Room(String name, boolean lighted, boolean locked, String description){
+        this.name = name;
+        this.lighted = lighted;
+        this.locked = locked;
         this.description = description;
     }
 
@@ -111,5 +119,7 @@ public class Room {
         return description;
     }
     
-    
+    public void setItems(List<Item> items){
+        this.Items.addAll(items);
+    }
 }

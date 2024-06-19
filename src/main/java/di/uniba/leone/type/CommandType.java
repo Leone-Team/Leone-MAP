@@ -11,7 +11,6 @@ public enum CommandType {
     WEST,
     GO_UP,
     GO_DOWN,
-    EXIT,
     QUIT,
     INVENTORY,
     TURN_ON,
@@ -24,4 +23,6 @@ public enum CommandType {
     CLOSE,
     BREAK,
     PULL // THE PLUG
+    
+    
 }
