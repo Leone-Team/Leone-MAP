@@ -1,7 +1,6 @@
 
 package di.uniba.leone.type;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
@@ -9,35 +8,24 @@ import java.util.Set;
 public class Item {
     
     private final Integer id;
-    private final String name;
     private String description = "";
-    private final Set<String> alias = new HashSet();
+    private final Set<String> names = new HashSet();
     private boolean peakable;
     private boolean useable;
     private boolean turnable;
     
     //costruttore
-    public Item(String item){
-        ArrayList<String> tokens = new ArrayList();
-        tokens.addAll(Arrays.asList(item.split("/")));
-        id = Integer.valueOf(tokens.get(0));
-        name = tokens.get(1);
-        description = tokens.get(2);
-        alias.addAll(Arrays.asList(tokens.get(3).split(",")));
-        
-        peakable = tokens.get(4).compareToIgnoreCase("true") == 0;
-        useable = tokens.get(5).compareToIgnoreCase("true") == 0;
-        turnable = tokens.get(6).compareToIgnoreCase("true") == 0;
-        
- 
+    public Item(Integer id, String description, String names, Boolean peakable, Boolean useable, Boolean turnable){
+        this.id = id;
+        this.description = description;
+        this.names.addAll(Arrays.asList(names.replaceAll(" ", "").split(",")));
+        this.peakable = peakable;
+        this.useable = useable;
+        this.turnable = turnable;
     }
     
     public Integer getId() {
         return id;
-    }
-
-    public String getName() {
-        return name;
     }
 
     public String getDescription() {
@@ -72,10 +60,9 @@ public class Item {
         this.turnable = turnable;
     }
 
-    public Set<String> getAlias() {
-        return alias;
+    public Set<String> getNames() {
+        return names;
     }
-
     
     @Override
     public boolean equals(Object obj) {
@@ -93,7 +80,7 @@ public class Item {
 
     @Override
     public String toString() {
-        return "Item{" + "id=" + id + ", name=" + name + ", description=" + description + ", alias=" + alias + ", peakable=" + peakable + ", useable=" + useable + ", turnable=" + turnable + '}';
+        return "Item{" + "id=" + id + ", name=" + names + ", description=" + description + ", peakable=" + peakable + ", useable=" + useable + ", turnable=" + turnable + '}';
     }
     
     

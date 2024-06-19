@@ -4,32 +4,27 @@
  */
 package di.uniba.leone.type;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 public class Container extends Item{
-    private List<String> items = new LinkedList();
+    private Set<Integer> items = new HashSet();
     private boolean locked;
     private Integer key;
     
-    public Container(String container){
-        super(container.split("#")[0]);
-        List<String> tokens = new ArrayList();
-        tokens.addAll(Arrays.asList(container.split("#")[1].split("/")));
-        
-        this.items.addAll(Arrays.asList(tokens.get(0).split(",")));
-        locked = tokens.get(1).compareToIgnoreCase("true") == 0;
-        key = Integer.valueOf(tokens.get(2));
-        
+    public Container(Integer id, String description, String names, Boolean peakable, Boolean useable, Boolean turnable, String items){
+        super(id, description, names, peakable, useable, turnable);
+        for(String item: items.split(","))
+        {
+            this.items.add(Integer.valueOf(item));
+        }
     }
 
-    public List<String> getItems() {
+    public Set<Integer> getItems() {
         return items;
     }
 
-    public void setItems(List<String> items) {
+    public void setItems(Set<Integer> items) {
         this.items = items;
     }
 
