@@ -1,0 +1,6 @@
+2024-06-20 22:41:04 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "INSERT INTO ITEM (ID, NAMES, DESC, PEAKABLE, USEABLE, TURNABLE, BREAKABLE, OPENABLE, BROKEN, TURNED_ON,CONTAINER, ITEMS_CON[*]"; expected ",, )"; SQL statement:
+INSERT INTO item (ID, names, desc, peakable, useable, turnable, breakable, openable, broken, turned_on,container, items_con [42001-200]
+2024-06-20 22:42:39 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "INSERT INTO ITEM (ID, NAMES, DESC, PEAKABLE, USEABLE, TURNABLE, BREAKABLE, OPENABLE, BROKEN, TURNED_ON, CONTAINER, ITEMS_CON)[*]"; expected "DIRECT, SORTED, DEFAULT, VALUES, SET, (, WITH, SELECT, TABLE, VALUES"; SQL statement:
+INSERT INTO item (id, names, desc, peakable, useable, turnable, breakable, openable, broken, turned_on, container, items_con) [42001-200]

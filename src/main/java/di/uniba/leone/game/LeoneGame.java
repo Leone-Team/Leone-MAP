@@ -42,9 +42,9 @@ public class LeoneGame extends Game {
             Item item;
             while (rs.next()) {
                 if (rs.getBoolean("container") == true) {
-                    item = new Item(rs.getInt("id"), rs.getString("desc"), rs.getString("names"), rs.getBoolean("peakable"), rs.getBoolean("useable"), rs.getBoolean("turnable"));
+                    item = new Container(rs.getInt("id"), rs.getString("desc"), rs.getString("names"), rs.getBoolean("peakable"), rs.getBoolean("useable"), rs.getBoolean("turnable"), rs.getBoolean("breakable"), rs.getBoolean("openable"), rs.getBoolean("broken"), rs.getBoolean("turned_on"), rs.getString("items_con"));
                 } else {
-                    item = new Container(rs.getInt("id"), rs.getString("desc"), rs.getString("names"), rs.getBoolean("peakable"), rs.getBoolean("useable"), rs.getBoolean("turnable"), rs.getString("items_con"));
+                    item = new Item(rs.getInt("id"), rs.getString("desc"), rs.getString("names"), rs.getBoolean("peakable"), rs.getBoolean("useable"), rs.getBoolean("turnable"), rs.getBoolean("breakable"), rs.getBoolean("broken"), rs.getBoolean("turned_on"));
                 }
                 getItems().put(item.getID(), item);
             }
@@ -58,12 +58,12 @@ public class LeoneGame extends Game {
             ResultSet rs = pstm.executeQuery();
 
             Room room;
-            ArrayList<Item> items_stored = new ArrayList();
+            ArrayList<Integer> items_stored = new ArrayList();
             while (rs.next()) {
                 room = new Room(rs.getString("name"), rs.getBoolean("lighted"), rs.getBoolean("locked"), rs.getString("desc"));
                 String items = rs.getString("id_items");
                 for (String id_item : items.split(",")) {
-                    items_stored.add(getItems().get(Integer.valueOf(id_item)));
+                    items_stored.add(Integer.valueOf(id_item));
                 }
                 room.setItems(items_stored);
                 items_stored.clear();

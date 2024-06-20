@@ -18,13 +18,16 @@ public class Item {
     private boolean broken;
     
     //costruttore
-    public Item(Integer id, String description, String names, Boolean peakable, Boolean usable, Boolean turnable){
+    public Item(Integer id, String description, String names, Boolean peakable, Boolean useable, Boolean turnable, Boolean breakable, Boolean broken, Boolean turned_on){
         this.id = id;
         this.description = description;
         this.names.addAll(Arrays.asList(names.replaceAll(" ", "").split(",")));
         this.pickupable = peakable;
-        this.usable = usable;
+        this.usable = useable;
         this.turnable = turnable;
+        this.breakable = breakable;
+        this.broken = broken;
+        this.turned_on = turned_on;
     }
     
     public Integer getID() {

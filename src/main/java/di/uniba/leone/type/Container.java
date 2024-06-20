@@ -5,16 +5,14 @@ import java.util.Set;
 
 public class Container extends Item{
     private Set<Integer> items = new HashSet();
-    private boolean locked;
-    private Integer key;
     private boolean openable; 
 
-    public Container(Integer id, String description, String names, Boolean peakable, Boolean useable, Boolean turnable, String items){
-        super(id, description, names, peakable, useable, turnable);
-        for(String item: items.split(","))
-        {
+    public Container(Integer id, String description, String names, Boolean peakable, Boolean useable, Boolean turnable, Boolean breakable, Boolean openable, Boolean broken, Boolean turned_on, String items){
+        super(id, description, names, peakable, useable, turnable, breakable, broken, turned_on);
+        for(String item: items.split(",")){
             this.items.add(Integer.valueOf(item));
-    }
+        }
+        this.openable = openable;
     }
 
     public Set<Integer> getItems() {
@@ -25,30 +23,6 @@ public class Container extends Item{
         this.items = items;
     }
 
-    public boolean isLocked() {
-        return locked;
-    }
-
-    public void setLocked(boolean locked) {
-        this.locked = locked;
-    }
-
-    public Integer getKey() {
-        return key;
-    }
-
-    public void setKey(Integer key) {
-        this.key = key;
-    }
-
-    public boolean useKey(Integer key)
-    {
-        if(key.compareTo(this.key) == 0)
-            this.locked = !this.locked;
-        
-        //restituisce se la chiave è corretta e ha funzionato
-        return key.compareTo(this.key) == 0;
-    }
     @Override
     public boolean equals(Object obj) {
         if(obj.getClass() != getClass())
