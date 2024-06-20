@@ -17,7 +17,7 @@ public enum CommandType {
     TURN_OFF,
     LOOK,
     USE,
-    TAKE,
+    PICK_UP,
     WEAR,
     OPEN,
     CLOSE,

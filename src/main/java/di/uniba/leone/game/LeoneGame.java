@@ -2,7 +2,13 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package di.uniba.leone.type;
+package di.uniba.leone.game;
+
+import di.uniba.leone.type.Item;
+import di.uniba.leone.type.Container;
+import di.uniba.leone.type.Room;
+import di.uniba.leone.type.Command;
+import di.uniba.leone.type.CommandType;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -40,7 +46,7 @@ public class LeoneGame extends Game {
                 } else {
                     item = new Container(rs.getInt("id"), rs.getString("desc"), rs.getString("names"), rs.getBoolean("peakable"), rs.getBoolean("useable"), rs.getBoolean("turnable"), rs.getString("items_con"));
                 }
-                getItems().put(item.getId(), item);
+                getItems().put(item.getID(), item);
             }
             conn.close();
         } catch (SQLException e) {
@@ -109,6 +115,6 @@ public class LeoneGame extends Game {
         }
 
         //istanzia la room attuale
-        setActualRoom(getRooms().get("Camera da letto"));
+        setCurrentRoom(getRooms().get("Camera da letto"));
     }
 }

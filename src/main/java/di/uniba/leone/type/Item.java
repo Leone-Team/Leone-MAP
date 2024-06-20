@@ -3,6 +3,7 @@ package di.uniba.leone.type;
 
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
 public class Item {
@@ -10,21 +11,23 @@ public class Item {
     private final Integer id;
     private String description = "";
     private final Set<String> names = new HashSet();
-    private boolean peakable;
+    private boolean pickupable;
     private boolean useable;
     private boolean turnable;
+    private boolean openable; 
+    private boolean open;
     
     //costruttore
     public Item(Integer id, String description, String names, Boolean peakable, Boolean useable, Boolean turnable){
         this.id = id;
         this.description = description;
         this.names.addAll(Arrays.asList(names.replaceAll(" ", "").split(",")));
-        this.peakable = peakable;
+        this.pickupable = peakable;
         this.useable = useable;
         this.turnable = turnable;
     }
     
-    public Integer getId() {
+    public Integer getID() {
         return id;
     }
 
@@ -36,12 +39,12 @@ public class Item {
         this.description = description;
     }
 
-    public boolean isPeakable() {
-        return peakable;
+    public boolean isPickupable() {
+        return pickupable;
     }
 
-    public void setPeakable(boolean peakable) {
-        this.peakable = peakable;
+    public void setPickupable(boolean pickupable) {
+        this.pickupable = pickupable;
     }
 
     public boolean isUseable() {
@@ -70,19 +73,42 @@ public class Item {
             return false;
         
         Item other = (Item) obj;
-        return other.getId().compareTo(this.getId()) == 0;
+        return other.getID().compareTo(this.getID()) == 0;
     }
 
     @Override
     public int hashCode() {
-        return this.getId().hashCode();
+        return this.getID().hashCode();
     }
 
     @Override
     public String toString() {
-        return "Item{" + "id=" + id + ", name=" + names + ", description=" + description + ", peakable=" + peakable + ", useable=" + useable + ", turnable=" + turnable + '}';
+        return "Item{" + "id=" + id + ", name=" + names + ", description=" + description + ", peakable=" + pickupable + ", useable=" + useable + ", turnable=" + turnable + '}';
     }
-    
+        // Metodo per ottenere il primo nome dal set
+    public String getFirstName() {
+        Iterator<String> iterator = names.iterator();
+        if (iterator.hasNext()) {
+            return iterator.next();
+        }
+        return null; 
+    }
+
+    public boolean isOpenable() {
+        return openable;
+    }
+
+    public void setOpenable(boolean openeable) {
+        this.openable = openeable;
+    }
+
+    public boolean isOpen() {
+        return open;
+    }
+
+    public void setOpen(boolean open) {
+        this.open = open;
+    }
     
     
 }
