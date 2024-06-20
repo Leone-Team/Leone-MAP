@@ -65,16 +65,16 @@ public class Parser {
         for(String token:tokens)
         {
             if ((i = isItem(token, items.values())) !=-1)
-                action.setItem(items.get(i));
+                action.setItem1(items.get(i));
             else if((i = isCommand(token, commands)) != -1)
                 action.setCommand(commands.get(i));
             }
         
-        if((action.getCommand() == null) || (action.getItem() == null) )
+        if((action.getCommand() == null) || (action.getItem1() == null) )
         {
             System.out.println(">Non ho capito");
             action.setCommand(null);
-            action.setItem(null);
+            action.setItem1(null);
         }
         return action;
     }

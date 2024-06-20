@@ -1,4 +1,3 @@
-
 package di.uniba.leone.type;
 
 import java.util.Arrays;
@@ -12,18 +11,19 @@ public class Item {
     private String description = "";
     private final Set<String> names = new HashSet();
     private boolean pickupable;
-    private boolean useable;
+    private boolean usable;
     private boolean turnable;
-    private boolean openable; 
-    private boolean open;
+    private boolean breakable;
+    private boolean turned_on;
+    private boolean broken;
     
     //costruttore
-    public Item(Integer id, String description, String names, Boolean peakable, Boolean useable, Boolean turnable){
+    public Item(Integer id, String description, String names, Boolean peakable, Boolean usable, Boolean turnable){
         this.id = id;
         this.description = description;
         this.names.addAll(Arrays.asList(names.replaceAll(" ", "").split(",")));
         this.pickupable = peakable;
-        this.useable = useable;
+        this.usable = usable;
         this.turnable = turnable;
     }
     
@@ -47,12 +47,12 @@ public class Item {
         this.pickupable = pickupable;
     }
 
-    public boolean isUseable() {
-        return useable;
+    public boolean isUsable() {
+        return usable;
     }
 
-    public void setUseable(boolean useable) {
-        this.useable = useable;
+    public void setUsable(boolean usable) {
+        this.usable = usable;
     }
 
     public boolean isTurnable() {
@@ -83,7 +83,7 @@ public class Item {
 
     @Override
     public String toString() {
-        return "Item{" + "id=" + id + ", name=" + names + ", description=" + description + ", peakable=" + pickupable + ", useable=" + useable + ", turnable=" + turnable + '}';
+        return "Item{" + "id=" + id + ", name=" + names + ", description=" + description + ", peakable=" + pickupable + ", usable=" + usable + ", turnable=" + turnable + '}';
     }
         // Metodo per ottenere il primo nome dal set
     public String getFirstName() {
@@ -92,22 +92,34 @@ public class Item {
             return iterator.next();
         }
         return null; 
+    }  
+
+    public Integer getId() {
+        return id;
     }
 
-    public boolean isOpenable() {
-        return openable;
+    public boolean isBreakable() {
+        return breakable;
     }
 
-    public void setOpenable(boolean openeable) {
-        this.openable = openeable;
+    public boolean isTurned_on() {
+        return turned_on;
     }
 
-    public boolean isOpen() {
-        return open;
+    public boolean isBroken() {
+        return broken;
     }
 
-    public void setOpen(boolean open) {
-        this.open = open;
+    public void setBreakable(boolean breakable) {
+        this.breakable = breakable;
+    }
+
+    public void setTurned_on(boolean turned_on) {
+        this.turned_on = turned_on;
+    }
+
+    public void setBroken(boolean broken) {
+        this.broken = broken;
     }
     
     
