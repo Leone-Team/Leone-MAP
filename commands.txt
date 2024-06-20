@@ -1,0 +1,36 @@
+Tipo:NORTH, nomi:N, nord.
+
+Tipo:SOUTH, nomi:S, sud.
+
+Tipo:EAST, nomi:E, est.
+
+Tipo:WEST, nomi:W, ovest, west.
+
+Tipo:GO_UP, nomi:U, up, sopra, sali.
+
+Tipo:GO_DOWN, nomi:D, down, scendi, sotto.
+
+Tipo:QUIT, nomi:esci, chiudi, termina.
+
+Tipo:INVENTORY, nomi:I, inv, inventario.
+
+Tipo:TURN_ON, nomi:accendi.
+
+Tipo:TURN_OFF, nomi:spegni.
+
+Tipo:LOOK, nomi:osserva.
+
+Tipo:USE, nomi:usa.
+
+Tipo:TAKE, nomi:prendi.
+
+Tipo:WEAR, nomi:indossa.
+
+Tipo:OPEN, nomi:apri.
+
+Tipo:CLOSE, nomi:chiudi.
+
+Tipo:BREAK, nomi:rompi.
+
+Tipo:PULL, nomi:spingi.
+
