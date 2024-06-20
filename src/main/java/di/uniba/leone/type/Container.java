@@ -11,13 +11,13 @@ public class Container extends Item{
     private Set<Integer> items = new HashSet();
     private boolean locked;
     private Integer key;
-    
+
     public Container(Integer id, String description, String names, Boolean peakable, Boolean useable, Boolean turnable, String items){
         super(id, description, names, peakable, useable, turnable);
         for(String item: items.split(","))
         {
             this.items.add(Integer.valueOf(item));
-        }
+    }
     }
 
     public Set<Integer> getItems() {
@@ -58,11 +58,11 @@ public class Container extends Item{
             return false;
         
         Container other = (Container) obj;
-        return other.getId().compareTo(this.getId()) == 0;}
+        return other.getID().compareTo(this.getID()) == 0;}
 
     @Override
     public int hashCode() {
-        return this.getId().hashCode();
+        return this.getID().hashCode();
     }
 
     @Override

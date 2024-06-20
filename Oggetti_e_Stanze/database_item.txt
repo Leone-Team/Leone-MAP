@@ -1,0 +1,60 @@
+ID:1, names:mazza, description:mazza da baseball, vediamo se la sai usare!
+peakable:true, useable:true, turnable:false, openable:false
+container:false, items:
+
+ID:2, names:cuffie, paraorecchi, description:cuffie insonorizzanti.
+peakable:true, useable:true, turnable:false, openable:false
+container:false, items:
+
+ID:3, names:armadio, description:Un vecchio armadio scricchiolante.
+peakable:true, useable:false, turnable:false, openable:true
+container:true, items:4, 5, 6
+
+ID:4, names:biancheria, description:della biancheria sfusa, non proprio uno spettacolo per la prima mattina.
+pickupable:true, useable:false, turnable:false, openable:false
+container:false, items:
+
+ID:5, names:vestiti, description:svariati vestiti vecchiotti, non proprio della tua taglia.
+pickupable:true, useable:false, turnable:false, openable:false
+container:false, items:
+
+ID:6, names:tuta, description:La vecchia tuta da pompiere di giustino, la usava per per star fresco al sole, che spreco.
+pickupable:true, useable:true, turnable:false, openable:false
+container:false, items:
+
+ID:7, names:cuscino, description:vecchio cuscino, di quelli morbidi.
+pickupable:true, useable:true, turnable:false, openable:false
+container:false, items:
+
+ID:8, names:torcia, description:una torcia, le batterie sembrano essere cariche
+pickupable:true, useable:false, turnable:true, openable:false
+container:false, items:
+
+ID:9, names:televisione, description:un vecchio televisore a tubo catodico, la sua luce è così forte che ci si vedono le ossa.
+pickupable:false, useable:false, turnable:true, openable:false
+container:false, items:
+
+ID:10, names:libreria, description:una libreria in legno, vi è qualche libro sugli scaffali.
+pickupable:false, useable:false, turnable:false, openable:false
+container:true, items:11, 12
+
+ID:11, names:libri, In cucina con Gatti, La stele! Verita' o leggenda, description:Vecchio libro consunto, meglio non toccarlo, Giustino si lamenta sempre che vengono spostati.
+pickupable:false, useable:false, turnable:false, openable:false
+container:false, items:
+
+ID:12, names:Manuale, Manuale A.L., description:Il manuale di istruzioni della casa, magari c'è qualcosa di utile
+pickupable:true, useable:true, turnable:false, openable:false
+container:false, items:
+
+ID:13, names:occhiali, description:vecchio paio di occhiali da sole, il meglio per combattere la luce di Altrove.
+pickupable:true, useable:true, turnable:false, openable:false
+container:false, items:
+
+ID:14, names:computer, description:Il computer di famiglia, meglio non chiamarlo vecchio o si potrebbe offendere.
+pickupable:false, useable:true, turnable:false, openable:false
+container:false, items:
+
+ID:15, names:sveglia, description:La piu' rumorosa sveglia che troverai mai in circolazione. L'unica cosa su cui essere certi e' che prima scompare, prima saremo contenti.
+pickupable:false, useable:false, turnable:true, openable:false
+container:false, items:
+

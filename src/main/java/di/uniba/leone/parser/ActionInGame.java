@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package parser;
+package di.uniba.leone.parser;
 
 import di.uniba.leone.type.Command;
 import di.uniba.leone.type.Item;

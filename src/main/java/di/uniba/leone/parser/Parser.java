@@ -1,4 +1,4 @@
-package parser;
+package di.uniba.leone.parser;
 
 import di.uniba.leone.type.Command;
 import di.uniba.leone.type.Item;
@@ -44,7 +44,7 @@ public class Parser {
     private int isItem(String token, Collection<Item> items){
         for(Item it:items)
             if (it.getNames().contains(token))
-                return it.getId();
+                return it.getID();
         return -1;
     }
     
