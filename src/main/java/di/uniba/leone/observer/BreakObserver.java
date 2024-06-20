@@ -26,9 +26,10 @@ import di.uniba.leone.type.Item;
                     }
                     case "mazza": {
                         if(game.getCurrentRoom().getName() == "Camera da Letto" && item1.getFirstName() == "sveglia") {
-                            if(game.getCurrentRoom().isLocked() == true) {
+                            if(game.getItemByID(item1.getID()).isBroken() == false) {
                             game.getCurrentRoom().setLocked(false);
                             msg.append("Accipicchia che colpo! Finalmente ti sei sbarazzato di quel rumore assordante! \n");
+                            game.getItemByID(item1.getID()).setBroken(true);
                         } else {
                             msg.append("Che astuzia, così adesso non sei più costretto a sopportare Rick Astley per non sentire la sveglia... Ben fatto! \n");
                             } 

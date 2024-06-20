@@ -16,7 +16,7 @@ import java.util.List;
 public class Room {
     private String name;
     private Room eastR, westR, southR, northR, upR, downR;
-    private List<Item> Items = new ArrayList<>();
+    private List<Integer> Items = new ArrayList<>();
     private boolean lighted;
     private boolean locked;
     private String description;
@@ -107,7 +107,7 @@ public class Room {
         return downR;
     }
 
-    public List<Item> getItems() {
+    public List<Integer> getItems() {
         return Items;
     }
 
@@ -119,7 +119,7 @@ public class Room {
         return description;
     }
     
-    public void setItems(List<Item> items){
+    public void setItems(List<Integer> items){
         this.Items.addAll(items);
     }
 

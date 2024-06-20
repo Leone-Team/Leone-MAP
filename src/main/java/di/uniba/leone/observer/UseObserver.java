@@ -69,14 +69,21 @@ public class UseObserver implements GameObserver {
                             case "mazza": {
                                 if(actioningame.getItem2() != null)      {
                                     if(actioningame.getItem2().getFirstName() == "sveglia" && game.getCurrentRoom().getName() == "Camera da Letto") {
-                                        if(game.getCurrentRoom().isLocked() == true) {
+                                        if(game.getItemByID(actioningame.getItem2().getID()).isBroken() == false) {
                                          game.getCurrentRoom().setLocked(false);
                                          msg.append("Accipicchia che colpo! Finalmente ti sei sbarazzato di quel rumore assordante! \n");
+                                         game.getItemByID(actioningame.getItem2().getID()).setBroken(true);
                                         } else {
-                                         msg.append("Che astuzia, così adesso non sei più costretto a sopportare Rick Astley per non sentire la sveglia... Ben fatto! \n");   
+                                         msg.append("Beh e' gia' ridotta in pezzi... Cosa vuoi farci piu' ? \n");   
                                         }
                                     } else if(actioningame.getItem2().getFirstName() == "caldaia" && game.getCurrentRoom().getName() == "Cantina") {
+                                        if(game.getItemByID(actioningame.getItem2().getID()).isBroken() == false) {
                                         msg.append("E' questo quello che chiamano problem solving? Spaccare tutto? Beh almeno ha funzionato... \n");
+                                        game.getItemByID(actioningame.getItem2().getID()).setBroken(true);
+                                        game.getCurrentRoom().setLocked(false);
+                                        } else {
+                                            msg.append("Beh e' gia' ridotta in pezzi... Cosa vuoi farci piu' ? \n");
+                                        }
                                         } else{
                                             msg.append("Wooo, calma con quella mazza... Non vorrai mica spaccare tutto eh? \n");
                                             }

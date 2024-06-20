@@ -20,11 +20,14 @@ public class LookObserver implements GameObserver {
     public String update(Game game, ActionInGame actioningame) {
         StringBuilder msg = new StringBuilder();
         if (actioningame.getCommand().getType() == CommandType.LOOK) {
-            List<Item> itemsInRoom = game.getCurrentRoom().getItems();
-            if (itemsInRoom != null && !itemsInRoom.isEmpty()) {
+            List<Integer> itemIdsInRoom = game.getCurrentRoom().getItems();
+            if (itemIdsInRoom != null && !itemIdsInRoom.isEmpty()) {
                 msg.append("Noti alcuni oggetti interessanti:\n");
-                for (Item item : itemsInRoom) {
-                    msg.append("- ").append(item.getDescription()).append("\n");
+                for (Integer itemId : itemIdsInRoom) {
+                    Item item = game.getItemByID(itemId);
+                    if (item != null) {
+                        msg.append("- ").append(item.getDescription()).append("\n");
+                    }
                 }
             } else {
                 msg.append("Non noti nulla che ti possa interessare.");
@@ -32,5 +35,5 @@ public class LookObserver implements GameObserver {
         }
         return msg.toString();
     }
-
 }
+
