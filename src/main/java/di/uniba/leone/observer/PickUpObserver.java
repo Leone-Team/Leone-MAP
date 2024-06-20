@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package di.uniba.leone.observer;
 
 import di.uniba.leone.game.Game;
@@ -21,7 +17,7 @@ public class PickUpObserver implements GameObserver {
     public String update(Game game, ActionInGame actioningame) {
         StringBuilder msg = new StringBuilder();
         if (actioningame.getCommand().getType() == CommandType.PICK_UP) {
-            Item item = actioningame.getItem();
+            Item item = actioningame.getItem1();
             if (item != null) {
                 if (item.isPickupable()) {
                     boolean itemFound = false;

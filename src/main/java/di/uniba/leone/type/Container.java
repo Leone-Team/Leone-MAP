@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package di.uniba.leone.type;
 
 import java.util.HashSet;
@@ -11,6 +7,7 @@ public class Container extends Item{
     private Set<Integer> items = new HashSet();
     private boolean locked;
     private Integer key;
+    private boolean openable; 
 
     public Container(Integer id, String description, String names, Boolean peakable, Boolean useable, Boolean turnable, String items){
         super(id, description, names, peakable, useable, turnable);
@@ -67,11 +64,15 @@ public class Container extends Item{
 
     @Override
     public String toString() {
-        return super.toString() + ", items:" + items; // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/OverriddenMethodBody
+        return super.toString() + ", items:" + items; 
     }
-    
-    
-    
-    
+
+    public boolean isOpenable() {
+        return openable;
+    }
+
+    public void setOpenable(boolean openable) {
+        this.openable = openable;
+    } 
 }
 

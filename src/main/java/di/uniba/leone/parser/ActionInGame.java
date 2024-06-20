@@ -13,7 +13,8 @@ import di.uniba.leone.type.Item;
  */
 public class ActionInGame {
     private Command command;
-    private Item item;
+    private Item item1;
+    private Item item2;
 
     public Command getCommand() {
         return command;
@@ -23,13 +24,19 @@ public class ActionInGame {
         this.command = command;
     }
 
-    public Item getItem() {
-        return item;
+    public Item getItem1() {
+        return item1;
     }
 
-    public void setItem(Item item) {
-        this.item = item;
+    public void setItem1(Item item) {
+        this.item1 = item;
     }
-    
-    
+
+    public Item getItem2() {
+        return item2;
+    }
+
+    public void setItem2(Item item2) {
+        this.item2 = item2;
+    }
 }
