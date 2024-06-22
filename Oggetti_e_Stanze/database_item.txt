@@ -54,7 +54,7 @@ ID:14, names:computer, description:Il computer di famiglia, meglio non chiamarlo
 pickupable:false, usable:true, turnable:false, openable:false, breakable:false
 container:false, items:
 
-ID:15, names:sveglia, description:La piu' rumorosa sveglia che troverai mai in circolazione. L'unica cosa su cui essere certi e' che prima scompare, prima saremo contenti.
+ID:15, names:sveglia, description:La piu' rumorosa sveglia che troverai mai in circolazione; l'unica cosa su cui essere certi e' che prima scompare, prima saremo contenti.
 pickupable:false, usable:false, turnable:false, openable:false, breakable:true
 container:false, items:
 

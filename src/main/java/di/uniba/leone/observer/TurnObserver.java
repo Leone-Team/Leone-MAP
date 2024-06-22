@@ -7,6 +7,7 @@ import di.uniba.leone.type.CommandType;
 import di.uniba.leone.type.Item;
 
 public class TurnObserver implements GameObserver {
+
     @Override
     public String update(Game game, ActionInGame actioningame) {
         StringBuilder msg = new StringBuilder();
@@ -14,10 +15,10 @@ public class TurnObserver implements GameObserver {
             Item item = actioningame.getItem1();
             if (item != null) {
                 if (item.isTurnable()) {
-                    if(item.isTurned_on() == false) {
-                    msg.append("Hai acceso: ").append(item.getFirstName());
+                    if (item.isTurned_on() == false) {
+                        msg.append("Hai acceso: ").append(item.getFirstName());
                     } else if (item.isTurned_on() == true) {
-                     msg.append(item.getFirstName()).append(" e' gia' acceso");    
+                        msg.append(item.getFirstName()).append(" e' gia' acceso");
                     }
                     // se è la torcia mi illumina la stanza 
                     if (item.getID() == 8) {
@@ -25,7 +26,7 @@ public class TurnObserver implements GameObserver {
                         msg.append(" La stanza è ora illuminata.");
                     }
                 } else {
-                     msg.append("Non puoi accendere questo oggetto.");
+                    msg.append("Non puoi accendere questo oggetto.");
                 }
             } else {
                 msg.append("Non c'è niente da accendere qui.");
@@ -34,10 +35,11 @@ public class TurnObserver implements GameObserver {
             Item item = actioningame.getItem1();
             if (item != null) {
                 if (item.isTurnable()) {
-                    if(item.isTurned_on() == true)
-                    msg.append("Hai spento: ").append(item.getFirstName());
-                    else 
+                    if (item.isTurned_on() == true) {
+                        msg.append("Hai spento: ").append(item.getFirstName());
+                    } else {
                         msg.append(item.getFirstName()).append(" e' gia' spento.");
+                    }
                     // se è la torcia la stanza non è più illuminata 
                     if (item.getID() == 8) {
                         item.setTurned_on(false);
@@ -45,11 +47,11 @@ public class TurnObserver implements GameObserver {
                         msg.append(" La stanza ora è completamente buia.");
                     }
                 } else {
-                     if (item.getID() == 9) {
-                         msg.append("La casa non ti permette di spegnere la televisione.");
-                     } else {
-                    msg.append("Non puoi spegnere questo oggetto.");
-                     }
+                    if (item.getID() == 9) {
+                        msg.append("La casa non ti permette di spegnere la televisione.");
+                    } else {
+                        msg.append("Non puoi spegnere questo oggetto.");
+                    }
                 }
             } else {
                 msg.append("Non c'è niente da spegnere qui.");

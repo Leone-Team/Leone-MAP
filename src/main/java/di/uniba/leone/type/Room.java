@@ -11,7 +11,7 @@ import java.util.List;
  */
 /**
  * Classe rappresentativa delle varie stanza del gioco.
- * @author giann
+ * @author 
  */
 public class Room {
     private String name;
@@ -20,7 +20,8 @@ public class Room {
     private boolean lighted;
     private boolean locked;
     private String description;
-
+    private List<Integer> riddles;
+    
     public Room() {
     }
 
@@ -130,4 +131,8 @@ public class Room {
     public void setLocked(boolean locked) {
         this.locked = locked;
     } 
+    
+    public void SetRiddles(List<Integer> idRiddles){
+        this.riddles.addAll(idRiddles);
+    }
 }

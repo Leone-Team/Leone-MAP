@@ -14,8 +14,8 @@ import di.uniba.leone.type.Item;
  *
  * @author giann
  */
-public class InventoryObserver implements GameObserver{
-    
+public class InventoryObserver implements GameObserver {
+
     @Override
     public String update(Game game, ActionInGame actioningame) {
         StringBuilder msg = new StringBuilder();

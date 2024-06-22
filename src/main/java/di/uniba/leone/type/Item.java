@@ -70,24 +70,6 @@ public class Item {
         return names;
     }
     
-    @Override
-    public boolean equals(Object obj) {
-        if(obj.getClass() != getClass())
-            return false;
-        
-        Item other = (Item) obj;
-        return other.getID().compareTo(this.getID()) == 0;
-    }
-
-    @Override
-    public int hashCode() {
-        return this.getID().hashCode();
-    }
-
-    @Override
-    public String toString() {
-        return "Item{" + "id=" + id + ", name=" + names + ", description=" + description + ", peakable=" + pickupable + ", usable=" + usable + ", turnable=" + turnable + '}';
-    }
         // Metodo per ottenere il primo nome dal set
     public String getFirstName() {
         Iterator<String> iterator = names.iterator();
@@ -96,10 +78,6 @@ public class Item {
         }
         return null; 
     }  
-
-    public Integer getId() {
-        return id;
-    }
 
     public boolean isBreakable() {
         return breakable;
@@ -125,5 +103,23 @@ public class Item {
         this.broken = broken;
     }
     
+    @Override
+    public boolean equals(Object obj) {
+        if(obj.getClass() != getClass())
+            return false;
+        
+        Item other = (Item) obj;
+        return other.getID().compareTo(this.getID()) == 0;
+    }
+
+    @Override
+    public int hashCode() {
+        return this.getID().hashCode();
+    }
+
+    @Override
+    public String toString() {
+        return "Item{" + "id=" + id + ", name=" + names + ", description=" + description + ", peakable=" + pickupable + ", usable=" + usable + ", turnable=" + turnable + '}';
+    }
     
 }
