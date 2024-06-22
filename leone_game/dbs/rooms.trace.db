@@ -23,3 +23,20 @@ org.h2.jdbc.JdbcSQLSyntaxErrorException: Column "closed" not found [42122-200]
 	at di.uniba.map.dbexemple.DbExemple.main(DbExemple.java:334)
 2024-06-18 20:43:32 jdbc[3]: exception
 org.h2.jdbc.JdbcSQLNonTransientException: No data is available [2000-200]
+2024-06-22 11:31:06 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "UPDATE ROOMS SET WEST = ?, NORTH WHERE[*] NAME = ?"; expected "., ="; SQL statement:
+UPDATE rooms SET west = ?, north WHERE name = ? [42001-200]
+2024-06-22 11:31:45 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Parameter "#3" is not set; SQL statement:
+UPDATE rooms SET west = ?, north = ? WHERE name = ? [90012-200]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:590)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:429)
+	at org.h2.message.DbException.get(DbException.java:205)
+	at org.h2.message.DbException.get(DbException.java:181)
+	at org.h2.expression.Parameter.checkSet(Parameter.java:83)
+	at org.h2.command.Prepared.checkParameters(Prepared.java:182)
+	at org.h2.command.CommandContainer.update(CommandContainer.java:187)
+	at org.h2.command.Command.executeUpdate(Command.java:251)
+	at org.h2.jdbc.JdbcPreparedStatement.executeUpdateInternal(JdbcPreparedStatement.java:191)
+	at org.h2.jdbc.JdbcPreparedStatement.executeUpdate(JdbcPreparedStatement.java:152)
+	at di.uniba.map.dbexemple.DbExemple.main(DbExemple.java:42)

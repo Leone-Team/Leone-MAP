@@ -11,11 +11,11 @@ import java.util.Arrays;
 public class Command {
     
     private CommandType type;
-    private Set<String> names;
+    private Set<String> names = new HashSet();
     
     public Command(CommandType type, Set<String> names ) {
         this.type = type;
-        this.names = names;
+        this.names.addAll(names);
     }
 
     public CommandType getType() {

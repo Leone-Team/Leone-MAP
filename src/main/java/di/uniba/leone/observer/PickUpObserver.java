@@ -14,6 +14,7 @@ import java.util.List;
  * @author giann
  */
 public class PickUpObserver implements GameObserver {
+
     @Override
     public String update(Game game, ActionInGame actioningame) {
         StringBuilder msg = new StringBuilder();
@@ -50,24 +51,24 @@ public class PickUpObserver implements GameObserver {
         return msg.toString();
     }
 
-private boolean scanContainersForItem(Game game, int itemID, StringBuilder msg) {
-    List<Integer> itemIds = game.getCurrentRoom().getItems(); // Lista di ID degli item nella stanza
-    for (Integer itemId : itemIds) {
-        Item roomItem = game.getItemByID(itemId);
-        if (roomItem instanceof Container) {
-            Container container = (Container) roomItem;
-            Iterator<Integer> iterator = container.getItems().iterator();
-            while (iterator.hasNext()) {
-                Integer containerItemId = iterator.next();
-                if (containerItemId.equals(itemID)) {
-                    game.getInventory().add(containerItemId);
-                    iterator.remove(); // Rimuove l'ID dell'oggetto dal contenitore
-                    msg.append("Hai raccolto: ").append(game.getItemByID(containerItemId).getDescription());
-                    return true; // Oggetto trovato e raccolto, uscita dal metodo
+    private boolean scanContainersForItem(Game game, int itemID, StringBuilder msg) {
+        List<Integer> itemIds = game.getCurrentRoom().getItems(); // Lista di ID degli item nella stanza
+        for (Integer itemId : itemIds) {
+            Item roomItem = game.getItemByID(itemId);
+            if (roomItem instanceof Container) {
+                Container container = (Container) roomItem;
+                Iterator<Integer> iterator = container.getItems().iterator();
+                while (iterator.hasNext()) {
+                    Integer containerItemId = iterator.next();
+                    if (containerItemId.equals(itemID)) {
+                        game.getInventory().add(containerItemId);
+                        iterator.remove(); // Rimuove l'ID dell'oggetto dal contenitore
+                        msg.append("Hai raccolto: ").append(game.getItemByID(containerItemId).getDescription());
+                        return true; // Oggetto trovato e raccolto, uscita dal metodo
+                    }
                 }
             }
         }
+        return false; // Oggetto non trovato nei contenitori
     }
-    return false; // Oggetto non trovato nei contenitori
-}
 }

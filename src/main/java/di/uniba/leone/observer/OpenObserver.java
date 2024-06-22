@@ -10,7 +10,6 @@ import di.uniba.leone.parser.ActionInGame;
 import di.uniba.leone.type.CommandType;
 import di.uniba.leone.type.Container;
 import di.uniba.leone.type.Item;
-import java.util.Iterator;
 
 public class OpenObserver implements GameObserver {
 

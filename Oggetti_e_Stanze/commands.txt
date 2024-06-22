@@ -22,7 +22,7 @@ Tipo:LOOK, nomi:osserva.
 
 Tipo:USE, nomi:usa.
 
-Tipo:PICK_UP, nomi:prendi.
+Tipo:TAKE, nomi:prendi.
 
 Tipo:WEAR, nomi:indossa.
 

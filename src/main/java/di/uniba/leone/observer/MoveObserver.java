@@ -3,38 +3,88 @@ package di.uniba.leone.observer;
 import di.uniba.leone.game.Game;
 import di.uniba.leone.game.GameObserver;
 import di.uniba.leone.parser.ActionInGame;
-import di.uniba.leone.type.CommandType;
 
 public class MoveObserver implements GameObserver {
 
     @Override
     public String update(Game game, ActionInGame actioningame) {
-        if (actioningame.getCommand().getType() == CommandType.NORTH) {
-            if (game.getCurrentRoom().getNorthR() != null) {
-                game.setCurrentRoom(game.getCurrentRoom().getNorthR());
-            } else {
-                return "Si beh vista la situazione sbattere la testa al muro potrebbe essere una soluzione si...\n Ma cosa ti salta in mente? Vedi forse una porta?? \n";
-            }
-        } else if (actioningame.getCommand().getType() == CommandType.SOUTH) {
-            if (game.getCurrentRoom().getSouthR() != null) {
-                game.setCurrentRoom(game.getCurrentRoom().getSouthR());
-            } else {
-                return "Si beh vista la situazione sbattere la testa al muro potrebbe essere una soluzione si...\n Ma cosa ti salta in mente? Vedi forse una porta?? \n";
-            }
-        } else if (actioningame.getCommand().getType() == CommandType.EAST) {
-            if (game.getCurrentRoom().getEastR() != null) {
-                game.setCurrentRoom(game.getCurrentRoom().getEastR());
-            } else {
-                return "Si beh vista la situazione sbattere la testa al muro potrebbe essere una soluzione si...\n Ma cosa ti salta in mente? Vedi forse una porta?? \n";
-            }
-        } else if (actioningame.getCommand().getType() == CommandType.WEST) {
-            if (game.getCurrentRoom().getWestR() != null) {
-                game.setCurrentRoom(game.getCurrentRoom().getWestR());
-            } else {
-                return "Si beh vista la situazione sbattere la testa al muro potrebbe essere una soluzione si...\n Ma cosa ti salta in mente? Vedi forse una porta?? \n";
+        String msgNoDoor = "*sbam* Si beh vista la situazione sbattere la testa al muro potrebbe essere una soluzione si...\n Ma cosa ti salta in mente? Vedi forse una porta?? \n";
+        String msgClosed = "*sbam* Prima di passare per una porta, forse dovresti assicurati di poiterla aprire.";
+        if (null != actioningame.getCommand().getType()) {
+            switch (actioningame.getCommand().getType()) {
+                case NORTH -> {
+                    if (game.getCurrentRoom().getNorthR() != null) {
+                        if (!game.getCurrentRoom().isLocked() &&  !game.getCurrentRoom().getNorthR().isLocked()) {
+                            game.setCurrentRoom(game.getCurrentRoom().getNorthR());
+                        } else {
+                            return msgClosed;
+                        }
+                    } else {
+                        return msgNoDoor;
+                    }
+                }
+                case SOUTH -> {
+                    if (game.getCurrentRoom().getSouthR() != null) {
+                        if (!game.getCurrentRoom().isLocked() &&  !game.getCurrentRoom().getSouthR().isLocked()) {
+                            game.setCurrentRoom(game.getCurrentRoom().getSouthR());
+                        } else {
+                            return msgClosed;
+                        }
+                    } else {
+                        return msgNoDoor;
+                    }
+
+                }
+                case EAST -> {
+                    if (game.getCurrentRoom().getEastR() != null) {
+                        if (!game.getCurrentRoom().isLocked() &&  !game.getCurrentRoom().getEastR().isLocked()) {
+                            game.setCurrentRoom(game.getCurrentRoom().getEastR());
+                        } else {
+                            return msgClosed;
+                        }
+                    } else {
+                        return msgNoDoor;
+                    }
+
+                }
+                case WEST -> {
+                    if (game.getCurrentRoom().getWestR() != null) {
+                        if (!game.getCurrentRoom().isLocked() &&  !game.getCurrentRoom().getWestR().isLocked()) {
+                            game.setCurrentRoom(game.getCurrentRoom().getWestR());
+                        } else {
+                            return msgClosed;
+                        }
+                    } else {
+                        return msgNoDoor;
+                    }
+
+                }
+                
+                case GO_UP ->{
+                    if (game.getCurrentRoom().getUpR() != null) {
+                        if (!game.getCurrentRoom().isLocked() &&  !game.getCurrentRoom().getUpR().isLocked()){
+                            game.setCurrentRoom(game.getCurrentRoom().getUpR());
+                        } else {
+                            return msgClosed;
+                        }
+                    } else {
+                        return msgNoDoor;
+                    }
+                }
+
+                case GO_DOWN ->{
+                    if (game.getCurrentRoom().getDownR()!= null) {
+                        if (!game.getCurrentRoom().isLocked() &&  !game.getCurrentRoom().getDownR().isLocked()){
+                            game.setCurrentRoom(game.getCurrentRoom().getDownR());
+                        } else {
+                            return msgClosed;
+                        }
+                    } else {
+                        return msgNoDoor;
+                    }
+                }
             }
         }
         return "";
     }
 }
-

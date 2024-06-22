@@ -1,40 +1,40 @@
-Name:Stanza del Computer, E/W/N/S/U/D:corridoio/////
+Name:Stanza del Computer, E/W/N/S/U/D:Corridoio/////
 item stored:13, 14, 5, 11
-lighted:false, closedfalse
+lighted:false, closed:false
 Description:Il vecchio studio di Giustino, oramai covo per topi e ragni. Almeno c'è il vecchio computer, non si sa mai cosa può dirti, sempre se disposto a collaborare.
 
-Name:Corridoio, E/W/N/S/U/D:Camera da letto/Stanza  del computer/Bagno///Soggiorno
+Name:Corridoio, E/W/N/S/U/D:Camera da Letto/Stanza del Computer/Bagno///Soggiorno
 item stored:
-lighted:true, closedfalse
+lighted:true, closed:false
 Description:Sei nell corridoio. Noti una serie di porte e delle scale
 
 Name:Bagno, E/W/N/S/U/D:///Corridoio//
 item stored:
-lighted:true, closedfalse
+lighted:true, closed:false
 Description:Ti trovi nel Bagno, olre alla vasca e a qualche mobile, non noti nulla di interessante.
 
 Name:Camera da Letto, E/W/N/S/U/D:/Corridoio////
 item stored:2, 1, 8, 3, 7, 15
-lighted:true, closedfalse
+lighted:true, closed:false
 Description:Sei nella camera da letto; fortunatamente Giustino non c'e' o ti avrebbe gia' cacciato, eppure giureresti di sentirlo da fuori casa urlandoti come al solito...'Stupido Cane!'.
 
-Name:Soggiorno, E/W/N/S/U/D://Sala da pranzo//Corridoio/
+Name:Soggiorno, E/W/N/S/U/D://Sala da Pranzo//Corridoio/
 item stored:9, 10
-lighted:true, closedfalse
+lighted:true, closed:false
 Description:Sei nel vecchio soggiorno. Osservi la vecchia tv a tubo catodico, il divano dove c'e' Marilu', e la libreria di Giustino, anche se non lo hai mai visto leggere. Puooi osservare anche la porta per la sala da pranzo a nord, e le scale per salire al primo piano. Vedi anche la finestra che da' fuori, dove scorgi Giustino. Pur non potendo sentire capisci subito cosa ti sta urlando... 'Stupido cane!'
 
 Name:Sala da pranzo, E/W/N/S/U/D://Cucina///Cantina
 item stored:
-lighted:true, closedfalse
+lighted:true, closed:false
 Description:Entri nella sala da pranzo. Vi sono tavolo e sedie, ma nulla da mangiare. Noti la portantina per scendere in cantina, cosa mai potrebbe andare storto li', e la porta per la cucina a nord.
 
-Name:Cucina, E/W/N/S/U/D:///Sala da pranzo//
+Name:Cucina, E/W/N/S/U/D:///Sala da Pranzo//
 item stored:
-lighted:true, closedfalse
+lighted:true, closed:false
 Description:Entri nella cucina. Quanti delziosi manicaretti Marilu' ha tirato fuori per te, e Giustino ti ha rubato lasciandoti i croccantini...sembra quasi ieri.
 
-Name:Cantina, E/W/N/S/U/D:////Sala da pranzo/
+Name:Cantina, E/W/N/S/U/D:////Sala da Pranzo/
 item stored:
-lighted:true, closedfalse
+lighted:true, closed:false
 Description:Il vecchio seminterrato americano, naturalmente il posto piu' sicuro dove stare da soli... Noti la caldaia, il quadro della casa, aggiornato dopo i lavori. 
 
