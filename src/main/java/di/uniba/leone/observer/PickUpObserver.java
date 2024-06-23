@@ -6,8 +6,10 @@ import di.uniba.leone.parser.ActionInGame;
 import di.uniba.leone.type.CommandType;
 import di.uniba.leone.type.Container;
 import di.uniba.leone.type.Item;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 /**
  *
@@ -15,6 +17,8 @@ import java.util.List;
  */
 public class PickUpObserver implements GameObserver {
 
+  
+    
     @Override
     public String update(Game game, ActionInGame actioningame) {
         StringBuilder msg = new StringBuilder();

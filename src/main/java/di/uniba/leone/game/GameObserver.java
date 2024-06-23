@@ -7,7 +7,6 @@ package di.uniba.leone.game;
 import di.uniba.leone.parser.ActionInGame;
 
 public interface GameObserver {
-
     /**
      *
      * @param game

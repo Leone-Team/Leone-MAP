@@ -26,6 +26,28 @@ public abstract class Game {
 
     public abstract String getWelcomeMessage();
     
+    public abstract void init(); //inizializza il gioco
+    
+    public abstract void nextMove(ActionInGame act); //esegue l'azione in accordo con l'output dell'observer
+    
+    public abstract void checkRiddles();//verifica la presenza di indovinelli nella stanza, avviandoli
+    
+    public List<Command> getCommands() {
+        return commands;
+    }
+
+    public Set<Integer> getInventory() {
+        return inventory;
+    }
+ 
+    public Item getItemByID(Integer id) {
+        return items.get(id);
+    }
+
+    public HashMap<Integer, Riddle> getRiddles() {
+        return riddles;
+    }
+    
     public HashMap<Integer, Item> getItems() {
         return items;
     }
@@ -43,19 +65,4 @@ public abstract class Game {
         this.currentRoom = actualRoom;
     }
     
-    public abstract void init(); //inizializza il gioco
-    
-    public abstract void nextMove(ActionInGame act); //esegue l'azione in accordo con l'output dell'observer
-    
-    public List<Command> getCommands() {
-        return commands;
-    }
-
-    public Set<Integer> getInventory() {
-        return inventory;
-    }
- 
-    public Item getItemByID(Integer id) {
-        return items.get(id);
-    }
 }

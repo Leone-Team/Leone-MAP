@@ -9,13 +9,15 @@ import di.uniba.leone.game.Game;
 import di.uniba.leone.parser.ActionInGame;
 import di.uniba.leone.type.CommandType;
 import di.uniba.leone.type.Item;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  *
  * @author giann
  */
 public class InventoryObserver implements GameObserver {
-
+  
     @Override
     public String update(Game game, ActionInGame actioningame) {
         StringBuilder msg = new StringBuilder();

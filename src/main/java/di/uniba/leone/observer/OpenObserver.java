@@ -10,9 +10,13 @@ import di.uniba.leone.parser.ActionInGame;
 import di.uniba.leone.type.CommandType;
 import di.uniba.leone.type.Container;
 import di.uniba.leone.type.Item;
+import java.util.HashSet;
+import java.util.Set;
 
 public class OpenObserver implements GameObserver {
 
+ 
+    
     @Override
     public String update(Game game, ActionInGame actioningame) {
         StringBuilder msg = new StringBuilder();

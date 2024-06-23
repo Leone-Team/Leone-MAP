@@ -5,9 +5,12 @@ import di.uniba.leone.game.GameObserver;
 import di.uniba.leone.parser.ActionInGame;
 import di.uniba.leone.type.CommandType;
 import di.uniba.leone.type.Item;
+import java.util.HashSet;
+import java.util.Set;
 
 public class UseObserver implements GameObserver {
 
+  
     @Override
     public String update(Game game, ActionInGame actioningame) {
         StringBuilder msg = new StringBuilder();
@@ -20,6 +23,7 @@ public class UseObserver implements GameObserver {
                     switch (item.getFirstName()) {
                         case "Manuale" -> {
                             msg.append("Nel manuale c'è scritto: \n");
+                            msg.append("Per disattivare il contatore, dovrai solo staccare i giusti fusibili.\n");
                             msg.append("So che saresti tentato di staccarli tutti a caso, ma per tua sfortuna c'è un ordine da rispettare... \n");
                             msg.append("Prima il fusibile che brucia come un rubino ardente \n");
                             msg.append("Poi il fusibile splendente come uno smeraldo brillante \n");

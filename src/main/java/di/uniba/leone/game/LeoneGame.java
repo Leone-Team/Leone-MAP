@@ -18,6 +18,9 @@ import di.uniba.leone.type.Container;
 import di.uniba.leone.type.Room;
 import di.uniba.leone.type.Command;
 import di.uniba.leone.type.CommandType;
+import di.uniba.leone.type.ItemRiddle;
+import di.uniba.leone.type.QuestionRiddle;
+import di.uniba.leone.type.Riddle;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -26,8 +29,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 
@@ -37,7 +42,8 @@ import java.util.Set;
  */
 public class LeoneGame extends Game implements GameObservable {
 
-    private Set<GameObserver> observers = new HashSet();
+    private Set<GameObserver> obsAttached = new HashSet();
+    private Map<GameObserver, Set<CommandType>> observers = new HashMap();
     private final List<String> messages = new ArrayList<>();
     private ActionInGame action;
     
@@ -114,7 +120,6 @@ public class LeoneGame extends Game implements GameObservable {
         try(Connection conn = DriverManager.getConnection("jdbc:h2:./leone_game/dbs/commands", dbprop)){
             
             PreparedStatement pstm = conn.prepareStatement("SELECT  type, names FROM commands");
-            
             ResultSet rs = pstm.executeQuery();
             
             Set<String> names = new HashSet();
@@ -135,27 +140,73 @@ public class LeoneGame extends Game implements GameObservable {
         }
 
         //istanziare gli indovinelli
+        try(Connection conn = DriverManager.getConnection("jdbc:h2:./leone_game/dbs/riddles", dbprop)){
+            
+            PreparedStatement pstm = conn.prepareStatement("SELECT  * FROM riddles");
+            ResultSet rs = pstm.executeQuery();
+            
+            Set<CommandType> blacklist;
+            while(rs.next()){
+                try{
+                    blacklist = new HashSet();
+                    for(String type:rs.getString("blackList").replace(" ", "").split(",")){
+                        if(!type.isEmpty())
+                            blacklist.add(CommandType.valueOf(type));
+                    }
+                    if (rs.getBoolean("itemRiddle")){
+                        getRiddles().put(rs.getInt("id"), new ItemRiddle(rs.getInt("id"), blacklist, rs.getString("desc"), rs.getBoolean("solved"), rs.getInt("targetItem"), rs.getInt("tool")));
+                    }else{
+                        getRiddles().put(rs.getInt("id"), new QuestionRiddle(rs.getInt("id"), blacklist, rs.getString("desc"), rs.getBoolean("solved"), rs.getInt("targetItem"), rs.getString("question"), rs.getString("answer")));  
+                    }
+                    getRooms().get(rs.getString("room")).addRiddle(rs.getInt("id"));
+                }catch(IllegalArgumentException ex){
+                    System.out.println(ex.getMessage());
+                }
+            }
+            pstm.close();
+            rs.close();
+            conn.close();
+        }catch(SQLException ex){
+            System.out.println(ex.getMessage());
+        }
+        
+        //collega gli observer
+        GameObserver obs;
+        
+        obs = new LookObserver();
+        attach(obs);
+        this.observers.put(obs, new HashSet(Arrays.asList(CommandType.LOOK)));
+        
+        obs = new BreakObserver();
+        attach(obs);
+        this.observers.put(obs, new HashSet(Arrays.asList(CommandType.BREAK)));
+        
+        obs = new InventoryObserver();
+        attach(obs);
+        this.observers.put(obs, new HashSet(Arrays.asList(CommandType.INVENTORY)));
+        
+        obs = new MoveObserver();
+        attach(obs);
+        this.observers.put(obs, new HashSet(Arrays.asList(CommandType.EAST, CommandType.NORTH, CommandType.SOUTH, CommandType.WEST, CommandType.GO_DOWN, CommandType.GO_UP)));
+        
+        obs = new OpenObserver();
+        attach(obs);
+        this.observers.put(obs, new HashSet(Arrays.asList(CommandType.OPEN)));
+        
+        obs = new PickUpObserver();
+        attach(obs);
+        this.observers.put(obs, new HashSet(Arrays.asList(CommandType.PICK_UP)));
+        
+        obs = new TurnObserver();
+        attach(obs);
+        this.observers.put(obs, new HashSet(Arrays.asList(CommandType.TURN_ON, CommandType.TURN_OFF)));
+        
+        obs = new UseObserver();
+        attach(obs);
+        this.observers.put(obs, new HashSet(Arrays.asList(CommandType.USE)));
         
         //istanzia la room attuale
         setCurrentRoom(getRooms().get("Camera da Letto"));
-        
-        //collega gli observer
-        
-        attach(new LookObserver());
-        
-        attach(new BreakObserver());
-        
-        attach(new InventoryObserver());
-        
-        attach(new MoveObserver());
-        
-        attach(new OpenObserver());
-        
-        attach(new PickUpObserver());
-
-        attach(new TurnObserver());
-        
-        attach(new UseObserver());
     }
     
     @Override
@@ -164,6 +215,7 @@ public class LeoneGame extends Game implements GameObservable {
         messages.clear();
         
         Room cr = getCurrentRoom();
+        
         notifyObservers();
         boolean move = !cr.equals(getCurrentRoom()) && getCurrentRoom() != null;
         if (!messages.isEmpty()) {
@@ -172,29 +224,50 @@ public class LeoneGame extends Game implements GameObservable {
                     System.out.println(m);
                 }
             }
+        }else{
+            System.out.println(">Comando non valido");
         }
+
+        //gestione possibile indovinello ItemRiddle
         if (move) {
             System.out.println(getCurrentRoom().getName());
             System.out.println("================================================");
             System.out.println(getCurrentRoom().getDescription());
         }
-        
+        checkRiddles();
+    }
+
+    @Override
+    public void checkRiddles() {
+        for(Integer id_riddle:getCurrentRoom().getRiddles()){
+            if(getRiddles().get(id_riddle) instanceof ItemRiddle itemRiddle)
+                    itemRiddle.resolved(getItems());
+            if(!getRiddles().get(id_riddle).isSolved())
+                System.out.println(getRiddles().get(id_riddle).getDescription());
+            for(GameObserver o: observers.keySet()){
+                if(observers.get(o).stream().anyMatch(getRiddles().get(id_riddle).getBlackList() :: contains) && !getRiddles().get(id_riddle).isSolved())
+                    detach(o);
+                else
+                    attach(o);
+            
+            }
+        }
     }
 
     @Override
     public void attach(GameObserver o) {
-        if (!observers.contains(o))
-            observers.add(o);
+        if (!obsAttached.contains(o))
+            obsAttached.add(o);
     }
 
     @Override
     public void detach(GameObserver o) {
-        observers.remove(o);
+        obsAttached.remove(o);
     }
 
     @Override
     public void notifyObservers() {
-        for (GameObserver o : observers) {
+        for (GameObserver o : obsAttached) {
                 messages.add(o.update(this, action));
             }
     }

@@ -4,6 +4,9 @@
  */
 package di.uniba.leone.game;
 
+import di.uniba.leone.type.CommandType;
+import java.util.Set;
+
 /**
  *
  * @author feder

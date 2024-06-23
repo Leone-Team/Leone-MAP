@@ -3,9 +3,13 @@ package di.uniba.leone.observer;
 import di.uniba.leone.game.Game;
 import di.uniba.leone.game.GameObserver;
 import di.uniba.leone.parser.ActionInGame;
+import di.uniba.leone.type.CommandType;
+import java.util.HashSet;
+import java.util.Set;
 
 public class MoveObserver implements GameObserver {
 
+    
     @Override
     public String update(Game game, ActionInGame actioningame) {
         String msgNoDoor = "*sbam* Si beh vista la situazione sbattere la testa al muro potrebbe essere una soluzione si...\n Ma cosa ti salta in mente? Vedi forse una porta?? \n";
