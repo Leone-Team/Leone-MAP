@@ -1,0 +1,36 @@
+ID:1; BLACKLIST:NORTH, SOUTH, EAST, WEST, GO_UP, GO_DOWN; 
+DESC:>Il suono della sveglia e' troppo forte, e' difficile concentrarsi.; 
+SOLVED:FALSE; TARGETITEM:15; ITEMRIDDLE:TRUE; TOOL:2; 
+QUESTION:; 
+ANSWER:; ROOM:Camera da Letto; 
+
+ID:2; BLACKLIST:NORTH, SOUTH, EAST, WEST, GO_UP, GO_DOWN, PICK_UP; 
+DESC:>La caldaia è fuori controllo, sei ad un grado dalla cremazione.; 
+SOLVED:FALSE; TARGETITEM:16; ITEMRIDDLE:TRUE; TOOL:6; 
+QUESTION:; 
+ANSWER:; ROOM:Cantina; 
+
+ID:3; BLACKLIST:NORTH, SOUTH, EAST, WEST, GO_UP, GO_DOWN; 
+DESC:>La vasca si riempie sempre più, presto sarà difficile respirare. L'acqua blocca la porta.; 
+SOLVED:FALSE; TARGETITEM:18; ITEMRIDDLE:FALSE; TOOL:0; 
+QUESTION:>In questa stanza il nipote di Marilù provò a rasarci, Fred lo strambo si chiamava, e di mestiere era un...; 
+ANSWER:Barbiere; ROOM:Bagno; 
+
+ID:4; BLACKLIST:NORTH, SOUTH, EAST, WEST, GO_UP, GO_DOWN, INVENTORY, TURN_OFF, TURN_ON, LOOK, PICK_UP, OPEN, CLOSE; 
+DESC:>Raccatata dalla pattumiera, la vecchia televisione di Giustino non è fatta per occhi devoli. La luce indonda la stanza, non vedi nulla.; 
+SOLVED:FALSE; TARGETITEM:9; ITEMRIDDLE:TRUE; TOOL:13; 
+QUESTION:; 
+ANSWER:; ROOM:Soggiorno; 
+
+ID:5; BLACKLIST:; 
+DESC:>Il quadro è protetto, sarà difficile spegnerlo senza eliminare la sua difesa.; 
+SOLVED:FALSE; TARGETITEM:17; ITEMRIDDLE:FALSE; TOOL:0; 
+QUESTION:>Inserire la chiave di sicurezza, Giustino non fa che ripetere sempre queste due esatte parole:; 
+ANSWER:STUPIDO CANE!; ROOM:Cantina; 
+
+ID:6; BLACKLIST:; 
+DESC:>Possiamo spegnere il contatore adesso.; 
+SOLVED:FALSE; TARGETITEM:17; ITEMRIDDLE:FALSE; TOOL:0; 
+QUESTION:>Bisogna togliere i fusibili -ROSSO VERDE GIALLO-, ma nel corretto ordine, quale?; 
+ANSWER:ROSSO VERDE IALLO; ROOM:Cantina; 
+

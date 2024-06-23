@@ -18,11 +18,11 @@ public enum CommandType {
     LOOK,
     USE,
     PICK_UP,
-    WEAR,
     OPEN,
     CLOSE,
     BREAK,
-    PULL // THE PLUG
+    WEAR,
+    PULL;
     
     
 }

@@ -16,11 +16,11 @@ import java.util.List;
 public class Room {
     private String name;
     private Room eastR, westR, southR, northR, upR, downR;
-    private List<Integer> Items = new ArrayList<>();
+    private List<Integer> Items = new ArrayList();
     private boolean lighted;
     private boolean locked;
     private String description;
-    private List<Integer> riddles;
+    private List<Integer> riddles = new ArrayList();
     
     public Room() {
     }
@@ -131,8 +131,16 @@ public class Room {
     public void setLocked(boolean locked) {
         this.locked = locked;
     } 
+
+    public List<Integer> getRiddles() {
+        return riddles;
+    }
     
     public void SetRiddles(List<Integer> idRiddles){
         this.riddles.addAll(idRiddles);
+    }
+    
+    public void addRiddle(Integer riddle){
+        this.riddles.add(riddle);
     }
 }

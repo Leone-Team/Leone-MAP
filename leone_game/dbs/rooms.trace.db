@@ -40,3 +40,15 @@ UPDATE rooms SET west = ?, north = ? WHERE name = ? [90012-200]
 	at org.h2.jdbc.JdbcPreparedStatement.executeUpdateInternal(JdbcPreparedStatement.java:191)
 	at org.h2.jdbc.JdbcPreparedStatement.executeUpdate(JdbcPreparedStatement.java:152)
 	at di.uniba.map.dbexemple.DbExemple.main(DbExemple.java:42)
+2024-06-23 12:13:21 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "COUNT[*] * FROM ROOMS"; expected "COMMIT, CREATE, CALL, CHECKPOINT, COMMENT"; SQL statement:
+COUNT * FROM rooms [42001-200]
+2024-06-23 12:14:03 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Invalid value "0" for parameter "columnIndex" [90008-200]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:590)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:429)
+	at org.h2.message.DbException.get(DbException.java:205)
+	at org.h2.message.DbException.getInvalidValueException(DbException.java:280)
+	at org.h2.jdbc.JdbcResultSetMetaData.checkColumnIndex(JdbcResultSetMetaData.java:447)
+	at org.h2.jdbc.JdbcResultSetMetaData.getColumnLabel(JdbcResultSetMetaData.java:67)
+	at di.uniba.map.dbexemple.DbExemple.main(DbExemple.java:46)

@@ -8,6 +8,8 @@ import di.uniba.leone.type.Item;
 
 public class BreakObserver implements GameObserver {
 
+    
+    
     @Override
     public String update(Game game, ActionInGame actioningame) {
         StringBuilder msg = new StringBuilder();
@@ -43,10 +45,14 @@ public class BreakObserver implements GameObserver {
                 } else {
                     msg.append("Guarda che ").append(actioningame.getItem1().getFirstName()).append(" non si può rompere... \n");
                 }
-            } else {
-                msg.append("Non puoi rompere nulla qui. \n");
+            } else if (item1 != null && item2 == null){
+                msg.append("E con cosa, le tue mani di ricotta?. \n");
+            }else{
+                msg.append("Non puoi rompere nulla qui.");
             }
         }
         return msg.toString();
     }
+    
+    
 }

@@ -30,8 +30,10 @@ public class Engine {
         System.out.println("Ti trovi qui:");
         System.out.println(game.getCurrentRoom().getName());
         System.out.println(game.getCurrentRoom().getDescription());
+        game.checkRiddles();
+        System.out.print("?> ");
         Scanner scanner = new Scanner(System.in);
-
+        
         while (scanner.hasNext()) {
             String commandline = scanner.nextLine();
             ActionInGame action = parser.parse(commandline, game.getItems(), game.getCommands());

@@ -1,26 +1,32 @@
 
 package di.uniba.leone.type;
 
-import java.util.LinkedList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
-public abstract class Riddle {
+public class Riddle {
     private final Integer id;
-    private final List<CommandType> whiteList = new LinkedList();
+    private final Set<CommandType> blackList = new HashSet();
     private final String description;
     private boolean solved;
     private Integer counter;
-    private final Integer MAX_TRIES;
+    private final Integer MAX_TRIES = 3;
+    private final Integer targetItem;
     
     
-    public Riddle(Integer id, List<CommandType> whiteList, String description, Boolean solved, Integer MAX_TRIES){
+    public Riddle(Integer id, Set<CommandType> blackList, String description, Boolean solved, Integer targetItem){
         this.id = id;
-        this.whiteList.addAll(whiteList);
+        this.blackList.addAll(blackList);
         this.description = description;
         this.solved = solved;
         this.counter = 0;
-        this.MAX_TRIES = MAX_TRIES;
+        this.targetItem = targetItem;
     }
+
+    public Integer getId() {
+        return id;
+    }
+    
     
     public boolean isSolved() {
         return solved;
@@ -37,6 +43,19 @@ public abstract class Riddle {
     public void setCounter(Integer counter) {
         this.counter = counter;
     }
+
+    public Integer getTargetItem() {
+        return targetItem;
+    }
+
+    public Set<CommandType> getBlackList() {
+        return blackList;
+    }
+
+    public String getDescription() {
+        return description;
+    }
     
     
+
 }
