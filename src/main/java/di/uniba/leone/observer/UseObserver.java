@@ -16,8 +16,6 @@ public class UseObserver implements GameObserver {
             Item item = actioningame.getItem1();
             if (item != null) {
                 if (item.isUsable()) {
-
-                } else {
                     switch (item.getFirstName()) {
                         case "Manuale" -> {
                             msg.append("Nel manuale c'è scritto: \n");
@@ -65,9 +63,10 @@ public class UseObserver implements GameObserver {
                             }
                         }
                     }
-                }
+                } else 
+                   msg.append("C'è un luogo e un momento per ogni cosa! Ma non ora.");
             } else {
-                msg.append("Non puoi utilizzare questo oggetto.");
+                msg.append("Non puoi usarlo");
             }
         }
         return msg.toString();
