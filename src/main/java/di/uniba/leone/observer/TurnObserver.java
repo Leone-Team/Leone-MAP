@@ -94,6 +94,35 @@ public class TurnObserver implements GameObserver {
             } else {
                 msg.append("Non c'è niente da spegnere qui.");
             }
+        } else if (actioningame.getCommand().getType() == CommandType.WEAR) {
+            Item item = actioningame.getItem1();
+            switch(item.getFirstName()) {
+                case "cuffie" -> {
+                            if (game.getCurrentRoom().getName().contentEquals("Camera da Letto")) {
+                                    game.getItemByID(item.getID()).setTurned_on(true);
+                                    msg.append("E chi l'avrebbe detto che Rick Astley sarebbe stato più piacevole di una semplice sveglia... Finalmente puoi esplorare la stanza! \n");
+                            } else {
+                                msg.append("Mi dispiace, sei stato rickrollato, è in riproduzione Never Gonna Give You Up!! \n");
+                            }
+                        }
+                case "occhiali" -> {
+                            if (game.getCurrentRoom().getName().contentEquals("Soggiorno")) {
+                                    game.getItemByID(item.getID()).setTurned_on(true);
+                                    msg.append("Finalmente riesci a vedere qualcosa! \n");
+                            } else {
+                                msg.append("Devo ammettere che ti donano... Nah non è vero e poi non vedi nulla, a cosa ti servono qui?? \n");
+                            }
+                }
+                case "tuta" -> {
+                            if (game.getCurrentRoom().getName().contentEquals("Cantina")) {
+                                    game.getItemByID(item.getID()).setTurned_on(true);
+                                    msg.append("Grazie alle ormai vecchie doti da pompiere di Giustino sei in grado di resistere al caldo! \n");
+                            } else {
+                                msg.append("E tu vorresti metterti a fare il pompiere in ").append(game.getCurrentRoom().getName()).append(" ?? Patetico... \n");
+                            } 
+                }
+            }
+            
         }
         return msg.toString();
     }
