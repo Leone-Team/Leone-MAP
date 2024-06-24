@@ -6,10 +6,8 @@ import di.uniba.leone.parser.ActionInGame;
 import di.uniba.leone.type.CommandType;
 import di.uniba.leone.type.Container;
 import di.uniba.leone.type.Item;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 
 /**
  *
@@ -17,8 +15,6 @@ import java.util.Set;
  */
 public class PickUpObserver implements GameObserver {
 
-  
-    
     @Override
     public String update(Game game, ActionInGame actioningame) {
         StringBuilder msg = new StringBuilder();
@@ -26,24 +22,28 @@ public class PickUpObserver implements GameObserver {
             Item item = actioningame.getItem1();
             if (item != null) {
                 if (item.isPickupable()) {
-                    boolean itemFound = false;
+                    if (game.getInventory().size() >= 3) {
+                        msg.append("E dove vorresti metterlo...? Non hai spazio, imbecille!");
+                    } else {
+                        boolean itemFound = false;
 
-                    // Controlla se l'oggetto è direttamente nella stanza
-                    if (game.getCurrentRoom().getItems().contains(actioningame.getItem1().getID())) {
-                        game.getInventory().add(item.getID());
-                        game.getCurrentRoom().getItems().remove(actioningame.getItem1().getID());
-                        msg.append("Hai raccolto: ").append(item.getDescription());
-                        itemFound = true;
-                    }
+                        // Controlla se l'oggetto è direttamente nella stanza
+                        if (game.getCurrentRoom().getItems().contains(actioningame.getItem1().getID())) {
+                            game.getInventory().add(item.getID());
+                            game.getCurrentRoom().getItems().remove(actioningame.getItem1().getID());
+                            msg.append("Hai raccolto: ").append(item.getDescription());
+                            itemFound = true;
+                        }
 
-                    // Cerca l'oggetto nei contenitori nella stanza solo se non è stato trovato nella stanza
-                    if (!itemFound) {
-                        itemFound = scanContainersForItem(game, actioningame.getItem1().getID(), msg);
-                    }
+                        // Cerca l'oggetto nei contenitori nella stanza solo se non è stato trovato nella stanza
+                        if (!itemFound) {
+                            itemFound = scanContainersForItem(game, actioningame.getItem1().getID(), msg);
+                        }
 
-                    // Se l'oggetto non è stato trovato né nella stanza né nei contenitori
-                    if (!itemFound) {
-                        msg.append("Non riesci a trovare l'oggetto da raccogliere.");
+                        // Se l'oggetto non è stato trovato né nella stanza né nei contenitori
+                        if (!itemFound) {
+                            msg.append("Non riesci a trovare l'oggetto da raccogliere.");
+                        }
                     }
                 } else {
                     msg.append("Non puoi raccogliere questo oggetto.");
@@ -65,10 +65,15 @@ public class PickUpObserver implements GameObserver {
                 while (iterator.hasNext()) {
                     Integer containerItemId = iterator.next();
                     if (containerItemId.equals(itemID)) {
-                        game.getInventory().add(containerItemId);
-                        iterator.remove(); // Rimuove l'ID dell'oggetto dal contenitore
-                        msg.append("Hai raccolto: ").append(game.getItemByID(containerItemId).getDescription());
-                        return true; // Oggetto trovato e raccolto, uscita dal metodo
+                        if (game.getInventory().size() >= 3) {
+                            msg.append("E dove vorresti metterlo...? Non hai spazio, imbecille!");
+                            return false; // Interrompe l'aggiunta se l'inventario è pieno
+                        } else {
+                            game.getInventory().add(containerItemId);
+                            iterator.remove(); // Rimuove l'ID dell'oggetto dal contenitore
+                            msg.append("Hai raccolto: ").append(game.getItemByID(containerItemId).getDescription());
+                            return true; // Oggetto trovato e raccolto, uscita dal metodo
+                        }
                     }
                 }
             }

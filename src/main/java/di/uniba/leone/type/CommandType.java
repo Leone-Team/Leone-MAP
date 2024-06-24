@@ -22,7 +22,6 @@ public enum CommandType {
     CLOSE,
     BREAK,
     WEAR,
-    PULL;
-    
-    
+    PULL,
+    DROP; 
 }

@@ -18,3 +18,6 @@ SELECT type, names FROM commands [90001-200]
 	at org.h2.jdbc.JdbcPreparedStatement.executeUpdateInternal(JdbcPreparedStatement.java:191)
 	at org.h2.jdbc.JdbcPreparedStatement.executeUpdate(JdbcPreparedStatement.java:152)
 	at di.uniba.map.dbexemple.DbExemple.main(DbExemple.java:96)
+2024-06-24 12:15:06 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "INSERT INTO COMMANDS (TYPE, NAMES) VALUES(?, ?[*]"; expected "[, ::, AT, FORMAT, *, /, %, +, -, ||, ~, !~, NOT, LIKE, ILIKE, REGEXP, IS, IN, BETWEEN, AND, OR, ,, )"; SQL statement:
+INSERT into commands (type, names) VALUES(?, ? [42001-200]
