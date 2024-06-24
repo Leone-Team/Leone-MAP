@@ -1,36 +1,57 @@
-Tipo:NORTH, nomi:N, nord.
+TYPE:NORTH; NAMES:N, nord; 
 
-Tipo:SOUTH, nomi:S, sud.
 
-Tipo:EAST, nomi:E, est.
+TYPE:SOUTH; NAMES:S, sud; 
 
-Tipo:WEST, nomi:W, ovest, west.
 
-Tipo:GO_UP, nomi:U, up, sopra, sali.
+TYPE:EAST; NAMES:E, est; 
 
-Tipo:GO_DOWN, nomi:D, down, scendi, sotto.
 
-Tipo:QUIT, nomi:esci, chiudi, termina.
+TYPE:WEST; NAMES:W, ovest, west; 
 
-Tipo:INVENTORY, nomi:I, inv, inventario.
 
-Tipo:TURN_ON, nomi:accendi.
+TYPE:GO_UP; NAMES:U, up, sopra, sali; 
 
-Tipo:TURN_OFF, nomi:spegni.
 
-Tipo:LOOK, nomi:osserva.
+TYPE:GO_DOWN; NAMES:D, down, scendi, sotto; 
 
-Tipo:USE, nomi:usa.
 
-Tipo:TAKE, nomi:prendi.
+TYPE:QUIT; NAMES:esci, chiudi, termina; 
 
-Tipo:WEAR, nomi:indossa.
 
-Tipo:OPEN, nomi:apri.
+TYPE:INVENTORY; NAMES:I, inv, inventario; 
 
-Tipo:CLOSE, nomi:chiudi.
 
-Tipo:BREAK, nomi:rompi.
+TYPE:TURN_ON; NAMES:accendi; 
 
-Tipo:PULL, nomi:spingi.
+
+TYPE:TURN_OFF; NAMES:spegni; 
+
+
+TYPE:LOOK; NAMES:osserva; 
+
+
+TYPE:USE; NAMES:usa; 
+
+
+TYPE:PICK_UP; NAMES:prendi; 
+
+
+TYPE:WEAR; NAMES:indossa; 
+
+
+TYPE:OPEN; NAMES:apri; 
+
+
+TYPE:CLOSE; NAMES:chiudi; 
+
+
+TYPE:BREAK; NAMES:rompi; 
+
+
+TYPE:PULL; NAMES:spingi; 
+
+
+TYPE:DROP; NAMES:lascia; 
+
 
