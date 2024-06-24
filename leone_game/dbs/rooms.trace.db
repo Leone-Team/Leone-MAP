@@ -52,3 +52,17 @@ org.h2.jdbc.JdbcSQLDataException: Invalid value "0" for parameter "columnIndex" 
 	at org.h2.jdbc.JdbcResultSetMetaData.checkColumnIndex(JdbcResultSetMetaData.java:447)
 	at org.h2.jdbc.JdbcResultSetMetaData.getColumnLabel(JdbcResultSetMetaData.java:67)
 	at di.uniba.map.dbexemple.DbExemple.main(DbExemple.java:46)
+2024-06-24 18:58:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: Method is not allowed for a query. Use execute or executeQuery instead of executeUpdate; SQL statement:
+SELECT * FROM rooms [90001-200]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:505)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:429)
+	at org.h2.message.DbException.get(DbException.java:205)
+	at org.h2.message.DbException.get(DbException.java:181)
+	at org.h2.message.DbException.get(DbException.java:170)
+	at org.h2.command.Prepared.update(Prepared.java:219)
+	at org.h2.command.CommandContainer.update(CommandContainer.java:198)
+	at org.h2.command.Command.executeUpdate(Command.java:251)
+	at org.h2.jdbc.JdbcPreparedStatement.executeUpdateInternal(JdbcPreparedStatement.java:191)
+	at org.h2.jdbc.JdbcPreparedStatement.executeUpdate(JdbcPreparedStatement.java:152)
+	at di.uniba.map.dbexemple.DbExemple.main(DbExemple.java:157)

@@ -5,6 +5,7 @@
 package di.uniba.leone.game;
 
 import di.uniba.leone.observer.BreakObserver;
+import di.uniba.leone.observer.DropObserver;
 import di.uniba.leone.observer.InventoryObserver;
 import di.uniba.leone.observer.LookObserver;
 import di.uniba.leone.observer.MoveObserver;
@@ -199,12 +200,15 @@ public class LeoneGame extends Game implements GameObservable {
         
         obs = new TurnObserver();
         attach(obs);
-        this.observers.put(obs, new HashSet(Arrays.asList(CommandType.TURN_ON, CommandType.TURN_OFF)));
+        this.observers.put(obs, new HashSet(Arrays.asList(CommandType.TURN_ON, CommandType.TURN_OFF, CommandType.WEAR)));
         
         obs = new UseObserver();
         attach(obs);
         this.observers.put(obs, new HashSet(Arrays.asList(CommandType.USE)));
         
+        obs = new DropObserver();
+        attach(obs);
+        this.observers.put(obs, new HashSet(Arrays.asList(CommandType.DROP)));
         //istanzia la room attuale
         setCurrentRoom(getRooms().get("Camera da Letto"));
     }
