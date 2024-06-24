@@ -96,8 +96,10 @@ public class TurnObserver implements GameObserver {
             }
         } else if (actioningame.getCommand().getType() == CommandType.WEAR) {
             Item item = actioningame.getItem1();
+            System.out.println(item.getFirstName());
             switch(item.getFirstName()) {
                 case "cuffie" -> {
+                    System.out.println("cuffie indossate");
                             if (game.getCurrentRoom().getName().contentEquals("Camera da Letto")) {
                                     game.getItemByID(item.getID()).setTurned_on(true);
                                     msg.append("E chi l'avrebbe detto che Rick Astley sarebbe stato più piacevole di una semplice sveglia... Finalmente puoi esplorare la stanza! \n");

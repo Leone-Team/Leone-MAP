@@ -1,15 +1,15 @@
 package di.uniba.leone.type;
 
 import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Set;
 
 public class Item {
     
     private final Integer id;
     private String description = "";
-    private final Set<String> names = new HashSet();
+    private final List<String> names = new LinkedList<>();
     private boolean pickupable;
     private boolean usable;
     private boolean turnable;
@@ -66,17 +66,13 @@ public class Item {
         this.turnable = turnable;
     }
 
-    public Set<String> getNames() {
+    public List<String> getNames() {
         return names;
     }
     
         // Metodo per ottenere il primo nome dal set
     public String getFirstName() {
-        Iterator<String> iterator = names.iterator();
-        if (iterator.hasNext()) {
-            return iterator.next();
-        }
-        return null; 
+        return names.getFirst();
     }  
 
     public boolean isBreakable() {
