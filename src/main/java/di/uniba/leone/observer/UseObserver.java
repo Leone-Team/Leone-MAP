@@ -5,8 +5,6 @@ import di.uniba.leone.game.GameObserver;
 import di.uniba.leone.parser.ActionInGame;
 import di.uniba.leone.type.CommandType;
 import di.uniba.leone.type.Item;
-import java.util.HashSet;
-import java.util.Set;
 
 public class UseObserver implements GameObserver {
 
@@ -40,31 +38,7 @@ public class UseObserver implements GameObserver {
                                 msg.append("E cosa vuoi farci con un cuscino? Giocare a battaglia di cuscini con il demone del materasso? Patetico... \n");
                             }
                         }
-                        case "tuta" -> {
-                            if (game.getCurrentRoom().getName().contentEquals("Cantina")) {
-                                if (game.getCurrentRoom().isLocked() == true) {
-                                    game.getCurrentRoom().setLocked(false);
-                                    msg.append("Grazie alle ormai vecchie doti da pompiere di Giustino sei in grado di resistere al caldo! \n");
-                                } else {
-                                    msg.append("Ti piace così tanto fare il pompiere? Guarda che la stai già indossando, stupido cane! \n");
-                                }
-                            } else {
-                                msg.append("E tu vorresti metterti a fare il pompiere in ").append(game.getCurrentRoom().getName()).append(" ?? Patetico... \n");
-                            }
-                        }
-                        case "cuffie" -> {
-                            if (game.getCurrentRoom().getName().contentEquals("Camera da Letto")) {
-                                if (game.getCurrentRoom().isLocked() == true) {
-                                    game.getCurrentRoom().setLocked(false);
-                                    msg.append("E chi l'avrebbe detto che Rick Astley sarebbe stato più piacevole di una semplice sveglia... Finalmente puoi esplorare la stanza! \n");
-                                } else {
-                                    msg.append("Mi dispiace, sei stato rickrollato, è in riproduzione Never Gonna Give You Up!! \n");
-                                }
-                            } else {
-                                msg.append("Mi dispiace, sei stato rickrollato, è in riproduzione Never Gonna Give You Up!! \n");
-                                msg.append("E' così potente che non riesci a sentire più nulla dei suoni provenienti dalla stanza... \n");
-                            }
-                        }
+
                         case "mazza" -> {
                             if (actioningame.getItem2() != null) {
                                 if (actioningame.getItem2().getFirstName().contentEquals("sveglia") && game.getCurrentRoom().getName().contentEquals("Camera da Letto")) {
@@ -88,18 +62,6 @@ public class UseObserver implements GameObserver {
                                 }
                             } else {
                                 msg.append("Eh si, con quella mazza potresti seriamente fare danni, se solo non la sventolassi in aria senza motivo... \n");
-                            }
-                        }
-                        case "occhiali" -> {
-                            if (game.getCurrentRoom().getName().contentEquals("Soggiorno")) {
-                                if (game.getCurrentRoom().isLocked() == true) {
-                                    game.getCurrentRoom().setLocked(false);
-                                    msg.append("Finalmente riesci a vedere qualcosa! \n");
-                                } else {
-                                    msg.append("Li hai già indossati, cosa c'è, vuoi un altro paio? \n");
-                                }
-                            } else {
-                                msg.append("Devo ammettere che ti donano... Nah non è vero e poi non vedi nulla, a cosa ti servono qui?? \n");
                             }
                         }
                     }
