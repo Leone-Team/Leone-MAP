@@ -57,7 +57,6 @@ public abstract class Game {
         return rooms;
     }
 
-
     public Room getCurrentRoom() {
         return currentRoom;
     }
@@ -73,6 +72,5 @@ public abstract class Game {
     public boolean isRunning() {
         return running;
     }
-    
-    
+
 }
