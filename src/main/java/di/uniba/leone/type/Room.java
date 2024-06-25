@@ -3,17 +3,23 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package di.uniba.leone.type;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+
 /**
  *
  * @author giann
  */
 /**
  * Classe rappresentativa delle varie stanza del gioco.
- * @author 
+ *
+ * @author
  */
-public class Room {
+public class Room implements Serializable {
+
+    private static final long serialVersionUID = 1L;
     private String name;
     private Room eastR, westR, southR, northR, upR, downR;
     private List<Integer> Items = new ArrayList();
@@ -21,7 +27,7 @@ public class Room {
     private boolean locked;
     private String description;
     private List<Integer> riddles = new ArrayList();
-    
+
     public Room() {
     }
 
@@ -36,8 +42,8 @@ public class Room {
         this.lighted = lighted;
         this.description = description;
     }
-    
-    public Room(String name, boolean lighted, boolean locked, String description){
+
+    public Room(String name, boolean lighted, boolean locked, String description) {
         this.name = name;
         this.lighted = lighted;
         this.locked = locked;
@@ -119,8 +125,8 @@ public class Room {
     public String getDescription() {
         return description;
     }
-    
-    public void setItems(List<Integer> items){
+
+    public void setItems(List<Integer> items) {
         this.Items.addAll(items);
     }
 
@@ -130,17 +136,17 @@ public class Room {
 
     public void setLocked(boolean locked) {
         this.locked = locked;
-    } 
+    }
 
     public List<Integer> getRiddles() {
         return riddles;
     }
-    
-    public void SetRiddles(List<Integer> idRiddles){
+
+    public void SetRiddles(List<Integer> idRiddles) {
         this.riddles.addAll(idRiddles);
     }
-    
-    public void addRiddle(Integer riddle){
+
+    public void addRiddle(Integer riddle) {
         this.riddles.add(riddle);
     }
 }

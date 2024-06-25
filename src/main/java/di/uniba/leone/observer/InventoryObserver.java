@@ -9,6 +9,7 @@ import di.uniba.leone.game.Game;
 import di.uniba.leone.parser.ActionInGame;
 import di.uniba.leone.type.CommandType;
 import di.uniba.leone.type.Item;
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -16,8 +17,10 @@ import java.util.Set;
  *
  * @author giann
  */
-public class InventoryObserver implements GameObserver {
-  
+public class InventoryObserver implements GameObserver, Serializable {
+
+    private static final long serialVersionUID = 1L;
+
     @Override
     public String update(Game game, ActionInGame actioningame) {
         StringBuilder msg = new StringBuilder();

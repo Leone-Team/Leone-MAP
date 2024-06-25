@@ -5,6 +5,7 @@
 package di.uniba.leone.game;
 
 import di.uniba.leone.parser.ActionInGame;
+import java.io.Serializable;
 
 public interface GameObserver {
     /**

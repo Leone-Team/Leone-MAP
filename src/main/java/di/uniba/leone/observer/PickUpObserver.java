@@ -6,6 +6,7 @@ import di.uniba.leone.parser.ActionInGame;
 import di.uniba.leone.type.CommandType;
 import di.uniba.leone.type.Container;
 import di.uniba.leone.type.Item;
+import java.io.Serializable;
 import java.util.Iterator;
 import java.util.List;
 
@@ -13,7 +14,9 @@ import java.util.List;
  *
  * @author giann
  */
-public class PickUpObserver implements GameObserver {
+public class PickUpObserver implements GameObserver, Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     @Override
     public String update(Game game, ActionInGame actioningame) {

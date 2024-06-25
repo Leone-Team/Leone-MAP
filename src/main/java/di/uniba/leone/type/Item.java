@@ -1,11 +1,13 @@
 package di.uniba.leone.type;
 
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
-public class Item {
-    
+public class Item implements Serializable {
+
+    private static final long serialVersionUID = 1L;
     private final Integer id;
     private String description = "";
     private final List<String> names = new LinkedList<>();
@@ -15,9 +17,9 @@ public class Item {
     private boolean breakable;
     private boolean turned_on;
     private boolean broken;
-    
+
     //costruttore
-    public Item(Integer id, String description, String names, Boolean peakable, Boolean useable, Boolean turnable, Boolean breakable, Boolean broken, Boolean turned_on){
+    public Item(Integer id, String description, String names, Boolean peakable, Boolean useable, Boolean turnable, Boolean breakable, Boolean broken, Boolean turned_on) {
         this.id = id;
         this.description = description;
         this.names.addAll(Arrays.asList(names.replaceAll(" ", "").split(",")));
@@ -28,7 +30,7 @@ public class Item {
         this.broken = broken;
         this.turned_on = turned_on;
     }
-    
+
     public Integer getID() {
         return id;
     }
@@ -68,11 +70,11 @@ public class Item {
     public List<String> getNames() {
         return names;
     }
-    
-        // Metodo per ottenere il primo nome dal set
+
+    // Metodo per ottenere il primo nome dal set
     public String getFirstName() {
         return names.getFirst();
-    }  
+    }
 
     public boolean isBreakable() {
         return breakable;
@@ -97,12 +99,13 @@ public class Item {
     public void setBroken(boolean broken) {
         this.broken = broken;
     }
-    
+
     @Override
     public boolean equals(Object obj) {
-        if(obj.getClass() != getClass())
+        if (obj.getClass() != getClass()) {
             return false;
-        
+        }
+
         Item other = (Item) obj;
         return other.getID().compareTo(this.getID()) == 0;
     }
@@ -116,5 +119,5 @@ public class Item {
     public String toString() {
         return "Item{" + "id=" + id + ", name=" + names + ", description=" + description + ", peakable=" + pickupable + ", usable=" + usable + ", turnable=" + turnable + '}';
     }
-    
+
 }

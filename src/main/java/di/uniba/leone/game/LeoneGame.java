@@ -9,7 +9,6 @@ import di.uniba.leone.observer.DropObserver;
 import di.uniba.leone.observer.InventoryObserver;
 import di.uniba.leone.observer.LookObserver;
 import di.uniba.leone.observer.MoveObserver;
-import di.uniba.leone.observer.NewGameObserver;
 import di.uniba.leone.observer.OpenObserver;
 import di.uniba.leone.observer.PickUpObserver;
 import di.uniba.leone.observer.TurnObserver;
@@ -30,10 +29,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 /**
@@ -41,12 +38,10 @@ import java.util.Set;
  * @author feder
  */
 public class LeoneGame extends Game implements GameObservable {
-    
-    private Set<GameObserver> obsAttached = new HashSet();
-    private Map<GameObserver, Set<CommandType>> observers = new HashMap();
+
     private final List<String> messages = new ArrayList<>();
     private ActionInGame action;
-    
+
     @Override
     public void init() {
         setDbProperties("Leone", "1234");
@@ -80,10 +75,11 @@ public class LeoneGame extends Game implements GameObservable {
             while (rs.next()) {
                 room = new Room(rs.getString("name"), rs.getBoolean("lighted"), rs.getBoolean("locked"), rs.getString("desc"));
                 String[] items = rs.getString("id_items").replace(" ", "").split(",");
-                
+
                 for (String id_item : items) {
-                    if(id_item.compareTo("") != 0)
+                    if (id_item.compareTo("") != 0) {
                         items_stored.add(Integer.valueOf(id_item));
+                    }
                 }
                 room.setItems(items_stored);
                 items_stored.clear();
@@ -92,10 +88,10 @@ public class LeoneGame extends Game implements GameObservable {
             }
             pstm.close();
             rs.close();
-            
+
             pstm = conn.prepareStatement("SELECT  name, east, west, north, south, up, down FROM rooms");
             rs = pstm.executeQuery();
-            
+
             String name;
             while (rs.next()) {
                 name = rs.getString("name");
@@ -112,118 +108,114 @@ public class LeoneGame extends Game implements GameObservable {
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }
-        
+
         //inizializza comandi
-        
-        try(Connection conn = DriverManager.getConnection("jdbc:h2:./leone_game/dbs/commands", getDbprop())){
-            
+        try (Connection conn = DriverManager.getConnection("jdbc:h2:./leone_game/dbs/commands", getDbprop())) {
+
             PreparedStatement pstm = conn.prepareStatement("SELECT  type, names FROM commands");
             ResultSet rs = pstm.executeQuery();
-            
+
             Set<String> names = new HashSet();
-            while(rs.next()){
-                try{
+            while (rs.next()) {
+                try {
                     names.addAll(Arrays.asList(rs.getString("names").toLowerCase().replace(" ", "").split(",")));
                     getCommands().add(new Command(CommandType.valueOf(rs.getString("type")), names));
                     names.clear();
-                }catch(IllegalArgumentException ex){
-                    System.out.println("Parola non valida:"+rs.getString("type"));
+                } catch (IllegalArgumentException ex) {
+                    System.out.println("Parola non valida:" + rs.getString("type"));
                 }
             }
             pstm.close();
             rs.close();
             conn.close();
-        }catch(SQLException ex){
+        } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }
 
         //istanziare gli indovinelli
-        try(Connection conn = DriverManager.getConnection("jdbc:h2:./leone_game/dbs/riddles", getDbprop())){
-            
+        try (Connection conn = DriverManager.getConnection("jdbc:h2:./leone_game/dbs/riddles", getDbprop())) {
+
             PreparedStatement pstm = conn.prepareStatement("SELECT  * FROM riddles");
             ResultSet rs = pstm.executeQuery();
-            
+
             Set<CommandType> blacklist;
-            while(rs.next()){
-                try{
+            while (rs.next()) {
+                try {
                     blacklist = new HashSet();
-                    for(String type:rs.getString("blackList").replace(" ", "").split(",")){
-                        if(!type.isEmpty())
+                    for (String type : rs.getString("blackList").replace(" ", "").split(",")) {
+                        if (!type.isEmpty()) {
                             blacklist.add(CommandType.valueOf(type));
+                        }
                     }
-                    if (rs.getBoolean("itemRiddle")){
+                    if (rs.getBoolean("itemRiddle")) {
                         getRiddles().put(rs.getInt("id"), new ItemRiddle(rs.getInt("id"), blacklist, rs.getString("desc"), rs.getBoolean("solved"), rs.getInt("targetItem"), rs.getInt("tool")));
-                    }else{
-                        getRiddles().put(rs.getInt("id"), new QuestionRiddle(rs.getInt("id"), blacklist, rs.getString("desc"), rs.getBoolean("solved"), rs.getInt("targetItem"), rs.getString("question"), rs.getString("answer"), rs.getString("deathMsg")));  
-                        
+                    } else {
+                        getRiddles().put(rs.getInt("id"), new QuestionRiddle(rs.getInt("id"), blacklist, rs.getString("desc"), rs.getBoolean("solved"), rs.getInt("targetItem"), rs.getString("question"), rs.getString("answer"), rs.getString("deathMsg")));
+
                     }
                     getRooms().get(rs.getString("room")).addRiddle(rs.getInt("id"));
-                }catch(IllegalArgumentException ex){
+                } catch (IllegalArgumentException ex) {
                     System.out.println(ex.getMessage());
                 }
             }
             pstm.close();
             rs.close();
             conn.close();
-        }catch(SQLException ex){
+        } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }
-        
+
         //collega gli observer
         GameObserver obs;
-        
+
         obs = new LookObserver();
         attach(obs);
-        this.observers.put(obs, new HashSet(Arrays.asList(CommandType.LOOK)));
-        
+        getObservers().put(obs, new HashSet(Arrays.asList(CommandType.LOOK)));
+
         obs = new BreakObserver();
         attach(obs);
-        this.observers.put(obs, new HashSet(Arrays.asList(CommandType.BREAK)));
-        
+        getObservers().put(obs, new HashSet(Arrays.asList(CommandType.BREAK)));
+
         obs = new InventoryObserver();
         attach(obs);
-        this.observers.put(obs, new HashSet(Arrays.asList(CommandType.INVENTORY)));
-        
+        getObservers().put(obs, new HashSet(Arrays.asList(CommandType.INVENTORY)));
+
         obs = new MoveObserver();
         attach(obs);
-        this.observers.put(obs, new HashSet(Arrays.asList(CommandType.EAST, CommandType.NORTH, CommandType.SOUTH, CommandType.WEST, CommandType.GO_DOWN, CommandType.GO_UP)));
-        
+        getObservers().put(obs, new HashSet(Arrays.asList(CommandType.EAST, CommandType.NORTH, CommandType.SOUTH, CommandType.WEST, CommandType.GO_DOWN, CommandType.GO_UP)));
+
         obs = new OpenObserver();
         attach(obs);
-        this.observers.put(obs, new HashSet(Arrays.asList(CommandType.OPEN)));
-        
+        getObservers().put(obs, new HashSet(Arrays.asList(CommandType.OPEN)));
+
         obs = new PickUpObserver();
         attach(obs);
-        this.observers.put(obs, new HashSet(Arrays.asList(CommandType.PICK_UP)));
-        
+        getObservers().put(obs, new HashSet(Arrays.asList(CommandType.PICK_UP)));
+
         obs = new TurnObserver();
         attach(obs);
-        this.observers.put(obs, new HashSet(Arrays.asList(CommandType.TURN_ON, CommandType.TURN_OFF, CommandType.WEAR)));
-        
+        getObservers().put(obs, new HashSet(Arrays.asList(CommandType.TURN_ON, CommandType.TURN_OFF, CommandType.WEAR)));
+
         obs = new UseObserver();
         attach(obs);
-        this.observers.put(obs, new HashSet(Arrays.asList(CommandType.USE)));
-        
+        getObservers().put(obs, new HashSet(Arrays.asList(CommandType.USE)));
+
         obs = new DropObserver();
         attach(obs);
-        this.observers.put(obs, new HashSet(Arrays.asList(CommandType.DROP)));
- 
-        obs = new NewGameObserver();
-        attach(obs);
-        this.observers.put(obs, new HashSet(Arrays.asList(CommandType.NEW_GAME)));
-        
+        getObservers().put(obs, new HashSet(Arrays.asList(CommandType.DROP)));
+
         //istanzia la room attuale
         setCurrentRoom(getRooms().get("Camera da Letto"));
         setRunning(true);
     }
-    
+
     @Override
     public void nextMove(ActionInGame act) {
         action = act;
         messages.clear();
-        
+
         Room cr = getCurrentRoom();
-        
+
         notifyObservers();
         boolean move = !cr.equals(getCurrentRoom()) && getCurrentRoom() != null;
         if (!messages.isEmpty()) {
@@ -232,7 +224,7 @@ public class LeoneGame extends Game implements GameObservable {
                     System.out.println(m);
                 }
             }
-        }else{
+        } else {
             System.out.println(">Comando non valido");
         }
 
@@ -247,46 +239,46 @@ public class LeoneGame extends Game implements GameObservable {
 
     @Override
     public void checkRiddles() {
-        for(Integer id_riddle:getCurrentRoom().getRiddles()){
-            if(getRiddles().get(id_riddle) instanceof ItemRiddle itemRiddle)
-                    itemRiddle.resolved(getItems());
-            if(!getRiddles().get(id_riddle).isSolved())
+        for (Integer id_riddle : getCurrentRoom().getRiddles()) {
+            if (getRiddles().get(id_riddle) instanceof ItemRiddle itemRiddle) {
+                itemRiddle.resolved(getItems());
+            }
+            if (!getRiddles().get(id_riddle).isSolved()) {
                 System.out.println(getRiddles().get(id_riddle).getDescription());
-            for(GameObserver o: observers.keySet()){
-                if(observers.get(o).stream().anyMatch(getRiddles().get(id_riddle).getBlackList() :: contains) && !getRiddles().get(id_riddle).isSolved())
+            }
+            for (GameObserver o : getObservers().keySet()) {
+                if (getObservers().get(o).stream().anyMatch(getRiddles().get(id_riddle).getBlackList()::contains) && !getRiddles().get(id_riddle).isSolved()) {
                     detach(o);
-                else
+                } else {
                     attach(o);
-            
+                }
+
             }
         }
     }
 
     @Override
     public void attach(GameObserver o) {
-        if (!obsAttached.contains(o))
-            obsAttached.add(o);
+        if (!getObsAttached().contains(o)) {
+            getObsAttached().add(o);
+        }
     }
 
     @Override
     public void detach(GameObserver o) {
-        obsAttached.remove(o);
+        getObsAttached().remove(o);
     }
 
     @Override
     public void notifyObservers() {
-        for (GameObserver o : obsAttached) {
-                messages.add(o.update(this, action));
-            }
+        for (GameObserver o : getObsAttached()) {
+            messages.add(o.update(this, action));
+        }
     }
 
     @Override
     public String getWelcomeMessage() {
         return "Buongiorno Leone, la casa è impazzita, sta a te spegnerla e liberare Marilu!";
     }
-    
-    
-    
-    
-    
+
 }

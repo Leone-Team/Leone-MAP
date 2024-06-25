@@ -35,6 +35,31 @@ public class Saving implements Serializable{
         this.riddles.putAll(riddles);
         this.currentRoom = currentRoom;
     }
+
+
+    public Set<GameObserver> getObsAttached() {
+        return obsAttached;
+    }
+
+    public HashMap<Integer, Item> getItems() {
+        return items;
+    }
+
+    public HashMap<String, Room> getRooms() {
+        return rooms;
+    }
+
+    public Set<Integer> getInventory() {
+        return inventory;
+    }
+
+    public HashMap<Integer, Riddle> getRiddles() {
+        return riddles;
+    }
+
+    public Room getCurrentRoom() {
+        return currentRoom;
+    }
     
     
     

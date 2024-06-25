@@ -3,9 +3,10 @@ package di.uniba.leone.observer;
 import di.uniba.leone.game.Game;
 import di.uniba.leone.game.GameObserver;
 import di.uniba.leone.parser.ActionInGame;
+import java.io.Serializable;
 
-public class MoveObserver implements GameObserver {
-
+public class MoveObserver implements GameObserver, Serializable {
+    private static final long serialVersionUID = 1L;
     
     @Override
     public String update(Game game, ActionInGame actioningame) {
