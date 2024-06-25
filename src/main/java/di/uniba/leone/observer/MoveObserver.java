@@ -10,7 +10,7 @@ public class MoveObserver implements GameObserver {
     @Override
     public String update(Game game, ActionInGame actioningame) {
         String msgNoDoor = "*sbam* Si beh vista la situazione sbattere la testa al muro potrebbe essere una soluzione si...\n Ma cosa ti salta in mente? Vedi forse una porta?? \n";
-        String msgClosed = "*sbam* Prima di passare per una porta, forse dovresti assicurati di poiterla aprire.";
+        String msgClosed = "*sbam* Prima di passare per una porta, forse dovresti assicurati di poterla aprire.";
         if (null != actioningame.getCommand().getType()) {
             switch (actioningame.getCommand().getType()) {
                 case NORTH -> {
