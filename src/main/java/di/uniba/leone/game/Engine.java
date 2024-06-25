@@ -25,6 +25,8 @@ public class Engine {
     }
 
     public void execute() {
+        GameTime timeGame = new GameTime();
+        timeGame.start();
         System.out.println("Inizio partita");
         System.out.println(game.getWelcomeMessage());
         System.out.println("Ti trovi qui:");
@@ -46,6 +48,7 @@ public class Engine {
             } else {
                 game.nextMove(action);
                 if (game.getCurrentRoom() == null) {
+                    timeGame.stop();
                     System.out.println("La tua avventura termina qui! Complimenti!");
                     game.setRunning(false);
                 }
