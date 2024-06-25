@@ -9,22 +9,27 @@ import di.uniba.leone.type.Command;
 import di.uniba.leone.type.Item;
 import di.uniba.leone.type.Room;
 import di.uniba.leone.type.Riddle;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 import java.util.HashSet;
+import java.util.Properties;
 
 public abstract class Game {
     
-    private final HashMap<Integer, Item> items = new HashMap();
-    private final HashMap<String, Room> rooms = new HashMap();
-    private final List<Command> commands = new ArrayList();
-    private final Set<Integer> inventory = new HashSet();
-    private final HashMap<Integer, Riddle> riddles = new HashMap();
+    private Properties dbprop = new Properties(); 
+    private HashMap<Integer, Item> items = new HashMap();
+    private HashMap<String, Room> rooms = new HashMap();
+    private List<Command> commands = new ArrayList();
+    private Set<Integer> inventory = new HashSet();
+    private HashMap<Integer, Riddle> riddles = new HashMap();
     private Room currentRoom;
     private boolean running;
-
+    
+    private File game;
+    
     public abstract String getWelcomeMessage();
     
     public abstract void init(); //inizializza il gioco
@@ -72,5 +77,13 @@ public abstract class Game {
     public boolean isRunning() {
         return running;
     }
+    
+    public void setDbProperties(String user, String password) {
+        dbprop.setProperty("user", user);
+        dbprop.setProperty("password", password);
+    }
 
+    public Properties getDbprop() {
+        return dbprop;
+    }
 }

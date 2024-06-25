@@ -17,7 +17,7 @@ QUESTION:>In questa stanza il nipote di Marilù provò a rasarci, Fred lo stramb
 ANSWER:Barbiere; ROOM:Bagno; 
 
 ID:4; BLACKLIST:NORTH, SOUTH, EAST, WEST, GO_UP, GO_DOWN, INVENTORY, TURN_OFF, TURN_ON, LOOK, PICK_UP, OPEN, CLOSE; 
-DESC:>Raccatata dalla pattumiera, la vecchia televisione di Giustino non è fatta per occhi devoli. La luce indonda la stanza, non vedi nulla.; 
+DESC:>Raccatata dalla pattumiera, la vecchia televisione di Giustino non è fatta per occhi deboli. La luce indonda la stanza, non vedi nulla.; 
 SOLVED:FALSE; TARGETITEM:9; ITEMRIDDLE:TRUE; TOOL:13; 
 QUESTION:; 
 ANSWER:; ROOM:Soggiorno; 

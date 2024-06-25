@@ -23,5 +23,8 @@ public enum CommandType {
     BREAK,
     WEAR,
     PULL,
-    DROP; 
+    DROP,
+    LOAD,
+    SAVE,
+    NEW_GAME;
 }

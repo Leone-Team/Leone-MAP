@@ -9,6 +9,7 @@ import di.uniba.leone.observer.DropObserver;
 import di.uniba.leone.observer.InventoryObserver;
 import di.uniba.leone.observer.LookObserver;
 import di.uniba.leone.observer.MoveObserver;
+import di.uniba.leone.observer.NewGameObserver;
 import di.uniba.leone.observer.OpenObserver;
 import di.uniba.leone.observer.PickUpObserver;
 import di.uniba.leone.observer.TurnObserver;
@@ -21,7 +22,6 @@ import di.uniba.leone.type.Command;
 import di.uniba.leone.type.CommandType;
 import di.uniba.leone.type.ItemRiddle;
 import di.uniba.leone.type.QuestionRiddle;
-import di.uniba.leone.type.Riddle;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -34,7 +34,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 import java.util.Set;
 
 /**
@@ -42,7 +41,7 @@ import java.util.Set;
  * @author feder
  */
 public class LeoneGame extends Game implements GameObservable {
-
+    
     private Set<GameObserver> obsAttached = new HashSet();
     private Map<GameObserver, Set<CommandType>> observers = new HashMap();
     private final List<String> messages = new ArrayList<>();
@@ -50,12 +49,10 @@ public class LeoneGame extends Game implements GameObservable {
     
     @Override
     public void init() {
-        Properties dbprop = new Properties();
-        dbprop.setProperty("user", "Leone");
-        dbprop.setProperty("password", "1234");
+        setDbProperties("Leone", "1234");
 
         //inizializza oggetti
-        try (Connection conn = DriverManager.getConnection("jdbc:h2:./leone_game/dbs/item", dbprop)) {
+        try (Connection conn = DriverManager.getConnection("jdbc:h2:./leone_game/dbs/item", getDbprop())) {
             PreparedStatement pstm = conn.prepareStatement("SELECT id, names, desc, peakable, useable, turnable, breakable, openable, broken, turned_on, container, items_con FROM item");
             pstm.executeQuery();
             ResultSet rs = pstm.executeQuery();
@@ -74,7 +71,7 @@ public class LeoneGame extends Game implements GameObservable {
             System.out.println(e.getMessage());
         }
         //inizializza stanze
-        try (Connection conn = DriverManager.getConnection("jdbc:h2:./leone_game/dbs/rooms", dbprop)) {
+        try (Connection conn = DriverManager.getConnection("jdbc:h2:./leone_game/dbs/rooms", getDbprop())) {
             PreparedStatement pstm = conn.prepareStatement("SELECT  name, id_items, lighted, locked, desc FROM rooms");
             ResultSet rs = pstm.executeQuery();
 
@@ -118,7 +115,7 @@ public class LeoneGame extends Game implements GameObservable {
         
         //inizializza comandi
         
-        try(Connection conn = DriverManager.getConnection("jdbc:h2:./leone_game/dbs/commands", dbprop)){
+        try(Connection conn = DriverManager.getConnection("jdbc:h2:./leone_game/dbs/commands", getDbprop())){
             
             PreparedStatement pstm = conn.prepareStatement("SELECT  type, names FROM commands");
             ResultSet rs = pstm.executeQuery();
@@ -141,7 +138,7 @@ public class LeoneGame extends Game implements GameObservable {
         }
 
         //istanziare gli indovinelli
-        try(Connection conn = DriverManager.getConnection("jdbc:h2:./leone_game/dbs/riddles", dbprop)){
+        try(Connection conn = DriverManager.getConnection("jdbc:h2:./leone_game/dbs/riddles", getDbprop())){
             
             PreparedStatement pstm = conn.prepareStatement("SELECT  * FROM riddles");
             ResultSet rs = pstm.executeQuery();
@@ -210,6 +207,10 @@ public class LeoneGame extends Game implements GameObservable {
         obs = new DropObserver();
         attach(obs);
         this.observers.put(obs, new HashSet(Arrays.asList(CommandType.DROP)));
+ 
+        obs = new NewGameObserver();
+        attach(obs);
+        this.observers.put(obs, new HashSet(Arrays.asList(CommandType.NEW_GAME)));
         
         //istanzia la room attuale
         setCurrentRoom(getRooms().get("Camera da Letto"));
@@ -283,6 +284,8 @@ public class LeoneGame extends Game implements GameObservable {
     public String getWelcomeMessage() {
         return "Buongiorno Leone, la casa è impazzita, sta a te spegnerla e liberare Marilu!";
     }
+    
+    
     
     
     
