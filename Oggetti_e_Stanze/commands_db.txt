@@ -55,3 +55,12 @@ TYPE:PULL; NAMES:spingi;
 TYPE:DROP; NAMES:lascia; 
 
 
+TYPE:SAVE; NAMES:salva; 
+
+
+TYPE:LOAD; NAMES:carica; 
+
+
+TYPE:NEW_GAME; NAMES:nuova; 
+
+
