@@ -10,13 +10,12 @@ import di.uniba.leone.parser.ActionInGame;
 import di.uniba.leone.type.CommandType;
 import di.uniba.leone.type.Container;
 import di.uniba.leone.type.Item;
-import java.util.HashSet;
-import java.util.Set;
+import java.io.Serializable;
 
-public class OpenObserver implements GameObserver {
+public class OpenObserver implements GameObserver, Serializable {
 
- 
-    
+    private static final long serialVersionUID = 1L;
+
     @Override
     public String update(Game game, ActionInGame actioningame) {
         StringBuilder msg = new StringBuilder();

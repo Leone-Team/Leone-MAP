@@ -6,6 +6,7 @@ package di.uniba.leone.game;
 
 import di.uniba.leone.parser.ActionInGame;
 import di.uniba.leone.type.Command;
+import di.uniba.leone.type.CommandType;
 import di.uniba.leone.type.Item;
 import di.uniba.leone.type.Room;
 import di.uniba.leone.type.Riddle;
@@ -15,10 +16,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Properties;
 
 public abstract class Game {
     
+    private Set<GameObserver> obsAttached = new HashSet();
+    private Map<GameObserver, Set<CommandType>> observers = new HashMap();
     private Properties dbprop = new Properties(); 
     private HashMap<Integer, Item> items = new HashMap();
     private HashMap<String, Room> rooms = new HashMap();
@@ -86,4 +90,34 @@ public abstract class Game {
     public Properties getDbprop() {
         return dbprop;
     }
+
+    public Set<GameObserver> getObsAttached() {
+        return obsAttached;
+    }
+
+    public Map<GameObserver, Set<CommandType>> getObservers() {
+        return observers;
+    }
+
+    public void setObsAttached(Set<GameObserver> obsAttached) {
+        this.obsAttached = obsAttached;
+    }
+
+    public void setItems(HashMap<Integer, Item> items) {
+        this.items = items;
+    }
+
+    public void setRooms(HashMap<String, Room> rooms) {
+        this.rooms = rooms;
+    }
+
+    public void setInventory(Set<Integer> inventory) {
+        this.inventory = inventory;
+    }
+
+    public void setRiddles(HashMap<Integer, Riddle> riddles) {
+        this.riddles = riddles;
+    }
+    
+    
 }

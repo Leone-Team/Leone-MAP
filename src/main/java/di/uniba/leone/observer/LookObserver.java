@@ -5,10 +5,11 @@ import di.uniba.leone.game.GameObserver;
 import di.uniba.leone.parser.ActionInGame;
 import di.uniba.leone.type.CommandType;
 import di.uniba.leone.type.Item;
+import java.io.Serializable;
 import java.util.List;
 
-public class LookObserver implements GameObserver {
-    
+public class LookObserver implements GameObserver, Serializable {
+       private static final long serialVersionUID = 1L; 
     @Override
     public String update(Game game, ActionInGame actioningame) {
         StringBuilder msg = new StringBuilder();

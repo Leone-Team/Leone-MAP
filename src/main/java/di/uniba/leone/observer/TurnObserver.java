@@ -10,17 +10,20 @@ import static di.uniba.leone.type.CommandType.WEAR;
 import di.uniba.leone.type.Item;
 import di.uniba.leone.type.QuestionRiddle;
 import di.uniba.leone.type.Riddle;
+import java.io.Serializable;
 import java.util.Scanner;
 
-public class TurnObserver implements GameObserver {
+public class TurnObserver implements GameObserver, Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     @Override
     public String update(Game game, ActionInGame actioningame) {
         StringBuilder msg = new StringBuilder();
         CommandType commandType = actioningame.getCommand().getType();
-        Boolean rightCmds = commandType == CommandType.TURN_ON || 
-                            commandType == CommandType.TURN_OFF || 
-                            commandType == CommandType.WEAR;
+        Boolean rightCmds = commandType == CommandType.TURN_ON
+                || commandType == CommandType.TURN_OFF
+                || commandType == CommandType.WEAR;
         Item item = actioningame.getItem1();
 
         if (rightCmds) {
@@ -38,22 +41,19 @@ public class TurnObserver implements GameObserver {
                     msg.append("Non puoi usare questo oggetto perché non è nel tuo inventario.");
                     return msg.toString();
                 } else {
-                switch (commandType) {
-                case TURN_ON:
-                    handleTurnOn(game, item, msg);
-                    break;
+                    switch (commandType) {
+                        case TURN_ON ->
+                            handleTurnOn(game, item, msg);
 
-                case TURN_OFF:
-                    handleTurnOff(game, item, msg);
-                    break;
+                        case TURN_OFF ->
+                            handleTurnOff(game, item, msg);
 
-                case WEAR:
-                    handleWear(game, item, msg);
-                    break;
+                        case WEAR ->
+                            handleWear(game, item, msg);
 
-                default:
-                    msg.append("Azione non riconosciuta.");
-            }
+                        default ->
+                            msg.append("Azione non riconosciuta.");
+                    }
                 }
             } else if (isTurnable) {
                 // Controllo che l'oggetto sia nella stanza se è solo turnable
@@ -61,22 +61,19 @@ public class TurnObserver implements GameObserver {
                     msg.append("Non puoi usare questo oggetto perché non è nella stanza.");
                     return msg.toString();
                 } else {
-                switch (commandType) {
-                case TURN_ON:
-                    handleTurnOn(game, item, msg);
-                    break;
+                    switch (commandType) {
+                        case TURN_ON ->
+                            handleTurnOn(game, item, msg);
 
-                case TURN_OFF:
-                    handleTurnOff(game, item, msg);
-                    break;
+                        case TURN_OFF ->
+                            handleTurnOff(game, item, msg);
 
-                case WEAR:
-                    handleWear(game, item, msg);
-                    break;
+                        case WEAR ->
+                            handleWear(game, item, msg);
 
-                default:
-                    msg.append("Azione non riconosciuta.");
-            }
+                        default ->
+                            msg.append("Azione non riconosciuta.");
+                    }
                 }
             } else {
                 msg.append("Non puoi fare questa azione con questo oggetto.");
@@ -104,10 +101,11 @@ public class TurnObserver implements GameObserver {
                 if (riddle != null && riddle.isSolved()) {
                     item.setTurned_on(true);
                     msg.append("Hai acceso: ").append(item.getFirstName());
-                } else if (riddle != null && !riddle.isSolved()) {
-                    if (riddle.getCounter() == 3) {
+                } else if (riddle != null && !riddle.isSolved() && riddle instanceof QuestionRiddle qRiddle) {
+                    if (qRiddle.getCounter() == 3) {
                         game.setRunning(false);
-                        riddle.setCounter(0);
+                        qRiddle.setCounter(0);
+                        System.out.println(qRiddle.getDeathMsg());
                     } else {
                         System.out.println(">Risposta errata!");
                     }
@@ -145,8 +143,14 @@ public class TurnObserver implements GameObserver {
                 if (riddle != null && riddle.isSolved()) {
                     item.setTurned_on(false);
                     msg.append("Hai spento: ").append(item.getFirstName());
-                } else if (riddle != null && !riddle.isSolved()) {
-                    System.out.println(">Risposta errata!");
+                } else if (riddle != null && !riddle.isSolved() && riddle instanceof QuestionRiddle qRiddle) {
+                    if (qRiddle.getCounter() == 3) {
+                        game.setRunning(false);
+                        qRiddle.setCounter(0);
+                        System.out.println(qRiddle.getDeathMsg());
+                    } else {
+                        System.out.println(">Risposta errata!");
+                    }
                 } else if (riddle == null) {
                     item.setTurned_on(false);
                     msg.append("Hai spento: ").append(item.getFirstName());
@@ -194,8 +198,8 @@ public class TurnObserver implements GameObserver {
                     msg.append("E tu vorresti metterti a fare il pompiere in ").append(game.getCurrentRoom().getName()).append(" ?? Patetico... \n");
                 }
             }
-            default -> msg.append("Non puoi indossare questo oggetto.");
+            default ->
+                msg.append("Non puoi indossare questo oggetto.");
         }
     }
 }
-
