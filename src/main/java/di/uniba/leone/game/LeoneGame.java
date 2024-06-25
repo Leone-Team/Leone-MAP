@@ -157,7 +157,8 @@ public class LeoneGame extends Game implements GameObservable {
                     if (rs.getBoolean("itemRiddle")){
                         getRiddles().put(rs.getInt("id"), new ItemRiddle(rs.getInt("id"), blacklist, rs.getString("desc"), rs.getBoolean("solved"), rs.getInt("targetItem"), rs.getInt("tool")));
                     }else{
-                        getRiddles().put(rs.getInt("id"), new QuestionRiddle(rs.getInt("id"), blacklist, rs.getString("desc"), rs.getBoolean("solved"), rs.getInt("targetItem"), rs.getString("question"), rs.getString("answer")));  
+                        getRiddles().put(rs.getInt("id"), new QuestionRiddle(rs.getInt("id"), blacklist, rs.getString("desc"), rs.getBoolean("solved"), rs.getInt("targetItem"), rs.getString("question"), rs.getString("answer"), rs.getString("deathMsg")));  
+                        
                     }
                     getRooms().get(rs.getString("room")).addRiddle(rs.getInt("id"));
                 }catch(IllegalArgumentException ex){
@@ -209,8 +210,10 @@ public class LeoneGame extends Game implements GameObservable {
         obs = new DropObserver();
         attach(obs);
         this.observers.put(obs, new HashSet(Arrays.asList(CommandType.DROP)));
+        
         //istanzia la room attuale
         setCurrentRoom(getRooms().get("Camera da Letto"));
+        setRunning(true);
     }
     
     @Override

@@ -23,6 +23,7 @@ public abstract class Game {
     private final Set<Integer> inventory = new HashSet();
     private final HashMap<Integer, Riddle> riddles = new HashMap();
     private Room currentRoom;
+    private boolean running;
 
     public abstract String getWelcomeMessage();
     
@@ -64,5 +65,14 @@ public abstract class Game {
     public void setCurrentRoom(Room actualRoom) {
         this.currentRoom = actualRoom;
     }
+
+    public void setRunning(boolean running) {
+        this.running = running;
+    }
+
+    public boolean isRunning() {
+        return running;
+    }
+    
     
 }

@@ -34,19 +34,20 @@ public class Engine {
         System.out.print("?> ");
         Scanner scanner = new Scanner(System.in);
         
-        while (scanner.hasNext()) {
+        while (game.isRunning()) {
             String commandline = scanner.nextLine();
             ActionInGame action = parser.parse(commandline, game.getItems(), game.getCommands());
             if (action == null || action.getCommand() == null) {
                 System.out.println(">Non ho capito.");
             } else if (action.getCommand() != null && action.getCommand().getType() == CommandType.QUIT) {
                 System.out.println("Non sei Leone il cane fifone, se solo un fifone, addio!");
+                game.setRunning(false);
                 break;
             } else {
                 game.nextMove(action);
                 if (game.getCurrentRoom() == null) {
                     System.out.println("La tua avventura termina qui! Complimenti!");
-                    System.exit(0);
+                    game.setRunning(false);
                 }
             }
             System.out.print("?> ");
