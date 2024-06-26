@@ -65,8 +65,20 @@ public class Engine {
                 System.out.println(game.getCurrentRoom().getDescription());
                 game.nextMove(action);
             } else if (action.getCommand() != null && action.getCommand().getType() == CommandType.QUIT && matchLoaded) {
-                System.out.println("Non sei Leone il cane fifone, se solo un fifone, addio!");
+                Boolean pass = true;
+                System.out.print(">Vuoi salvare?\n?>");
+                do {
+                    switch (scanner.nextLine().toLowerCase()) {
+                        case "si" -> {
+                            Saving s = new Saving(game.getObsAttached(), game.getItems(), game.getRooms(), game.getInventory(), game.getRiddles(), game.getCurrentRoom());
+                            mrS.saveMatch(s);
+                        }
+                        case "no" -> System.out.println("Non sei Leone il cane fifone, se solo un fifone, addio!");
+                        default -> pass = false;
+                    }
+                } while (!pass);
                 game.setRunning(false);
+                mrS.close();
                 break;
             } else if (action.getCommand() != null && action.getCommand().getType() == CommandType.SAVE && matchLoaded) {
                 //salvataggio
@@ -78,6 +90,8 @@ public class Engine {
                     timeGame.stop();
                     System.out.println("La tua avventura termina qui! Complimenti!");
                     game.setRunning(false);
+                    mrS.delete(mrS.getLoadedMatch());
+                    mrS.close();
                 }
             }
             System.out.print("?>");

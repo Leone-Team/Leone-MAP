@@ -52,10 +52,10 @@ public class SaveManager {
         Boolean pass = false;
         File[] matches = savingDirectory.listFiles();
 
-        Arrays.asList(matches).forEach(file -> System.out.println(">"+file.getName()));
+        Arrays.asList(matches).forEach(file -> System.out.println(">" + file.getName()));
         System.out.print("?>");
         do {
-            String ans =scanner.nextLine();
+            String ans = scanner.nextLine();
             loadedDir = Arrays.asList(matches).stream().filter(file -> file.getName().contentEquals(ans)).findFirst().orElse(null);
             if (loadedDir == null) {
                 System.out.println(">Partita scelta non valida. Reinserisci un nome valido.");
@@ -100,4 +100,30 @@ public class SaveManager {
         this.loadedMatch = loadedMatch;
     }
 
+    public void close() {
+        File[] matchDir = savingDirectory.listFiles();
+
+        for (File dir : matchDir) {
+            if (dir.listFiles().length == 0) {
+                dir.delete();
+            }
+        }
+    }
+
+    public void delete(File dir) {
+        File[] files = dir.listFiles();
+        for (File file : files) {
+                file.delete();
+            }
+        }
+
+    public File getSavingDirectory() {
+        return savingDirectory;
+    }
+
+    public File getLoadedMatch() {
+        return loadedMatch;
+    }
+    
+    
 }
