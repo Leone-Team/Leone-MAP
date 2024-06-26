@@ -65,6 +65,8 @@ public class LeoneGame extends Game implements GameObservable {
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
+        getItems().get(17).setTurnable(false);
+        
         //inizializza stanze
         try (Connection conn = DriverManager.getConnection("jdbc:h2:./leone_game/dbs/rooms", getDbprop())) {
             PreparedStatement pstm = conn.prepareStatement("SELECT  name, id_items, lighted, locked, desc FROM rooms");

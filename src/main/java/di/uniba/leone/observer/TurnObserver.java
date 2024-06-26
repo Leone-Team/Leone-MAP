@@ -143,6 +143,9 @@ public class TurnObserver implements GameObserver, Serializable {
                 if (riddle != null && riddle.isSolved()) {
                     item.setTurned_on(false);
                     msg.append("Hai spento: ").append(item.getFirstName());
+                    if(riddle.getId() == 5){
+                        game.getItems().get(17).setTurnable(true);
+                    }
                 } else if (riddle != null && !riddle.isSolved() && riddle instanceof QuestionRiddle qRiddle) {
                     if (qRiddle.getCounter() == 3) {
                         game.setRunning(false);

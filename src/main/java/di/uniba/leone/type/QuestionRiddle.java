@@ -18,7 +18,7 @@ public class QuestionRiddle extends Riddle{
     }
     
     public void resolved(String answer) {
-        if (this.answer.toLowerCase().contentEquals(answer)){
+        if (this.answer.toLowerCase().contentEquals(answer.toLowerCase())){
             setSolved(true);
             setCounter(0);
         }

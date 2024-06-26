@@ -20,3 +20,6 @@ INSERT INTO item (id, names, desc, peakable, useable, turnable, breakable, opena
 	at org.h2.jdbc.JdbcPreparedStatement.<init>(JdbcPreparedStatement.java:76)
 	at org.h2.jdbc.JdbcConnection.prepareStatement(JdbcConnection.java:352)
 	at di.uniba.map.dbexemple.DbExemple.main(DbExemple.java:38)
+2024-06-26 09:37:51 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "INSERT INTO ITEM (ID, NAMES, DESC, PEAKABLE, USEABLE, TURNABLE, BREAKABLE, OPENABLE, BROKEN, TURNED_ON, CONTAINER, ITEMS_CON) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?, ?))[*]"; SQL statement:
+INSERT INTO item (id, names, desc, peakable, useable, turnable, breakable, openable, broken, turned_on, container, items_con) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?, ?)) [42000-200]
