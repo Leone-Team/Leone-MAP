@@ -146,6 +146,12 @@ public class TurnObserver implements GameObserver, Serializable {
                     if(riddle.getId() == 5){
                         game.getItems().get(17).setTurnable(true);
                     }
+                    if(riddle.getId() == 6)
+                    {
+                        System.out.println(">Hai vinto A.L.! Adesso Marilù e Leone saranno al sicuro! Anche Giustino.");
+                        game.setCurrentRoom(null);
+                        game.setRunning(false);
+                    }
                 } else if (riddle != null && !riddle.isSolved() && riddle instanceof QuestionRiddle qRiddle) {
                     if (qRiddle.getCounter() == 3) {
                         game.setRunning(false);
