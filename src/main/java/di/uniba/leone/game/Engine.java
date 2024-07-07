@@ -15,12 +15,13 @@ import java.util.Scanner;
  */
 public class Engine {
 
+    private Scanner scanner = new Scanner(System.in);
     private final SaveManager mrS;
     private final Game game;
     private final Parser parser;
 
     public Engine(Game game) {
-        this.mrS = new SaveManager(Paths.get("").toAbsolutePath().toString());
+        this.mrS = new SaveManager(Paths.get("").toAbsolutePath().toString(), scanner);
         this.game = game;
         game.init();
         parser = new Parser("./leone_game/stopwords.txt");
@@ -30,7 +31,8 @@ public class Engine {
         GameTime timeGame = new GameTime();
         boolean matchLoaded = false;
 
-        Scanner scanner = new Scanner(System.in);
+        mrS.connectToServer();
+        System.out.println("");
         System.out.println(">Nuova Partita; \n>Carica Partita; \n>Esci.");
         System.out.print("?>");
 
@@ -41,7 +43,6 @@ public class Engine {
             if (action == null || action.getCommand() == null) {
                 System.out.println(">Non ho capito");
             } else if (action.getCommand() != null && action.getCommand().getType() == CommandType.NEW_GAME && !matchLoaded) {
-
                 mrS.setLoadedMatch(new File(mrS.newGame()));
                 matchLoaded = true;
                 timeGame.start();
@@ -54,6 +55,8 @@ public class Engine {
                 System.out.println(game.getCurrentRoom().getDescription());
                 game.nextMove(action);
             } else if (action.getCommand() != null && action.getCommand().getType() == CommandType.LOAD && !matchLoaded) {
+                mrS.recoveryFromServer();
+                System.out.println("");
                 mrS.setLoadedMatch(new File(mrS.loadMatch(game)));
                 matchLoaded = true;
                 timeGame.start();
@@ -72,13 +75,17 @@ public class Engine {
                         case "si" -> {
                             Saving s = new Saving(game.getObsAttached(), game.getItems(), game.getRooms(), game.getInventory(), game.getRiddles(), game.getCurrentRoom());
                             mrS.saveMatch(s);
+                            mrS.backUpServer();
+                            System.out.println("");
+                            System.out.println(">Arrivederci.");
                         }
-                        case "no" -> System.out.println("Non sei Leone il cane fifone, se solo un fifone, addio!");
-                        default -> pass = false;
+                        case "no" ->
+                            System.out.println("Non sei Leone il cane fifone, se solo un fifone, addio!");
+                        default ->
+                            pass = false;
                     }
                 } while (!pass);
                 game.setRunning(false);
-                mrS.close();
                 break;
             } else if (action.getCommand() != null && action.getCommand().getType() == CommandType.SAVE && matchLoaded) {
                 //salvataggio
@@ -91,40 +98,12 @@ public class Engine {
                     System.out.println("La tua avventura termina qui! Complimenti!");
                     game.setRunning(false);
                     mrS.delete(mrS.getLoadedMatch());
-                    mrS.close();
                 }
             }
+
             System.out.print("?>");
         }
 
-//        timeGame.start();
-//        System.out.println("Inizio partita");
-//        System.out.println(game.getWelcomeMessage());
-//        System.out.println("Ti trovi qui:");
-//        System.out.println(game.getCurrentRoom().getName());
-//        System.out.println(game.getCurrentRoom().getDescription());
-//        game.checkRiddles();
-//        System.out.print("?> ");
-//
-//        while (game.isRunning()) {
-//            String commandline = scanner.nextLine();
-//            ActionInGame action = parser.parse(commandline, game.getItems(), game.getCommands());
-//            if (action == null || action.getCommand() == null) {
-//                System.out.println(">Non ho capito.");
-//            } else if (action.getCommand() != null && action.getCommand().getType() == CommandType.QUIT) {
-//                System.out.println("Non sei Leone il cane fifone, se solo un fifone, addio!");
-//                game.setRunning(false);
-//                break;
-//            } else {
-//                game.nextMove(action);
-//                if (game.getCurrentRoom() == null) {
-//                    timeGame.stop();
-//                    System.out.println("La tua avventura termina qui! Complimenti!");
-//                    game.setRunning(false);
-//                }
-//            }
-//            System.out.print("?> ");
-//        }
     }
 
     public static void main(String[] args) {

@@ -237,6 +237,7 @@ public class LeoneGame extends Game implements GameObservable {
             System.out.println(getCurrentRoom().getDescription());
         }
         checkRiddles();
+        
     }
 
     @Override

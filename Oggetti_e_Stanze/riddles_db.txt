@@ -29,7 +29,7 @@ QUESTION:>Inserire la chiave di sicurezza, Giustino non fa che ripetere sempre q
 ANSWER:STUPIDO CANE!; ROOM:Cantina; 
 
 ID:6; BLACKLIST:; 
-DESC:>Possiamo spegnere il contatore adesso.; 
+DESC:>Per spegnere A.L. dovremo spegnere il quadro.; 
 SOLVED:FALSE; TARGETITEM:17; ITEMRIDDLE:FALSE; TOOL:0; 
 QUESTION:>Bisogna togliere i fusibili -ROSSO VERDE GIALLO-, ma nel corretto ordine, quale?; 
 ANSWER:ROSSO VERDE IALLO; ROOM:Cantina; 
