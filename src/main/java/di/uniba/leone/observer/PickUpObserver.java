@@ -62,8 +62,7 @@ public class PickUpObserver implements GameObserver, Serializable {
         List<Integer> itemIds = game.getCurrentRoom().getItems(); // Lista di ID degli item nella stanza
         for (Integer itemId : itemIds) {
             Item roomItem = game.getItemByID(itemId);
-            if (roomItem instanceof Container) {
-                Container container = (Container) roomItem;
+            if (roomItem instanceof Container container) {
                 Iterator<Integer> iterator = container.getItems().iterator();
                 while (iterator.hasNext()) {
                     Integer containerItemId = iterator.next();

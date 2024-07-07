@@ -36,6 +36,8 @@ public class Saving implements Serializable{
         this.currentRoom = currentRoom;
     }
 
+    public Saving(){
+    }
 
     public Set<GameObserver> getObsAttached() {
         return obsAttached;
