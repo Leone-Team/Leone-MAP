@@ -7,6 +7,8 @@ import di.uniba.leone.save.Saving;
 import di.uniba.leone.type.CommandType;
 import java.io.File;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -30,6 +32,7 @@ public class Engine {
     public void execute() {
         GameTime timeGame = new GameTime();
         boolean matchLoaded = false;
+        List<GameTime> players = new ArrayList<>();
 
         mrS.connectToServer();
         System.out.println("");
