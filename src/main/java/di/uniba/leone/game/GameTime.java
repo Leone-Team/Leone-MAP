@@ -17,9 +17,9 @@ public class GameTime implements Runnable {
             this.nickname = nickname;
         }
 
-    GameTime() {
-        throw new UnsupportedOperationException("Not supported yet."); 
+        public GameTime() {
     }
+
 
         public void start() {
             this.timeBegin = LocalTime.now();
