@@ -4,6 +4,7 @@
  */
 package di.uniba.leone.game;
 
+import di.uniba.leone.gui2.MsgManager;
 import di.uniba.leone.observer.BreakObserver;
 import di.uniba.leone.observer.DropObserver;
 import di.uniba.leone.observer.InventoryObserver;
@@ -21,6 +22,7 @@ import di.uniba.leone.type.Command;
 import di.uniba.leone.type.CommandType;
 import di.uniba.leone.type.ItemRiddle;
 import di.uniba.leone.type.QuestionRiddle;
+import di.uniba.leone.gui2.Window;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -38,7 +40,7 @@ import java.util.Set;
  * @author feder
  */
 public class LeoneGame extends Game implements GameObservable {
-
+    
     private final List<String> messages = new ArrayList<>();
     private ActionInGame action;
 
@@ -66,7 +68,7 @@ public class LeoneGame extends Game implements GameObservable {
             System.out.println(e.getMessage());
         }
         getItems().get(17).setTurnable(false);
-        
+
         //inizializza stanze
         try (Connection conn = DriverManager.getConnection("jdbc:h2:./leone_game/dbs/rooms", getDbprop())) {
             PreparedStatement pstm = conn.prepareStatement("SELECT  name, id_items, lighted, locked, desc FROM rooms");
@@ -209,6 +211,9 @@ public class LeoneGame extends Game implements GameObservable {
         //istanzia la room attuale
         setCurrentRoom(getRooms().get("Camera da Letto"));
         setRunning(true);
+        
+        setMainWindow(new Window("Leone Il cane fifone"));
+        setMrMsg(new MsgManager(getMainWindow().getDisplay(), getMainWindow().getInputField()));
     }
 
     @Override
@@ -237,7 +242,7 @@ public class LeoneGame extends Game implements GameObservable {
             System.out.println(getCurrentRoom().getDescription());
         }
         checkRiddles();
-        
+
     }
 
     @Override
@@ -284,4 +289,7 @@ public class LeoneGame extends Game implements GameObservable {
         return "Buongiorno Leone, la casa è impazzita, sta a te spegnerla e liberare Marilu!";
     }
 
+
+
+    
 }

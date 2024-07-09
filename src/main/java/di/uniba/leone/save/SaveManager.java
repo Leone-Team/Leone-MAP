@@ -21,7 +21,7 @@ public class SaveManager {
     private String username = "notLogged";
     private File loadedMatch;
     private final File savingDirectory;
-    private Scanner scanner;
+    private final Scanner scanner;
 
     public SaveManager(String path, Scanner scanner) {
         savingDirectory = new File(path.concat("/leone_game/partite"));

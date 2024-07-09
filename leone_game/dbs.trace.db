@@ -1,0 +1,6 @@
+2024-07-08 11:27:38.404854+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "COMMANDS" not found (this database is empty); SQL statement:
+SELECT * FROM commands [42104-224]
+2024-07-08 11:27:51.068154+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "COMMAND" not found (this database is empty); SQL statement:
+SELECT * FROM command [42104-224]

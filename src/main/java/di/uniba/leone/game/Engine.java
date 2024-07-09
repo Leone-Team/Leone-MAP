@@ -1,15 +1,21 @@
 package di.uniba.leone.game;
 
+import di.uniba.leone.gui2.MsgManager;
+import di.uniba.leone.gui2.Window;
 import di.uniba.leone.parser.ActionInGame;
 import di.uniba.leone.parser.Parser;
 import di.uniba.leone.save.SaveManager;
 import di.uniba.leone.save.Saving;
 import di.uniba.leone.type.CommandType;
+
+import java.awt.event.ActionEvent;
 import java.io.File;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import javax.swing.AbstractAction;
+import javax.swing.Action;
 
 /**
  *
@@ -17,15 +23,18 @@ import java.util.Scanner;
  */
 public class Engine {
 
-    private Scanner scanner = new Scanner(System.in);
+    Scanner scanner = new Scanner(System.in);
     private final SaveManager mrS;
     private final Game game;
     private final Parser parser;
+    private final MsgManager mrMsg;
+    private String commandLine = "";
 
     public Engine(Game game) {
         this.mrS = new SaveManager(Paths.get("").toAbsolutePath().toString(), scanner);
         this.game = game;
         game.init();
+        mrMsg = game.getMrMsg();
         parser = new Parser("./leone_game/stopwords.txt");
     }
 
@@ -34,14 +43,14 @@ public class Engine {
         boolean matchLoaded = false;
         List<GameTime> players = new ArrayList<>();
 
-        mrS.connectToServer();
+        //mrS.connectToServer();
         System.out.println("");
         System.out.println(">Nuova Partita; \n>Carica Partita; \n>Esci.");
-        System.out.print("?>");
+        System.out.println("?>");
 
         while (game.isRunning()) {
-            String commandline = scanner.nextLine();
-            ActionInGame action = parser.parse(commandline, game.getItems(), game.getCommands());
+            commandLine = scanner.nextLine();
+            ActionInGame action = parser.parse(commandLine, game.getItems(), game.getCommands());
 
             if (action == null || action.getCommand() == null) {
                 System.out.println(">Non ho capito");
@@ -72,7 +81,7 @@ public class Engine {
                 game.nextMove(action);
             } else if (action.getCommand() != null && action.getCommand().getType() == CommandType.QUIT && matchLoaded) {
                 Boolean pass = true;
-                System.out.print(">Vuoi salvare?\n?>");
+                System.out.println(">Vuoi salvare?\n?>");
                 do {
                     switch (scanner.nextLine().toLowerCase()) {
                         case "si" -> {

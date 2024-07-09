@@ -26,5 +26,6 @@ public enum CommandType {
     DROP,
     LOAD,
     SAVE,
-    NEW_GAME;
+    NEW_GAME,
+    HELP;
 }
