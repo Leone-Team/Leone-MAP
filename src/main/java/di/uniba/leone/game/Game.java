@@ -4,14 +4,14 @@
  */
 package di.uniba.leone.game;
 
-import di.uniba.leone.gui2.MsgManager;
+import di.uniba.leone.gui.MsgManager;
 import di.uniba.leone.parser.ActionInGame;
 import di.uniba.leone.type.Command;
 import di.uniba.leone.type.CommandType;
 import di.uniba.leone.type.Item;
 import di.uniba.leone.type.Room;
 import di.uniba.leone.type.Riddle;
-import di.uniba.leone.gui2.Window;
+import di.uniba.leone.gui.Window;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;

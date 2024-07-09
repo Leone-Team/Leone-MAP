@@ -105,9 +105,9 @@ public class TurnObserver implements GameObserver, Serializable {
                     if (qRiddle.getCounter() == 3) {
                         game.setRunning(false);
                         qRiddle.setCounter(0);
-                        System.out.println(qRiddle.getDeathMsg());
+                        game.getMrMsg().displayMsg(qRiddle.getDeathMsg());
                     } else {
-                        System.out.println(">Risposta errata!");
+                        game.getMrMsg().displayMsg(">Risposta errata!");
                     }
                 } else if (riddle == null) {
                     item.setTurned_on(true);
@@ -134,10 +134,9 @@ public class TurnObserver implements GameObserver, Serializable {
                         .findFirst().orElse(null);
                 if (riddle != null && riddle instanceof QuestionRiddle qRiddle) {
                     // Per accendere o spegnere l'oggetto devi rispondere all'indovinello
-                    System.out.println(qRiddle.getDescription());
-                    System.out.print(qRiddle.getQuestion() + "\nRisposta>");
-                    Scanner scanner = new Scanner(System.in);
-                    String ans = scanner.nextLine();
+                    game.getMrMsg().displayMsg(qRiddle.getDescription());
+                    game.getMrMsg().displayMsg(qRiddle.getQuestion() + "\nRisposta>");
+                    String ans = game.getMrMsg().getMsg();
                     qRiddle.resolved(ans);
                 }
                 if (riddle != null && riddle.isSolved()) {
@@ -148,7 +147,7 @@ public class TurnObserver implements GameObserver, Serializable {
                     }
                     if(riddle.getId() == 6)
                     {
-                        System.out.println(">Hai vinto A.L.! Adesso Marilù e Leone saranno al sicuro! Anche Giustino.");
+                        game.getMrMsg().displayMsg(">Hai vinto A.L.! Adesso Marilù e Leone saranno al sicuro! Anche Giustino.");
                         game.setCurrentRoom(null);
                         game.setRunning(false);
                     }
@@ -156,9 +155,9 @@ public class TurnObserver implements GameObserver, Serializable {
                     if (qRiddle.getCounter() == 3) {
                         game.setRunning(false);
                         qRiddle.setCounter(0);
-                        System.out.println(qRiddle.getDeathMsg());
+                        game.getMrMsg().displayMsg(qRiddle.getDeathMsg());
                     } else {
-                        System.out.println(">Risposta errata!");
+                        game.getMrMsg().displayMsg(">Risposta errata!");
                     }
                 } else if (riddle == null) {
                     item.setTurned_on(false);

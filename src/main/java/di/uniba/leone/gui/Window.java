@@ -1,4 +1,4 @@
-package di.uniba.leone.gui2;
+package di.uniba.leone.gui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -8,17 +8,14 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.Insets;
-import java.awt.event.ActionEvent;
-import javax.swing.AbstractAction;
-import javax.swing.Action;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.JTextPane;
 import javax.swing.border.EmptyBorder;
 
 /**
@@ -33,7 +30,7 @@ public class Window extends JFrame {
     private final String IMAGEPATH = "./src/main/resources/img/solopcleone.png";
 
     private BackgroundPanel mainPanel;
-    private JTextPane display;
+    private JTextArea display;
     private JScrollPane scrollDisplay;
     private JPanel bottomPanel;
     private JTextField inputField;
@@ -87,7 +84,7 @@ public class Window extends JFrame {
         mainPanel = new BackgroundPanel(backgroundImage);
         mainPanel.setLayout(new GridBagLayout());
 
-        display = new JTextPane();
+        display = new JTextArea();
         scrollDisplay = new JScrollPane(display);
 
         bottomPanel = new JPanel(new GridBagLayout());
@@ -110,6 +107,7 @@ public class Window extends JFrame {
 
         inputField.setBorder(null);
         inputField.setOpaque(false);
+        
         bottomPanel.add(inputField, gbc);
         //constraint per enterBtn
         gbc.gridx = 2;
@@ -122,6 +120,7 @@ public class Window extends JFrame {
         enterBtn.setMinimumSize(enterBtnDim);
 
         enterBtn.setOpaque(false);
+        
         bottomPanel.add(enterBtn, gbc);
         //constraint per label
         gbc.gridx = 0;
@@ -132,16 +131,20 @@ public class Window extends JFrame {
         label1Dim.setSize(label1Dim);
 
         label1.setOpaque(false);
+        
         bottomPanel.add(label1, gbc);
-
         bottomPanel.setOpaque(false);
 
         display.setFocusable(false);
         display.setOpaque(false);
+        display.setLineWrap(true);
+        display.setWrapStyleWord(true);
+        
         scrollDisplay.setOpaque(false);
         scrollDisplay.getViewport().setOpaque(false);
         scrollDisplay.setBorder(null);
         scrollDisplay.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
+        
         centerPanel.setOpaque(false);
         centerPanel.add(scrollDisplay, BorderLayout.CENTER);
         centerPanel.add(bottomPanel, BorderLayout.SOUTH);
@@ -178,7 +181,7 @@ public class Window extends JFrame {
 //        inputField.addActionListener(sendMessageAction);
     }
 
-    public JTextPane getDisplay() {
+    public JTextArea getDisplay() {
         return display;
     }
 
