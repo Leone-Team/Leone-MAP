@@ -4,7 +4,7 @@
  */
 package di.uniba.leone.game;
 
-import di.uniba.leone.gui2.MsgManager;
+import di.uniba.leone.gui.MsgManager;
 import di.uniba.leone.observer.BreakObserver;
 import di.uniba.leone.observer.DropObserver;
 import di.uniba.leone.observer.InventoryObserver;
@@ -22,7 +22,7 @@ import di.uniba.leone.type.Command;
 import di.uniba.leone.type.CommandType;
 import di.uniba.leone.type.ItemRiddle;
 import di.uniba.leone.type.QuestionRiddle;
-import di.uniba.leone.gui2.Window;
+import di.uniba.leone.gui.Window;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -212,6 +212,7 @@ public class LeoneGame extends Game implements GameObservable {
         setCurrentRoom(getRooms().get("Camera da Letto"));
         setRunning(true);
         
+        //istanzia la gui
         setMainWindow(new Window("Leone Il cane fifone"));
         setMrMsg(new MsgManager(getMainWindow().getDisplay(), getMainWindow().getInputField()));
     }
@@ -228,18 +229,18 @@ public class LeoneGame extends Game implements GameObservable {
         if (!messages.isEmpty()) {
             for (String m : messages) {
                 if (m.length() > 0) {
-                    System.out.println(m);
+                    getMrMsg().displayMsg(m);
                 }
             }
         } else {
-            System.out.println(">Comando non valido");
+            getMrMsg().displayMsg(">Comando non valido");
         }
 
         //gestione possibile indovinello ItemRiddle
         if (move) {
-            System.out.println(getCurrentRoom().getName());
-            System.out.println("================================================");
-            System.out.println(getCurrentRoom().getDescription());
+            getMrMsg().displayMsg(getCurrentRoom().getName());
+            getMrMsg().displayMsg("================================================");
+            getMrMsg().displayMsg(getCurrentRoom().getDescription());
         }
         checkRiddles();
 
@@ -252,7 +253,7 @@ public class LeoneGame extends Game implements GameObservable {
                 itemRiddle.resolved(getItems());
             }
             if (!getRiddles().get(id_riddle).isSolved()) {
-                System.out.println(getRiddles().get(id_riddle).getDescription());
+                getMrMsg().displayMsg(getRiddles().get(id_riddle).getDescription());
             }
             for (GameObserver o : getObservers().keySet()) {
                 if (getObservers().get(o).stream().anyMatch(getRiddles().get(id_riddle).getBlackList()::contains) && !getRiddles().get(id_riddle).isSolved()) {

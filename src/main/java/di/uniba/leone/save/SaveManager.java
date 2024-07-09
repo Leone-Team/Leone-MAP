@@ -1,6 +1,7 @@
 package di.uniba.leone.save;
 
 import di.uniba.leone.game.Game;
+import di.uniba.leone.gui.MsgManager;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -8,7 +9,6 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.net.UnknownHostException;
 import java.util.Arrays;
 import java.util.Scanner;
 import java.util.logging.Level;
@@ -16,16 +16,16 @@ import java.util.logging.Logger;
 
 public class SaveManager {
 
+    private final MsgManager mrMsg;
     private final String SERVERADDRS = "localhost";
     private final int SERVERPORT = 6666;
     private String username = "notLogged";
     private File loadedMatch;
     private final File savingDirectory;
-    private final Scanner scanner;
 
-    public SaveManager(String path, Scanner scanner) {
+    public SaveManager(String path, MsgManager mrMsg) {
         savingDirectory = new File(path.concat("/leone_game/partite"));
-        this.scanner = scanner;
+        this.mrMsg = mrMsg;
     }
 
     public String newGame() {
@@ -38,8 +38,8 @@ public class SaveManager {
             Boolean pass = false;
             do {
 
-                System.out.print(">Limite partite raggiunto, scegliere una da sovrascrivere:1, 2, 3.\n?>");
-                String ans = scanner.nextLine();
+                mrMsg.displayMsg(">Limite partite raggiunto, scegliere una da sovrascrivere:1, 2, 3.\n?>");
+                String ans = mrMsg.getMsg();
                 if (ans.matches("[1-3]")) {
                     File newMatch = new File(savingDirectory, "partita".concat(ans).concat(".ser"));
                     newMatchPath = newMatch.getAbsolutePath();
@@ -56,13 +56,13 @@ public class SaveManager {
         Boolean pass = false;
         File[] matches = savingDirectory.listFiles();
 
-        Arrays.asList(matches).forEach(file -> System.out.println(">" + file.getName()));
-        System.out.print("?>");
+        Arrays.asList(matches).forEach(file -> mrMsg.displayMsg(">" + file.getName()));
+        mrMsg.displayMsg("?>");
         do {
-            String ans = scanner.nextLine();
+            String ans = mrMsg.getMsg();
             selectedMatch = Arrays.asList(matches).stream().filter(file -> file.getName().contentEquals(ans)).findFirst().orElse(null);
             if (selectedMatch == null) {
-                System.out.println(">Partita scelta non valida. Reinserisci un nome valido.");
+                mrMsg.displayMsg(">Partita scelta non valida. Reinserisci un nome valido.");
             } else {
                 try (FileInputStream matchToLoad = new FileInputStream(selectedMatch)) {
                     ObjectInputStream in = new ObjectInputStream(matchToLoad);
@@ -75,7 +75,7 @@ public class SaveManager {
                     game.setRiddles(data.getRiddles());
                     game.setRooms(data.getRooms());
 
-                    System.out.println(">Partita caricata.");
+                    mrMsg.displayMsg(">Partita caricata.");
                     pass = true;
                 } catch (IOException | ClassNotFoundException ex) {
                     System.out.println(ex.getMessage());
@@ -93,7 +93,7 @@ public class SaveManager {
                 loadedMatch.delete();
             }
             out.writeObject(match);
-            System.out.println(">Salvataggio completato.");
+            mrMsg.displayMsg(">Salvataggio completato.");
                     
         } catch (IOException ex) {
             System.out.println(ex.getMessage());
@@ -107,8 +107,8 @@ public class SaveManager {
             Boolean pass;
             do {
                 pass = true;
-                System.out.print(">Desideri collegarti sul server?\nSi/No>");
-                ans = scanner.nextLine().toLowerCase();
+                mrMsg.displayMsg(">Desideri collegarti sul server?");
+                ans = mrMsg.getMsg().toLowerCase();
                 if (ans.contentEquals("si")) {
                     try (Socket user = new Socket(SERVERADDRS, SERVERPORT)) {
                         try (ObjectOutputStream out = new ObjectOutputStream(user.getOutputStream()); ObjectInputStream in = new ObjectInputStream(user.getInputStream())) {
@@ -121,12 +121,12 @@ public class SaveManager {
 
                                 if (msg.contains("LOGGED")) {
                                     if (!msg.contains("notLogged")) {
-                                        System.out.println(msg);
+                                        mrMsg.displayMsg(msg);
                                     }
                                     username = msg.split(":")[1];
                                 } else if (!msg.contains(">DISCONNECTED") && !msg.contains(">Accesso effettuato")) {
-                                    System.out.print(msg);
-                                    out.writeObject(scanner.nextLine());
+                                    mrMsg.displayMsg(msg);
+                                    out.writeObject(mrMsg.getMsg());
                                     out.flush();
                                 }
 
@@ -139,7 +139,7 @@ public class SaveManager {
                         System.out.println(ex.getMessage());
                     }
                 } else if (!ans.contentEquals("no")) {
-                    System.out.println(">Non ho capito.");
+                    mrMsg.displayMsg(">Non ho capito.");
                     pass = false;
                 }
             } while (!pass);
@@ -150,11 +150,11 @@ public class SaveManager {
     }
 
     public void backUpServer() {
-        System.out.print(">Vuoi eseguire un backup su server?\n>");
+        mrMsg.displayMsg(">Vuoi eseguire un backup su server?\n>");
 
-        if (scanner.nextLine().toLowerCase().contentEquals("si")) {
+        if (mrMsg.getMsg().toLowerCase().contentEquals("si")) {
             String ans = connectToServer();
-            System.out.println("");
+            mrMsg.displayMsg("");
             if (ans.contentEquals("si") || ans.contentEquals("logged")) {
                 try (Socket user = new Socket(SERVERADDRS, 6666)) {
                     try (ObjectOutputStream out = new ObjectOutputStream(user.getOutputStream()); ObjectInputStream in = new ObjectInputStream(user.getInputStream())) {
@@ -166,9 +166,9 @@ public class SaveManager {
                         String msg;
                         do {
                             msg = (String) in.readObject();
-                            System.out.print(msg);
+                            mrMsg.displayMsg(msg);
                             if (msg.contentEquals(">BACKUP STARTED")) {
-                                System.out.println("");
+                                mrMsg.displayMsg("");
                                 //invio dati
                                 out.writeObject("<INVIO DATI>");
                                 out.flush();
@@ -183,7 +183,7 @@ public class SaveManager {
                             }
 
                             if (!msg.contains("DISCONNECTED") && !msg.contains(">BACKUP STARTED") && !msg.contentEquals(">Accesso effettuato.\n")) {
-                                out.writeObject(scanner.nextLine());
+                                out.writeObject(mrMsg.getMsg());
                                 out.flush();
                             }
                         } while (!msg.contains("DISCONNECTED"));
@@ -196,19 +196,19 @@ public class SaveManager {
                     System.out.println(ex.getMessage());
                 }
             } else {
-                System.out.println(">Backup non eseguito");
+                mrMsg.displayMsg(">Backup non eseguito");
             }
         } else {
-            System.out.println(">Backup non eseguito.");
+            mrMsg.displayMsg(">Backup non eseguito.");
         }
     }
 
     public void recoveryFromServer() {
-        System.out.print(">Vuoi ripristinare in locale le partite salvate su server?\n>");
+        mrMsg.displayMsg(">Vuoi ripristinare in locale le partite salvate su server?\n>");
 
-        if (scanner.nextLine().toLowerCase().contentEquals("si")) {
+        if (mrMsg.getMsg().toLowerCase().contentEquals("si")) {
             String ans = connectToServer();
-            System.out.println("");
+            mrMsg.displayMsg("");
             if (ans.contentEquals("si") || ans.contentEquals("logged")) {
                 try (Socket user = new Socket(SERVERADDRS, 6666)) {
                     try (ObjectOutputStream out = new ObjectOutputStream(user.getOutputStream()); ObjectInputStream in = new ObjectInputStream(user.getInputStream())) {
@@ -220,9 +220,9 @@ public class SaveManager {
 
                         String msg;
                         msg = (String) in.readObject();
-                        System.out.println(msg);
+                        mrMsg.displayMsg(msg);
                         if (msg.contentEquals(">RECOVERY STARTED")) {
-                            System.out.println("");
+                            mrMsg.displayMsg("");
                             if (((String) in.readObject()).contentEquals("<INVIO DATI>")) {
                                 File dir = new File(savingDirectory.getAbsolutePath());
                                 if (dir.listFiles().length != 0) {
@@ -242,7 +242,7 @@ public class SaveManager {
                                         }
 
                                     } else if ((obj instanceof String message) && (message.contains("<FINE>"))) {
-                                        System.out.println(">RECOVERY ENDED");
+                                        mrMsg.displayMsg(">RECOVERY ENDED");
                                         out.flush();
                                     }
                                 }
@@ -256,10 +256,10 @@ public class SaveManager {
                     System.out.println(ex.getMessage());
                 }
             } else {
-                System.out.println(">Recovery non eseguito.");
+                mrMsg.displayMsg(">Recovery non eseguito.");
             }
         } else {
-            System.out.println(">Recovery non eseguito.");
+            mrMsg.displayMsg(">Recovery non eseguito.");
         }
     }
 

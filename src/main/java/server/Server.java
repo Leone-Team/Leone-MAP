@@ -62,7 +62,7 @@ public class Server {
 
                     if (username.contentEquals("notLogged")) {
                         //bisognerà eseguire il login o signin
-                        out.writeObject(">LogIn/SignIn:");
+                        out.writeObject(">Login o Signin:");
                         out.flush();
                         boolean pass;
                         do {
@@ -75,7 +75,7 @@ public class Server {
                                     signin(out, in, conn);
 
                                 default -> {
-                                    out.writeObject(">Opzione non valida.\nLogIn/SignIn>");
+                                    out.writeObject(">Opzione non valida.\nInserire Login o Signin");
                                     out.flush();
                                     pass = false;
                                 }
@@ -196,7 +196,7 @@ public class Server {
                     } else {
                         logged = false;
                         boolean pass;
-                        out.writeObject(">Utente non esistente.Riprovare?\nSi/No>");
+                        out.writeObject(">Utente non esistente.Riprovare?");
                         out.flush();
                         line = (String) in.readObject();
                         do {
