@@ -57,7 +57,7 @@ public class SaveManager {
         Boolean pass = false;
         File[] matches = savingDirectory.listFiles();
 
-        if(matches.length!=0){
+        if (matches.length != 0) {
             Arrays.asList(matches).forEach(file -> mrMsg.displayMsg(">" + file.getName()));
             mrMsg.displayMsg("?>");
             do {
@@ -84,11 +84,10 @@ public class SaveManager {
                     }
                 }
             } while (!pass);
-        }else{
+        } else {
             selectedMatch = new File(savingDirectory, "partita".concat(Integer.toString(savingDirectory.listFiles().length + 1)).concat(".ser"));
-             mrMsg.displayMsg(">Non ci sono partite salvate. Caricata nuova partita.\n");
-             
-            
+            mrMsg.displayMsg(">Non ci sono partite salvate. Caricata nuova partita.\n");
+
         }
         return selectedMatch.getAbsolutePath();
     }
@@ -128,7 +127,7 @@ public class SaveManager {
 
                                 if (msg.contains("LOGGED")) {
                                     if (!msg.contains("notLogged")) {
-                                        mrMsg.displayMsg(">"+msg);
+                                        mrMsg.displayMsg(">" + msg);
                                     }
                                     username = msg.split(":")[1];
                                 } else if (!msg.contains(">DISCONNECTED") && !msg.contains(">Accesso effettuato")) {
@@ -174,9 +173,8 @@ public class SaveManager {
                         String msg;
                         do {
                             msg = (String) in.readObject();
-                            mrMsg.displayMsg(msg);
+                            //mrMsg.displayMsg(msg);
                             if (msg.contentEquals(">BACKUP STARTED")) {
-                                mrMsg.displayMsg("");
                                 //invio dati
                                 out.writeObject("<INVIO DATI>");
                                 out.flush();
@@ -188,6 +186,7 @@ public class SaveManager {
                                 }
                                 out.writeObject("<FINE>");
                                 out.flush();
+                                mrMsg.displayMsg(">Backup Eseguito");
                             }
 
                             if (!msg.contains("DISCONNECTED") && !msg.contains(">BACKUP STARTED")) {
@@ -230,7 +229,6 @@ public class SaveManager {
                         msg = (String) in.readObject();
                         //mrMsg.displayMsg(msg);
                         if (msg.contentEquals(">RECOVERY STARTED")) {
-                            mrMsg.displayMsg("");
                             if (((String) in.readObject()).contentEquals("<INVIO DATI>")) {
                                 File dir = new File(savingDirectory.getAbsolutePath());
                                 if (dir.listFiles().length != 0) {
@@ -238,8 +236,11 @@ public class SaveManager {
                                 }
 
                                 Integer count = 1;
+
                                 Object obj;
-                                while ((obj = in.readObject()) != null) {
+
+                                do {
+                                    obj = in.readObject();
                                     if (obj instanceof Saving match) {
                                         File matchBackup = new File(dir, "/".concat("partita").concat(count.toString()).concat(".ser"));
                                         matchBackup.createNewFile();
@@ -250,10 +251,11 @@ public class SaveManager {
                                         }
 
                                     } else if ((obj instanceof String message) && (message.contains("<FINE>"))) {
-                                        //mrMsg.displayMsg(">RECOVERY ENDED");
+                                        mrMsg.displayMsg(">Dati ripristinati.");
                                         out.flush();
                                     }
-                                }
+                                } while (!((obj instanceof String message) && (message.contains("<FINE>"))));
+
                             }
                         }
 
@@ -281,24 +283,16 @@ public class SaveManager {
                 out.writeObject("RANKING OUT");
                 out.flush();
 
-                String msg;
-                msg = (String) in.readObject();
                 //mrMsg.displayMsg(msg);
-                if (msg.contentEquals(">RANKING STARTED")) {
-                    if (((String) in.readObject()).contentEquals("<INVIO DATI>")) {
 
-                        Object obj;
-                        while ((obj = in.readObject()) != null) {
-                            if (obj instanceof Ranking rankingUpdated) {
+                if (((String) in.readObject()).contentEquals("<INVIO DATI>")) {
 
-                                ranking = rankingUpdated;
-
-                            } else if ((obj instanceof String message) && (message.contains("<FINE>"))) {
-                                mrMsg.displayMsg(">RANKING RECEIVED");
-                                out.flush();
-                            }
-                        }
+                    if (in.readObject() instanceof Ranking rankingUpdated) {
+                        ranking = rankingUpdated;
                     }
+                    
+                    if(in.readObject() instanceof String)
+                       mrMsg.displayMsg(">Ranking:");
                 }
 
             } catch (ClassNotFoundException ex) {
@@ -323,15 +317,7 @@ public class SaveManager {
                     msg = (String) in.readObject();
                     //mrMsg.displayMsg(msg);
                     if (msg.contentEquals(">RANKING STARTED")) {
-                        mrMsg.displayMsg("");
-                        //invio dati
-                        out.writeObject("<INVIO DATI>");
-                        out.flush();
-
                         out.writeObject(player);
-                        out.flush();
-
-                        out.writeObject("<FINE>");
                         out.flush();
                     }
 
