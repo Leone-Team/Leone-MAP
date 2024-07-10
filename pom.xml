@@ -45,8 +45,8 @@
                                 <resource>
                                     <directory>src/main/resources</directory>
                                     <includes>
-                                        <include>docs/audio/</include>
-                                        <include>docs/img/</include>
+                                        <include>music</include>
+                                        <include>img</include>
                                     </includes>
                                 </resource>
                             </resources>
@@ -64,7 +64,7 @@
                     </descriptorRefs>
                     <archive>
                         <manifest>
-                            <mainClass>di.uniba.leone.Engine</mainClass>
+                            <mainClass>di.uniba.leone.game.Engine</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
