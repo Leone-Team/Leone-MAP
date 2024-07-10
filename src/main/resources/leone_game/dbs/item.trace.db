@@ -1,0 +1,25 @@
+2024-06-20 22:41:04 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "INSERT INTO ITEM (ID, NAMES, DESC, PEAKABLE, USEABLE, TURNABLE, BREAKABLE, OPENABLE, BROKEN, TURNED_ON,CONTAINER, ITEMS_CON[*]"; expected ",, )"; SQL statement:
+INSERT INTO item (ID, names, desc, peakable, useable, turnable, breakable, openable, broken, turned_on,container, items_con [42001-200]
+2024-06-20 22:42:39 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "INSERT INTO ITEM (ID, NAMES, DESC, PEAKABLE, USEABLE, TURNABLE, BREAKABLE, OPENABLE, BROKEN, TURNED_ON, CONTAINER, ITEMS_CON)[*]"; expected "DIRECT, SORTED, DEFAULT, VALUES, SET, (, WITH, SELECT, TABLE, VALUES"; SQL statement:
+INSERT INTO item (id, names, desc, peakable, useable, turnable, breakable, openable, broken, turned_on, container, items_con) [42001-200]
+2024-06-23 11:43:49 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Column count does not match; SQL statement:
+INSERT INTO item (id, names, desc, peakable, useable, turnable, breakable, openable, broken, turned_on, container, items_con) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) [21002-200]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:453)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:429)
+	at org.h2.message.DbException.get(DbException.java:205)
+	at org.h2.message.DbException.get(DbException.java:181)
+	at org.h2.message.DbException.get(DbException.java:170)
+	at org.h2.command.dml.Insert.prepare(Insert.java:319)
+	at org.h2.command.Parser.prepareCommand(Parser.java:744)
+	at org.h2.engine.Session.prepareLocal(Session.java:657)
+	at org.h2.engine.Session.prepareCommand(Session.java:595)
+	at org.h2.jdbc.JdbcConnection.prepareCommand(JdbcConnection.java:1235)
+	at org.h2.jdbc.JdbcPreparedStatement.<init>(JdbcPreparedStatement.java:76)
+	at org.h2.jdbc.JdbcConnection.prepareStatement(JdbcConnection.java:352)
+	at di.uniba.map.dbexemple.DbExemple.main(DbExemple.java:38)
+2024-06-26 09:37:51 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "INSERT INTO ITEM (ID, NAMES, DESC, PEAKABLE, USEABLE, TURNABLE, BREAKABLE, OPENABLE, BROKEN, TURNED_ON, CONTAINER, ITEMS_CON) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?, ?))[*]"; SQL statement:
+INSERT INTO item (id, names, desc, peakable, useable, turnable, breakable, openable, broken, turned_on, container, items_con) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?, ?)) [42000-200]

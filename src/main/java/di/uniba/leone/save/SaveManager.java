@@ -25,7 +25,7 @@ public class SaveManager {
     private final File savingDirectory;
 
     public SaveManager(String path, MsgManager mrMsg) {
-        savingDirectory = new File(path.concat("/leone_game/partite"));
+        savingDirectory = new File(path.concat("/src/main/resources/leone_game/partite"));
         this.mrMsg = mrMsg;
     }
 
