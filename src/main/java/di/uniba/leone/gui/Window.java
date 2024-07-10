@@ -169,16 +169,6 @@ public class Window extends JFrame {
         this.setResizable(false);
         this.setVisible(true);
 
-//        MsgManager mrMsg = new MsgManager(display, inputField);
-//        Action sendMessageAction = new AbstractAction() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                mrMsg.enterMsg();
-//            }
-//        };
-//
-//        enterBtn.addActionListener(sendMessageAction);
-//        inputField.addActionListener(sendMessageAction);
     }
 
     public JTextArea getDisplay() {

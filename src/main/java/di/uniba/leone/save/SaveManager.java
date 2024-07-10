@@ -1,6 +1,8 @@
 package di.uniba.leone.save;
 
 import di.uniba.leone.game.Game;
+import di.uniba.leone.game.GameTime;
+import di.uniba.leone.game.Ranking;
 import di.uniba.leone.gui.MsgManager;
 import java.io.File;
 import java.io.FileInputStream;
@@ -10,7 +12,6 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.Arrays;
-import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -56,33 +57,39 @@ public class SaveManager {
         Boolean pass = false;
         File[] matches = savingDirectory.listFiles();
 
-        Arrays.asList(matches).forEach(file -> mrMsg.displayMsg(">" + file.getName()));
-        mrMsg.displayMsg("?>");
-        do {
-            String ans = mrMsg.getMsg();
-            selectedMatch = Arrays.asList(matches).stream().filter(file -> file.getName().contentEquals(ans)).findFirst().orElse(null);
-            if (selectedMatch == null) {
-                mrMsg.displayMsg(">Partita scelta non valida. Reinserisci un nome valido.");
-            } else {
-                try (FileInputStream matchToLoad = new FileInputStream(selectedMatch)) {
-                    ObjectInputStream in = new ObjectInputStream(matchToLoad);
-                    data = (Saving) in.readObject();
+        if(matches.length!=0){
+            Arrays.asList(matches).forEach(file -> mrMsg.displayMsg(">" + file.getName()));
+            mrMsg.displayMsg("?>");
+            do {
+                String ans = mrMsg.getMsg();
+                selectedMatch = Arrays.asList(matches).stream().filter(file -> file.getName().contentEquals(ans)).findFirst().orElse(null);
+                if (selectedMatch == null) {
+                    mrMsg.displayMsg(">Partita scelta non valida. Reinserisci un nome valido.");
+                } else {
+                    try (FileInputStream matchToLoad = new FileInputStream(selectedMatch)) {
+                        ObjectInputStream in = new ObjectInputStream(matchToLoad);
+                        data = (Saving) in.readObject();
 
-                    game.setCurrentRoom(data.getCurrentRoom());
-                    game.setInventory(data.getInventory());
-                    game.setItems(data.getItems());
-                    game.setObsAttached(data.getObsAttached());
-                    game.setRiddles(data.getRiddles());
-                    game.setRooms(data.getRooms());
+                        game.setCurrentRoom(data.getCurrentRoom());
+                        game.setInventory(data.getInventory());
+                        game.setItems(data.getItems());
+                        game.setObsAttached(data.getObsAttached());
+                        game.setRiddles(data.getRiddles());
+                        game.setRooms(data.getRooms());
 
-                    mrMsg.displayMsg(">Partita caricata.");
-                    pass = true;
-                } catch (IOException | ClassNotFoundException ex) {
-                    System.out.println(ex.getMessage());
+                        mrMsg.displayMsg(">Partita caricata.");
+                        pass = true;
+                    } catch (IOException | ClassNotFoundException ex) {
+                        System.out.println(ex.getMessage());
+                    }
                 }
-            }
-        } while (!pass);
-
+            } while (!pass);
+        }else{
+            selectedMatch = new File(savingDirectory, "partita".concat(Integer.toString(savingDirectory.listFiles().length + 1)).concat(".ser"));
+             mrMsg.displayMsg(">Non ci sono partite salvate. Caricata nuova partita.\n");
+             
+            
+        }
         return selectedMatch.getAbsolutePath();
     }
 
@@ -94,7 +101,7 @@ public class SaveManager {
             }
             out.writeObject(match);
             mrMsg.displayMsg(">Salvataggio completato.");
-                    
+
         } catch (IOException ex) {
             System.out.println(ex.getMessage());
             System.out.println("exeption");
@@ -121,7 +128,7 @@ public class SaveManager {
 
                                 if (msg.contains("LOGGED")) {
                                     if (!msg.contains("notLogged")) {
-                                        mrMsg.displayMsg(msg);
+                                        mrMsg.displayMsg(">"+msg);
                                     }
                                     username = msg.split(":")[1];
                                 } else if (!msg.contains(">DISCONNECTED") && !msg.contains(">Accesso effettuato")) {
@@ -136,6 +143,7 @@ public class SaveManager {
                             System.out.println(ex.getMessage());
                         }
                     } catch (IOException ex) {
+                        mrMsg.displayMsg(">Server non risponde");
                         System.out.println(ex.getMessage());
                     }
                 } else if (!ans.contentEquals("no")) {
@@ -156,7 +164,7 @@ public class SaveManager {
             String ans = connectToServer();
             mrMsg.displayMsg("");
             if (ans.contentEquals("si") || ans.contentEquals("logged")) {
-                try (Socket user = new Socket(SERVERADDRS, 6666)) {
+                try (Socket user = new Socket(SERVERADDRS, SERVERPORT)) {
                     try (ObjectOutputStream out = new ObjectOutputStream(user.getOutputStream()); ObjectInputStream in = new ObjectInputStream(user.getInputStream())) {
                         out.writeObject(username);
                         out.flush();
@@ -182,7 +190,7 @@ public class SaveManager {
                                 out.flush();
                             }
 
-                            if (!msg.contains("DISCONNECTED") && !msg.contains(">BACKUP STARTED") && !msg.contentEquals(">Accesso effettuato.\n")) {
+                            if (!msg.contains("DISCONNECTED") && !msg.contains(">BACKUP STARTED")) {
                                 out.writeObject(mrMsg.getMsg());
                                 out.flush();
                             }
@@ -210,7 +218,7 @@ public class SaveManager {
             String ans = connectToServer();
             mrMsg.displayMsg("");
             if (ans.contentEquals("si") || ans.contentEquals("logged")) {
-                try (Socket user = new Socket(SERVERADDRS, 6666)) {
+                try (Socket user = new Socket(SERVERADDRS, SERVERPORT)) {
                     try (ObjectOutputStream out = new ObjectOutputStream(user.getOutputStream()); ObjectInputStream in = new ObjectInputStream(user.getInputStream())) {
 
                         out.writeObject(username);
@@ -220,7 +228,7 @@ public class SaveManager {
 
                         String msg;
                         msg = (String) in.readObject();
-                        mrMsg.displayMsg(msg);
+                        //mrMsg.displayMsg(msg);
                         if (msg.contentEquals(">RECOVERY STARTED")) {
                             mrMsg.displayMsg("");
                             if (((String) in.readObject()).contentEquals("<INVIO DATI>")) {
@@ -242,7 +250,7 @@ public class SaveManager {
                                         }
 
                                     } else if ((obj instanceof String message) && (message.contains("<FINE>"))) {
-                                        mrMsg.displayMsg(">RECOVERY ENDED");
+                                        //mrMsg.displayMsg(">RECOVERY ENDED");
                                         out.flush();
                                     }
                                 }
@@ -260,6 +268,85 @@ public class SaveManager {
             }
         } else {
             mrMsg.displayMsg(">Recovery non eseguito.");
+        }
+    }
+
+    public Ranking getGlobalRanking() {
+        Ranking ranking = new Ranking();
+        try (Socket user = new Socket(SERVERADDRS, SERVERPORT)) {
+            try (ObjectOutputStream out = new ObjectOutputStream(user.getOutputStream()); ObjectInputStream in = new ObjectInputStream(user.getInputStream())) {
+
+                out.writeObject(username);
+                out.flush();
+                out.writeObject("RANKING OUT");
+                out.flush();
+
+                String msg;
+                msg = (String) in.readObject();
+                //mrMsg.displayMsg(msg);
+                if (msg.contentEquals(">RANKING STARTED")) {
+                    if (((String) in.readObject()).contentEquals("<INVIO DATI>")) {
+
+                        Object obj;
+                        while ((obj = in.readObject()) != null) {
+                            if (obj instanceof Ranking rankingUpdated) {
+
+                                ranking = rankingUpdated;
+
+                            } else if ((obj instanceof String message) && (message.contains("<FINE>"))) {
+                                mrMsg.displayMsg(">RANKING RECEIVED");
+                                out.flush();
+                            }
+                        }
+                    }
+                }
+
+            } catch (ClassNotFoundException ex) {
+                System.out.println(ex.getMessage());
+            }
+        } catch (IOException ex) {
+            System.out.println(ex.getMessage());
+        }
+        return ranking;
+    }
+
+    public void addPlayerToGlobalRanking(GameTime player) {
+        try (Socket user = new Socket(SERVERADDRS, SERVERPORT)) {
+            try (ObjectOutputStream out = new ObjectOutputStream(user.getOutputStream()); ObjectInputStream in = new ObjectInputStream(user.getInputStream())) {
+                out.writeObject(username);
+                out.flush();
+                out.writeObject("ADD RANKING");
+                out.flush();
+
+                String msg;
+                do {
+                    msg = (String) in.readObject();
+                    //mrMsg.displayMsg(msg);
+                    if (msg.contentEquals(">RANKING STARTED")) {
+                        mrMsg.displayMsg("");
+                        //invio dati
+                        out.writeObject("<INVIO DATI>");
+                        out.flush();
+
+                        out.writeObject(player);
+                        out.flush();
+
+                        out.writeObject("<FINE>");
+                        out.flush();
+                    }
+
+                    if (!msg.contains("DISCONNECTED") && !msg.contains(">RANKING STARTED")) {
+                        out.writeObject(mrMsg.getMsg());
+                        out.flush();
+                    }
+                } while (!msg.contains("DISCONNECTED"));
+            } catch (IOException ex) {
+                System.out.println(ex.getMessage());
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(SaveManager.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } catch (IOException ex) {
+            System.out.println(ex.getMessage());
         }
     }
 
@@ -281,4 +368,9 @@ public class SaveManager {
     public File getLoadedMatch() {
         return loadedMatch;
     }
+
+    public String getUsername() {
+        return username;
+    }
+
 }
