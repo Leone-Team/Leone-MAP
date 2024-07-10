@@ -149,6 +149,7 @@ public class Engine {
             } else if (game.isRunning()) {
                 game.nextMove(action);
                 if (game.isWin()) {
+                    playerTime.setWin(true);
                     mixer.stopMusic();
                     playerTime.stop();
                     if (mrS.getUsername().contentEquals("notLogged")) {

@@ -1,5 +1,7 @@
 package server;
 
+import di.uniba.leone.game.GameTime;
+import di.uniba.leone.game.Ranking;
 import di.uniba.leone.save.Saving;
 import java.io.File;
 import java.io.FileInputStream;
@@ -9,7 +11,6 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -21,8 +22,6 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Properties;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -33,7 +32,8 @@ public class Server {
     private static class UserThread extends Thread {
 
         Properties dbProps = new Properties();
-        private final String DBPATH = "jdbc:h2:./server/users";
+        private final String DBPATH = "jdbc:h2:./src/main/resources/server/users";
+        private final String SERVERPATH = "./src/main/resources/server";
         private String username;
         private final Socket user;
         private String command;
@@ -91,13 +91,14 @@ public class Server {
                                 out.flush();
 
                                 if (((String) in.readObject()).contentEquals("<INVIO DATI>")) {
-                                    File dir = new File(Paths.get("").toAbsolutePath().toString().concat("/server/").concat(username));
+                                    File dir = new File(SERVERPATH.concat("/").concat(username));
                                     if (dir.listFiles().length != 0) {
                                         Arrays.asList(dir.listFiles()).forEach(file -> file.delete());
                                     }
 
                                     Integer count = 1;
                                     Object obj;
+
                                     while ((obj = in.readObject()) != null) {
                                         if (obj instanceof Saving match) {
                                             File matchBackup = new File(dir, "/".concat("partita").concat(count.toString()).concat(".ser"));
@@ -128,9 +129,10 @@ public class Server {
                                 out.writeObject("<INVIO DATI>");
                                 out.flush();
 
-                                File dir = new File(Paths.get("").toAbsolutePath().toString().concat("/server/").concat(username));
+                                File dir = new File(SERVERPATH.concat("/").concat(username));
                                 if (dir.listFiles().length == 0) {
                                     out.writeObject(">NESSUN SALVATAGGIO TROVATO\n<FINE>");
+                                    out.flush();
                                 } else {
                                     for (File match : dir.listFiles()) {
                                         try (FileInputStream fileRd = new FileInputStream(match); ObjectInputStream dataRd = new ObjectInputStream(fileRd)) {
@@ -139,7 +141,56 @@ public class Server {
                                         }
                                     }
                                     out.writeObject("<FINE>");
+                                    out.flush();
                                 }
+                            }
+
+                            case "ADD RANKING" -> {
+                                File rankingFl = new File(SERVERPATH.concat("/").concat("ranking.ser"));
+                                Ranking ranking = new Ranking();
+
+                                out.writeObject(">RANKING STARTED");
+                                out.flush();
+                                if (rankingFl.exists()) {
+                                    try (FileInputStream fileRd = new FileInputStream(rankingFl); ObjectInputStream dataRd = new ObjectInputStream(fileRd)) {
+                                        ranking = (Ranking) dataRd.readObject();
+                                    }
+                                    rankingFl.delete();
+                                }
+
+                                rankingFl.createNewFile();
+
+                                ranking.addPlayerToRank(((GameTime) in.readObject()));
+                                try (FileOutputStream fileWr = new FileOutputStream(rankingFl); ObjectOutputStream dataWr = new ObjectOutputStream(fileWr)) {
+                                    dataWr.writeObject(ranking);
+                                } catch (Exception ex) {
+                                    ex.printStackTrace();
+                                }
+
+                                out.writeObject(">DISCONNECTED");
+                                out.flush();
+                            }
+
+                            case "RANKING OUT" -> {
+                                File rankingFl = new File(SERVERPATH.concat("/").concat("ranking.ser"));
+                                Ranking ranking = new Ranking();
+
+                                out.writeObject("<INVIO DATI>");
+                                out.flush();
+
+                                if (rankingFl.exists()) {
+                                    try (FileInputStream fileRd = new FileInputStream(rankingFl); ObjectInputStream dataRd = new ObjectInputStream(fileRd)) {
+                                        ranking = (Ranking) dataRd.readObject();
+                                    } catch (Exception ex) {
+                                        ex.printStackTrace();
+                                    }
+                                }
+
+                                out.writeObject(ranking);
+                                out.flush();
+
+                                out.writeObject("<FINE>");
+                                out.flush();
                             }
                         }
                     }
@@ -151,6 +202,7 @@ public class Server {
             } finally {
                 try {
                     user.close();
+                    System.out.println("<" + username + " DISCONNECTED>");
                 } catch (IOException ex) {
                     System.out.println(ex.getMessage());
                 }
@@ -190,7 +242,7 @@ public class Server {
                             out.writeObject(">Accesso effettuato.\n");
                             out.flush();
                             username = line;
-                        }else{
+                        } else {
                             logged = false;
                         }
                     } else {
@@ -248,12 +300,11 @@ public class Server {
             } while (!logged);
 
             //crea una cartella per i salvataggi
-            File dir = new File(Paths.get("").toAbsolutePath().toString().concat("/server/".concat(username.toLowerCase())));
+            File dir = new File(SERVERPATH.concat("/").concat(username));
             dir.mkdir();
 
         }
 
-       
     }
 
     private static List<UserThread> users = Collections.synchronizedList(new ArrayList());

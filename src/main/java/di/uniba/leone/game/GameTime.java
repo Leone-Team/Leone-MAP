@@ -14,6 +14,7 @@ public class GameTime implements Runnable, Serializable {
     private LocalTime timeBegin;
     private LocalTime timeEnd;
     private String nickname = "player";
+    private boolean win = false;
 
     public GameTime(String nickname) {
         this.nickname = nickname;
@@ -55,10 +56,10 @@ public class GameTime implements Runnable, Serializable {
     }
 
     public void showScore(MsgManager mrMsg) {
-        if (getScore() != Long.MAX_VALUE) {
+        if (win) {
             mrMsg.displayMsg(nickname + ": " + getScore()+" secondi");
         } else {
-            mrMsg.displayMsg(nickname + " non ha concluso il gioco, che fifone/a!!");
+            mrMsg.displayMsg(nickname + ": ha abbandonato dopo "+getScore()+" secondi , che fifone/a!!");
         }
     }
 
@@ -70,4 +71,9 @@ public class GameTime implements Runnable, Serializable {
         return nickname;
     }
 
+    public void setWin(boolean win) {
+        this.win = win;
+    }
+
+    
 }
