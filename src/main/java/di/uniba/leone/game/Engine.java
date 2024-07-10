@@ -1,20 +1,20 @@
 package di.uniba.leone.game;
 
 import di.uniba.leone.gui.MsgManager;
+import di.uniba.leone.gui.Window;
 import di.uniba.leone.parser.ActionInGame;
 import di.uniba.leone.parser.Parser;
 import di.uniba.leone.save.SaveManager;
 import di.uniba.leone.save.Saving;
 import di.uniba.leone.type.CommandType;
 import java.awt.event.ActionEvent;
-
 import java.io.File;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
+import javax.swing.ImageIcon;
 
 /**
  *
@@ -22,7 +22,6 @@ import javax.swing.Action;
  */
 public class Engine {
 
-    //Scanner scanner = new Scanner(System.in);
     private final SaveManager mrS;
     private final Game game;
     private final Parser parser;
@@ -36,6 +35,9 @@ public class Engine {
         this.mrMsg = game.getMrMsg();
         this.mrS = new SaveManager(Paths.get("").toAbsolutePath().toString(), mrMsg);
 
+        // Imposta l'icona della finestra
+        ImageIcon windowIcon = new ImageIcon("./src/main/resources/img/LeoneIcona.png");
+        game.getMainWindow().setIconImage(windowIcon.getImage());
     }
 
     public void execute() {
