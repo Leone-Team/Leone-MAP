@@ -40,7 +40,7 @@ import java.util.Set;
  * @author feder
  */
 public class LeoneGame extends Game implements GameObservable {
-    
+
     private final List<String> messages = new ArrayList<>();
     private ActionInGame action;
 
@@ -211,7 +211,7 @@ public class LeoneGame extends Game implements GameObservable {
         //istanzia la room attuale
         setCurrentRoom(getRooms().get("Camera da Letto"));
         setRunning(true);
-        
+
         //istanzia la gui
         setMainWindow(new Window("Leone Il cane fifone"));
         setMrMsg(new MsgManager(getMainWindow().getDisplay(), getMainWindow().getInputField()));
@@ -222,28 +222,29 @@ public class LeoneGame extends Game implements GameObservable {
         action = act;
         messages.clear();
 
-        Room cr = getCurrentRoom();
+        if (getCurrentRoom() != null) {
+            Room cr = getCurrentRoom();
 
-        notifyObservers();
-        boolean move = !cr.equals(getCurrentRoom()) && getCurrentRoom() != null;
-        if (!messages.isEmpty()) {
-            for (String m : messages) {
-                if (m.length() > 0) {
-                    getMrMsg().displayMsg(m);
+            notifyObservers();
+            boolean move = !cr.equals(getCurrentRoom()) && getCurrentRoom() != null;
+            if (!messages.isEmpty()) {
+                for (String m : messages) {
+                    if (m.length() > 0) {
+                        getMrMsg().displayMsg(m);
+                    }
                 }
+            } else {
+                getMrMsg().displayMsg(">Comando non valido");
             }
-        } else {
-            getMrMsg().displayMsg(">Comando non valido");
-        }
 
-        //gestione possibile indovinello ItemRiddle
-        if (move) {
-            getMrMsg().displayMsg(getCurrentRoom().getName());
-            getMrMsg().displayMsg("================================================");
-            getMrMsg().displayMsg(getCurrentRoom().getDescription());
+            //gestione possibile indovinello ItemRiddle
+            if (move) {
+                getMrMsg().displayMsg(getCurrentRoom().getName());
+                getMrMsg().displayMsg("================================================");
+                getMrMsg().displayMsg(getCurrentRoom().getDescription());
+            }
+            checkRiddles();
         }
-        checkRiddles();
-
     }
 
     @Override
@@ -287,10 +288,12 @@ public class LeoneGame extends Game implements GameObservable {
 
     @Override
     public String getWelcomeMessage() {
-        return "Buongiorno Leone, la casa è impazzita, sta a te spegnerla e liberare Marilu!";
+        String msg = """
+                     >Buongiorno Leone, la casa \u00e8 impazzita, sta a te spegnerla e liberare Marilu!>Muoviti con n, s, e, w, u, d (nord, sud, est, ovest, sali, scendi);
+                     >Osserva la stanza con : osserva;
+                     >Per altri aiuti inserisci:help.
+                     """;
+        return msg;
     }
 
-
-
-    
 }

@@ -35,7 +35,8 @@ public abstract class Game {
     private HashMap<Integer, Riddle> riddles = new HashMap();
     private Room currentRoom;
     private boolean running;
-
+    private boolean win;
+    
     private File game;
 
     public abstract String getWelcomeMessage();
@@ -82,6 +83,15 @@ public abstract class Game {
         return mainWindow;
     }
 
+    public boolean isWin() {
+        return win;
+    }
+
+    public void setWin(boolean win) {
+        this.win = win;
+    }
+
+    
     public void setCurrentRoom(Room actualRoom) {
         this.currentRoom = actualRoom;
     }

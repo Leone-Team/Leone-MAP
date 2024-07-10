@@ -143,13 +143,14 @@ public class TurnObserver implements GameObserver, Serializable {
                     item.setTurned_on(false);
                     msg.append("Hai spento: ").append(item.getFirstName());
                     if(riddle.getId() == 5){
-                        game.getItems().get(17).setTurnable(true);
+                        game.getItems().get(17).setTurnable(true);//sblocca il quadro
+                        game.getMrMsg().displayMsg("Il quadro non è più protetto");
                     }
                     if(riddle.getId() == 6)
                     {
+                        item.setTurned_on(false);
                         game.getMrMsg().displayMsg(">Hai vinto A.L.! Adesso Marilù e Leone saranno al sicuro! Anche Giustino.");
-                        game.setCurrentRoom(null);
-                        game.setRunning(false);
+                        game.setWin(true);
                     }
                 } else if (riddle != null && !riddle.isSolved() && riddle instanceof QuestionRiddle qRiddle) {
                     if (qRiddle.getCounter() == 3) {
