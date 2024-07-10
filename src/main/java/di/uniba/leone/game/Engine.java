@@ -31,7 +31,7 @@ public class Engine {
 
     public Engine(Game game) {
         game.init();
-        parser = new Parser("./leone_game/stopwords.txt");
+        parser = new Parser("./src/main/resources/leone_game/stopwords.txt");
         this.game = game;
         this.mrMsg = game.getMrMsg();
         this.mrS = new SaveManager(Paths.get("").toAbsolutePath().toString(), mrMsg);

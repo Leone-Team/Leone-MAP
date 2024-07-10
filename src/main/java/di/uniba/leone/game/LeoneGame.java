@@ -49,7 +49,7 @@ public class LeoneGame extends Game implements GameObservable {
         setDbProperties("Leone", "1234");
 
         //inizializza oggetti
-        try (Connection conn = DriverManager.getConnection("jdbc:h2:./leone_game/dbs/item", getDbprop())) {
+        try (Connection conn = DriverManager.getConnection("jdbc:h2:./src/main/resources/leone_game/dbs/item", getDbprop())) {
             PreparedStatement pstm = conn.prepareStatement("SELECT id, names, desc, peakable, useable, turnable, breakable, openable, broken, turned_on, container, items_con FROM item");
             pstm.executeQuery();
             ResultSet rs = pstm.executeQuery();
@@ -70,7 +70,7 @@ public class LeoneGame extends Game implements GameObservable {
         getItems().get(17).setTurnable(false);
 
         //inizializza stanze
-        try (Connection conn = DriverManager.getConnection("jdbc:h2:./leone_game/dbs/rooms", getDbprop())) {
+        try (Connection conn = DriverManager.getConnection("jdbc:h2:./src/main/resources/leone_game/dbs/rooms", getDbprop())) {
             PreparedStatement pstm = conn.prepareStatement("SELECT  name, id_items, lighted, locked, desc FROM rooms");
             ResultSet rs = pstm.executeQuery();
 
@@ -114,7 +114,7 @@ public class LeoneGame extends Game implements GameObservable {
         }
 
         //inizializza comandi
-        try (Connection conn = DriverManager.getConnection("jdbc:h2:./leone_game/dbs/commands", getDbprop())) {
+        try (Connection conn = DriverManager.getConnection("jdbc:h2:./src/main/resources/leone_game/dbs/commands", getDbprop())) {
 
             PreparedStatement pstm = conn.prepareStatement("SELECT  type, names FROM commands");
             ResultSet rs = pstm.executeQuery();
@@ -137,7 +137,7 @@ public class LeoneGame extends Game implements GameObservable {
         }
 
         //istanziare gli indovinelli
-        try (Connection conn = DriverManager.getConnection("jdbc:h2:./leone_game/dbs/riddles", getDbprop())) {
+        try (Connection conn = DriverManager.getConnection("jdbc:h2:./src/main/resources/leone_game/dbs/riddles", getDbprop())) {
 
             PreparedStatement pstm = conn.prepareStatement("SELECT  * FROM riddles");
             ResultSet rs = pstm.executeQuery();
