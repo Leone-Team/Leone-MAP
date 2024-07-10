@@ -46,6 +46,8 @@
                                     <directory>src/main/resources</directory>
                                     <includes>
                                         <include>music</include>
+                                        <include>leone_game</include>
+                                        <include>server</include>
                                         <include>img</include>
                                     </includes>
                                 </resource>
