@@ -22,7 +22,7 @@ public class Room implements Serializable {
     private static final long serialVersionUID = 1L;
     private String name;
     private Room eastR, westR, southR, northR, upR, downR;
-    private List<Integer> Items = new ArrayList();
+    private List<Integer> items = new ArrayList();
     private boolean lighted;
     private boolean locked;
     private String description;
@@ -115,7 +115,7 @@ public class Room implements Serializable {
     }
 
     public List<Integer> getItems() {
-        return Items;
+        return items;
     }
 
     public boolean isLighted() {
@@ -127,7 +127,7 @@ public class Room implements Serializable {
     }
 
     public void setItems(List<Integer> items) {
-        this.Items.addAll(items);
+        this.items.addAll(items);
     }
 
     public boolean isLocked() {

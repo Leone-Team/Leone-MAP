@@ -1,4 +1,5 @@
 package di.uniba.leone.game;
+
 import di.uniba.leone.gui.MsgManager;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -35,7 +36,13 @@ public class Ranking implements Serializable {
         if (existingPlayerOpt.isPresent()) {
 
             GameTime player = existingPlayerOpt.get();
-            if (newPlayer.getScore() > player.getScore()) {
+            if (newPlayer.hasWin() && !player.hasWin()) {
+                ranking.remove(player);
+                ranking.add(newPlayer);
+            } else if ((newPlayer.hasWin() && player.hasWin()) && (newPlayer.getScore() < player.getScore())) {
+                ranking.remove(player);
+                ranking.add(newPlayer);
+            } else if ((!newPlayer.hasWin() && !player.hasWin()) && (newPlayer.getScore() < player.getScore())) {
                 ranking.remove(player);
                 ranking.add(newPlayer);
             }

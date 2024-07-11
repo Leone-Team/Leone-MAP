@@ -30,14 +30,13 @@ public abstract class Game {
     private Properties dbprop = new Properties();
     private HashMap<Integer, Item> items = new HashMap();
     private HashMap<String, Room> rooms = new HashMap();
+    private HashMap<Integer, Riddle> riddles = new HashMap();
     private List<Command> commands = new ArrayList();
     private Set<Integer> inventory = new HashSet();
-    private HashMap<Integer, Riddle> riddles = new HashMap();
     private Room currentRoom;
     private boolean running;
     private boolean win;
-    
-    private File game;
+
 
     public abstract String getWelcomeMessage();
 
@@ -91,7 +90,6 @@ public abstract class Game {
         this.win = win;
     }
 
-    
     public void setCurrentRoom(Room actualRoom) {
         this.currentRoom = actualRoom;
     }

@@ -27,3 +27,17 @@ org.h2.jdbc.JdbcSQLDataException: Invalid value "0" for parameter "columnIndex" 
 	at org.h2.jdbc.JdbcResultSetMetaData.checkColumnIndex(JdbcResultSetMetaData.java:447)
 	at org.h2.jdbc.JdbcResultSetMetaData.getColumnLabel(JdbcResultSetMetaData.java:67)
 	at di.uniba.map.dbexemple.DbExemple.main(DbExemple.java:41)
+2024-07-11 17:09:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Parameter "#2" is not set; SQL statement:
+INSERT INTO commands (type, names) VALUES (?, ?) [90012-200]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:590)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:429)
+	at org.h2.message.DbException.get(DbException.java:205)
+	at org.h2.message.DbException.get(DbException.java:181)
+	at org.h2.expression.Parameter.checkSet(Parameter.java:83)
+	at org.h2.command.Prepared.checkParameters(Prepared.java:182)
+	at org.h2.command.CommandContainer.update(CommandContainer.java:187)
+	at org.h2.command.Command.executeUpdate(Command.java:251)
+	at org.h2.jdbc.JdbcPreparedStatement.executeUpdateInternal(JdbcPreparedStatement.java:191)
+	at org.h2.jdbc.JdbcPreparedStatement.executeUpdate(JdbcPreparedStatement.java:152)
+	at di.uniba.map.dbmanager.DbManager.main(DbManager.java:29)

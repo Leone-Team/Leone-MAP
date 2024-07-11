@@ -16,7 +16,7 @@ TYPE:GO_UP; NAMES:U, up, sopra, sali;
 TYPE:GO_DOWN; NAMES:D, down, scendi, sotto; 
 
 
-TYPE:QUIT; NAMES:esci, chiudi, termina; 
+TYPE:QUIT; NAMES:esci, quit, termina; 
 
 
 TYPE:INVENTORY; NAMES:I, inv, inventario; 
@@ -63,4 +63,4 @@ TYPE:LOAD; NAMES:carica;
 
 TYPE:NEW_GAME; NAMES:nuova; 
 
-
+TYPE:HELP NAMES:help, h, aiuto, comandi
