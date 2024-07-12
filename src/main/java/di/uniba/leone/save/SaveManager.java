@@ -73,9 +73,11 @@ public class SaveManager {
                         game.setCurrentRoom(data.getCurrentRoom());
                         game.setInventory(data.getInventory());
                         game.setItems(data.getItems());
-                        game.setObsAttached(data.getObsAttached());
+                        game.setObservers(data.getObsStatus().keySet());
+                        game.setObsAttached(data.getObsStatus());
                         game.setRiddles(data.getRiddles());
                         game.setRooms(data.getRooms());
+                        game.setStopWatch(data.getPlayerTime());
 
                         mrMsg.displayMsg(">Partita caricata.");
                         pass = true;
@@ -340,11 +342,9 @@ public class SaveManager {
         this.loadedMatch = loadedMatch;
     }
 
-    public void delete(File dir) {
-        File[] files = dir.listFiles();
-        for (File file : files) {
-            file.delete();
-        }
+    public void delete(File match) {
+        if(match.exists())
+            match.delete();
     }
 
     public File getSavingDirectory() {

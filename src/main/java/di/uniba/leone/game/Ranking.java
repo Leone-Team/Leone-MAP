@@ -1,4 +1,5 @@
 package di.uniba.leone.game;
+
 import di.uniba.leone.gui.MsgManager;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -22,10 +23,24 @@ public class Ranking implements Serializable {
     }
 
     public void classification(MsgManager mrMsg) {
-        ranking.sort((c1, c2) -> Long.compare(c2.getScore(), c1.getScore()));
+        List<GameTime> rnkWinner = new ArrayList();
+        List<GameTime> rnkLoser = new ArrayList();
+        for (GameTime player : ranking) {
+            if (player.hasWin()) {
+                rnkWinner.add(player);
+            } else {
+                rnkLoser.add(player);
+            }
+        }
+
+        rnkWinner.sort((c1, c2) -> Long.compare(c1.getScore(), c2.getScore()));
+        rnkLoser.sort((c1, c2) -> Long.compare(c2.getScore(), c1.getScore()));
         GameTime game = new GameTime();
         mrMsg.displayMsg("La classifica dei giocatori e': ");
-        for (GameTime c : ranking) {
+        for (GameTime c : rnkWinner) {
+            c.showScore(mrMsg);
+        }
+        for (GameTime c : rnkLoser) {
             c.showScore(mrMsg);
         }
     }
@@ -35,7 +50,13 @@ public class Ranking implements Serializable {
         if (existingPlayerOpt.isPresent()) {
 
             GameTime player = existingPlayerOpt.get();
-            if (newPlayer.getScore() > player.getScore()) {
+            if (newPlayer.hasWin() && !player.hasWin()) {
+                ranking.remove(player);
+                ranking.add(newPlayer);
+            } else if ((newPlayer.hasWin() && player.hasWin()) && (newPlayer.getScore() < player.getScore())) {
+                ranking.remove(player);
+                ranking.add(newPlayer);
+            } else if ((!newPlayer.hasWin() && !player.hasWin()) && (newPlayer.getScore() < player.getScore())) {
                 ranking.remove(player);
                 ranking.add(newPlayer);
             }

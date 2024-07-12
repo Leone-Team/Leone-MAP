@@ -70,3 +70,6 @@ INSERT INTO riddles (id, names, desc, peakable, useable, turnable, breakable, op
 2024-06-26 10:25:54 jdbc[3]: exception
 org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "ROOMS" not found; SQL statement:
 UPDATE rooms SET desc = ? WHERE id = ? [42102-200]
+2024-07-11 18:05:28 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "RIDDLE" not found; SQL statement:
+UPDATE riddle SET  names=? WHERE type = ? [42102-200]

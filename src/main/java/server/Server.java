@@ -11,7 +11,6 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -75,7 +74,7 @@ public class Server {
                                     signin(out, in, conn);
 
                                 default -> {
-                                    out.writeObject(">Opzione non valida.\nInserire Login o Signin");
+                                    out.writeObject(">Opzione non valida.\nInserire Login o Signin:");
                                     out.flush();
                                     pass = false;
                                 }
@@ -239,10 +238,12 @@ public class Server {
                         out.writeObject(">Password: ");
                         out.flush();
                         if (rs.getString("password").contentEquals((String) in.readObject())) {
-                            out.writeObject(">Accesso effettuato.\n");
+                            out.writeObject(">Accesso effettuato.");
                             out.flush();
                             username = line;
                         } else {
+                            out.writeObject(">Password errata.");
+                            out.flush();
                             logged = false;
                         }
                     } else {
@@ -276,9 +277,28 @@ public class Server {
 
         private void signin(ObjectOutputStream out, ObjectInputStream in, Connection conn) throws IOException, SQLException, ClassNotFoundException {
 
-            out.writeObject(">Inserire nome utente: ");
+            String chrs = "\\ / : | < > * ?";
+            out.writeObject(">Inserire nome utente, lungo almeno due caratteri, che non siano '\\ / : | < > * ?': ");
             out.flush();
-            String line = (String) in.readObject();
+            String line;
+            boolean pass;
+            do {
+                pass = true;
+                line = (String) in.readObject();
+                if (line.length() < 2) {
+                    pass = false;
+                } else {
+                    for (Character c : chrs.toCharArray()) {
+                        if (line.indexOf(c) >= 0) {
+                            pass = false;
+                        }
+                    }
+                }
+                if (!pass) {
+                    out.writeObject(">Nome utente non valido, reinserire:");
+                    out.flush();
+                }
+            } while (!pass);
             Boolean logged;
             do {
                 logged = true;

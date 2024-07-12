@@ -50,7 +50,7 @@ public class GameTime implements Runnable, Serializable {
 
     public long getScore() {
         if (timeBegin == null || timeEnd == null) {
-            return Long.MIN_VALUE;
+            return Long.MAX_VALUE;
         }
         return timeEnd.toSecondOfDay() - timeBegin.toSecondOfDay();
     }
@@ -59,7 +59,10 @@ public class GameTime implements Runnable, Serializable {
         if (win) {
             mrMsg.displayMsg(nickname + ": " + getScore()+" secondi");
         } else {
-            mrMsg.displayMsg(nickname + ": ha abbandonato dopo "+getScore()+" secondi , che fifone/a!!");
+            if(getScore() != Long.MAX_VALUE)
+                mrMsg.displayMsg(nickname + ": ha abbandonato dopo "+getScore()+" secondi , che fifone/a!!");
+            else
+                mrMsg.displayMsg(nickname + ": ha abbandonato all'istante, un superfifone!");
         }
     }
 
@@ -73,6 +76,10 @@ public class GameTime implements Runnable, Serializable {
 
     public void setWin(boolean win) {
         this.win = win;
+    }
+
+    public boolean hasWin() {
+        return win;
     }
 
     

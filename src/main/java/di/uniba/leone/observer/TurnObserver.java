@@ -22,8 +22,7 @@ public class TurnObserver implements GameObserver, Serializable {
         StringBuilder msg = new StringBuilder();
         CommandType commandType = actioningame.getCommand().getType();
         Boolean rightCmds = commandType == CommandType.TURN_ON
-                || commandType == CommandType.TURN_OFF
-                || commandType == CommandType.WEAR;
+                || commandType == CommandType.TURN_OFF;
         Item item = actioningame.getItem1();
 
         if (rightCmds) {
@@ -48,8 +47,7 @@ public class TurnObserver implements GameObserver, Serializable {
                         case TURN_OFF ->
                             handleTurnOff(game, item, msg);
 
-                        case WEAR ->
-                            handleWear(game, item, msg);
+
 
                         default ->
                             msg.append("Azione non riconosciuta.");
@@ -68,8 +66,7 @@ public class TurnObserver implements GameObserver, Serializable {
                         case TURN_OFF ->
                             handleTurnOff(game, item, msg);
 
-                        case WEAR ->
-                            handleWear(game, item, msg);
+ 
 
                         default ->
                             msg.append("Azione non riconosciuta.");
@@ -92,8 +89,8 @@ public class TurnObserver implements GameObserver, Serializable {
                         .findFirst().orElse(null);
                 if (riddle != null && riddle instanceof QuestionRiddle qRiddle) {
                     // Per accendere o spegnere l'oggetto devi rispondere all'indovinello
-                    System.out.println(qRiddle.getDescription());
-                    System.out.print(qRiddle.getQuestion() + "\nRisposta>");
+                    game.getMrMsg().displayMsg(qRiddle.getDescription());
+                    game.getMrMsg().displayMsg(qRiddle.getQuestion() + "\nRisposta>");
                     Scanner scanner = new Scanner(System.in);
                     String ans = scanner.nextLine();
                     qRiddle.resolved(ans);
@@ -149,7 +146,6 @@ public class TurnObserver implements GameObserver, Serializable {
                     if(riddle.getId() == 6)
                     {
                         item.setTurned_on(false);
-                        game.getMrMsg().displayMsg(">Hai vinto A.L.! Adesso Marilù e Leone saranno al sicuro! Anche Giustino.");
                         game.setWin(true);
                     }
                 } else if (riddle != null && !riddle.isSolved() && riddle instanceof QuestionRiddle qRiddle) {
@@ -181,34 +177,5 @@ public class TurnObserver implements GameObserver, Serializable {
         }
     }
 
-    private void handleWear(Game game, Item item, StringBuilder msg) {
-        switch (item.getFirstName().toLowerCase()) {
-            case "cuffie" -> {
-                if (game.getCurrentRoom().getName().equals("Camera da Letto")) {
-                    game.getItemByID(item.getID()).setTurned_on(true);
-                    msg.append("E chi l'avrebbe detto che Rick Astley sarebbe stato più piacevole di una semplice sveglia... Finalmente puoi esplorare la stanza! \n");
-                } else {
-                    msg.append("Mi dispiace, sei stato rickrollato, è in riproduzione Never Gonna Give You Up!! \n");
-                }
-            }
-            case "occhiali" -> {
-                if (game.getCurrentRoom().getName().equals("Soggiorno")) {
-                    game.getItemByID(item.getID()).setTurned_on(true);
-                    msg.append("Finalmente riesci a vedere qualcosa! \n");
-                } else {
-                    msg.append("Devo ammettere che ti donano... Nah non è vero e poi non vedi nulla, a cosa ti servono qui?? \n");
-                }
-            }
-            case "tuta" -> {
-                if (game.getCurrentRoom().getName().equals("Cantina")) {
-                    game.getItemByID(item.getID()).setTurned_on(true);
-                    msg.append("Grazie alle ormai vecchie doti da pompiere di Giustino sei in grado di resistere al caldo! \n");
-                } else {
-                    msg.append("E tu vorresti metterti a fare il pompiere in ").append(game.getCurrentRoom().getName()).append(" ?? Patetico... \n");
-                }
-            }
-            default ->
-                msg.append("Non puoi indossare questo oggetto.");
-        }
-    }
+    
 }

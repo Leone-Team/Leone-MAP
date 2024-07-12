@@ -23,6 +23,7 @@ import di.uniba.leone.type.CommandType;
 import di.uniba.leone.type.ItemRiddle;
 import di.uniba.leone.type.QuestionRiddle;
 import di.uniba.leone.gui.Window;
+import di.uniba.leone.observer.wearObserver;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -208,6 +209,10 @@ public class LeoneGame extends Game implements GameObservable {
         attach(obs);
         getObservers().put(obs, new HashSet(Arrays.asList(CommandType.DROP)));
 
+        obs = new wearObserver();
+        attach(obs);
+        getObservers().put(obs, new HashSet(Arrays.asList(CommandType.WEAR)));
+        
         //istanzia la room attuale
         setCurrentRoom(getRooms().get("Camera da Letto"));
         setRunning(true);
@@ -224,7 +229,6 @@ public class LeoneGame extends Game implements GameObservable {
 
         if (getCurrentRoom() != null) {
             Room cr = getCurrentRoom();
-
             notifyObservers();
             boolean move = !cr.equals(getCurrentRoom()) && getCurrentRoom() != null;
             if (!messages.isEmpty()) {
@@ -243,12 +247,14 @@ public class LeoneGame extends Game implements GameObservable {
                 getMrMsg().displayMsg("================================================");
                 getMrMsg().displayMsg(getCurrentRoom().getDescription());
             }
+
             checkRiddles();
         }
     }
 
     @Override
     public void checkRiddles() {
+        Set<GameObserver> obsToDetach = new HashSet<>();
         for (Integer id_riddle : getCurrentRoom().getRiddles()) {
             if (getRiddles().get(id_riddle) instanceof ItemRiddle itemRiddle) {
                 itemRiddle.resolved(getItems());
@@ -257,18 +263,29 @@ public class LeoneGame extends Game implements GameObservable {
                 getMrMsg().displayMsg(getRiddles().get(id_riddle).getDescription());
             }
             for (GameObserver o : getObservers().keySet()) {
-                if (getObservers().get(o).stream().anyMatch(getRiddles().get(id_riddle).getBlackList()::contains) && !getRiddles().get(id_riddle).isSolved()) {
-                    detach(o);
-                } else {
-                    attach(o);
+                boolean isInBlackList = getObservers().get(o).stream().anyMatch(getRiddles().get(id_riddle).getBlackList()::contains);
+                boolean isSolved = getRiddles().get(id_riddle).isSolved();
+                if (isInBlackList && !isSolved) {
+                    obsToDetach.add(o);
+                } else if (isInBlackList && isSolved) {
+                    obsToDetach.remove(o);
                 }
 
+            }
+        }
+
+        for (GameObserver o : getObservers().keySet()) {
+            if (obsToDetach.contains(o)) {
+                detach(o);
+            } else {
+                attach(o);
             }
         }
     }
 
     @Override
     public void attach(GameObserver o) {
+        
         if (!getObsAttached().contains(o)) {
             getObsAttached().add(o);
         }

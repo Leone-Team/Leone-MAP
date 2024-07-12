@@ -10,8 +10,6 @@ import di.uniba.leone.parser.ActionInGame;
 import di.uniba.leone.type.CommandType;
 import di.uniba.leone.type.Item;
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  *
@@ -23,6 +21,7 @@ public class InventoryObserver implements GameObserver, Serializable {
 
     @Override
     public String update(Game game, ActionInGame actioningame) {
+        
         StringBuilder msg = new StringBuilder();
         if (actioningame.getCommand().getType() == CommandType.INVENTORY) {
             if (game.getInventory().isEmpty()) {
@@ -35,6 +34,7 @@ public class InventoryObserver implements GameObserver, Serializable {
                 }
             }
         }
+       
         return msg.toString();
     }
 }

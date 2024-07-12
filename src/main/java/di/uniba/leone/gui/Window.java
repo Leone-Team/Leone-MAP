@@ -17,6 +17,10 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
+import javax.swing.BorderFactory;
+import javax.swing.UIManager;
+import javax.swing.border.LineBorder;
+import javax.swing.plaf.metal.MetalButtonUI;
 
 /**
  *
@@ -89,7 +93,7 @@ public class Window extends JFrame {
 
         bottomPanel = new JPanel(new GridBagLayout());
         inputField = new JTextField("");
-        enterBtn = new JButton(">");
+        enterBtn = new JButton("➤ ");
         label1 = new JLabel(">");
 
         centerPanel = new JPanel(new BorderLayout());
@@ -119,7 +123,13 @@ public class Window extends JFrame {
         enterBtn.setMaximumSize(enterBtnDim);
         enterBtn.setMinimumSize(enterBtnDim);
 
+        // Modifiche per rendere il pulsante trasparente e il testo giallo
         enterBtn.setOpaque(false);
+        enterBtn.setContentAreaFilled(false);
+        enterBtn.setBorderPainted(true);
+        enterBtn.setFocusPainted(false);
+        enterBtn.setForeground(Color.YELLOW);
+        enterBtn.setBorder(new LineBorder(Color.YELLOW, 2));
         
         bottomPanel.add(enterBtn, gbc);
         //constraint per label
@@ -183,7 +193,4 @@ public class Window extends JFrame {
         return enterBtn;
     }
     
-    
-
-
 }
