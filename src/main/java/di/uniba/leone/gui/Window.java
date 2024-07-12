@@ -42,6 +42,10 @@ public class Window extends JFrame {
     private JLabel label1;
     private JPanel centerPanel;
 
+    /**
+     *
+     * @param title
+     */
     public Window(String title) {
         super(title);
         init(WIDTH, HEIGHT);
@@ -74,6 +78,11 @@ public class Window extends JFrame {
 
     }
 
+    
+    /** 
+     * @param width
+     * @param height
+     */
     private void init(int width, int height) {
 
         this.setSize(width, height);
@@ -181,14 +190,26 @@ public class Window extends JFrame {
 
     }
 
+    
+    /** 
+     * @return JTextArea
+     */
     public JTextArea getDisplay() {
         return display;
     }
 
+    
+    /** 
+     * @return JTextField
+     */
     public JTextField getInputField() {
         return inputField;
     }
 
+    /**
+     *
+     * @return
+     */
     public JButton getEnterBtn() {
         return enterBtn;
     }

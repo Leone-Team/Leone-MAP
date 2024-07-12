@@ -8,6 +8,10 @@ import di.uniba.leone.gui.MsgManager;
 import java.io.Serializable;
 import java.time.LocalTime;
 
+/**
+ *
+ * @author giann
+ */
 public class GameTime implements Runnable, Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -16,21 +20,37 @@ public class GameTime implements Runnable, Serializable {
     private String nickname = "player";
     private boolean win = false;
 
+    /**
+     *
+     * @param nickname
+     */
     public GameTime(String nickname) {
         this.nickname = nickname;
     }
 
+    /**
+     *
+     */
     public GameTime() {
     }
 
+    /**
+     *
+     */
     public void start() {
         this.timeBegin = LocalTime.now();
     }
 
+    /**
+     *
+     */
     public void stop() {
         this.timeEnd = LocalTime.now();
     }
 
+    /**
+     *
+     */
     @Override
     public void run() {
         synchronized (this) {
@@ -43,11 +63,18 @@ public class GameTime implements Runnable, Serializable {
         }
     }
 
+    /**
+     *
+     */
     public void outputGameTime() {
         int count = timeEnd.toSecondOfDay() - timeBegin.toSecondOfDay();
         System.out.println("La durata della partita e' stata di: " + LocalTime.ofSecondOfDay(count));
     }
 
+    
+    /** 
+     * @return long
+     */
     public long getScore() {
         if (timeBegin == null || timeEnd == null) {
             return Long.MAX_VALUE;
@@ -55,6 +82,10 @@ public class GameTime implements Runnable, Serializable {
         return timeEnd.toSecondOfDay() - timeBegin.toSecondOfDay();
     }
 
+    
+    /** 
+     * @param mrMsg
+     */
     public void showScore(MsgManager mrMsg) {
         if (win) {
             mrMsg.displayMsg(nickname + ": " + getScore()+" secondi");
@@ -66,18 +97,34 @@ public class GameTime implements Runnable, Serializable {
         }
     }
 
+    
+    /** 
+     * @param nickname
+     */
     public void setNickname(String nickname) {
         this.nickname = nickname;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getNickname() {
         return nickname;
     }
 
+    /**
+     *
+     * @param win
+     */
     public void setWin(boolean win) {
         this.win = win;
     }
 
+    /**
+     *
+     * @return
+     */
     public boolean hasWin() {
         return win;
     }

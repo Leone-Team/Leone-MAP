@@ -4,7 +4,10 @@ package di.uniba.leone.gui;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
-
+/**
+ *
+ * @author giann
+ */
 public class MsgManager {
 
     private final JTextArea out;
@@ -12,11 +15,19 @@ public class MsgManager {
     private final Object lock = new Object();
     private String message = null;
 
+    /**
+     *
+     * @param out
+     * @param in
+     */
     public MsgManager(JTextArea out, JTextField in) {
         this.out = out;
         this.in = in;
     }
 
+    /**
+     *
+     */
     public void enterMsg() {
         synchronized (lock) {
             message = in.getText();
@@ -27,11 +38,19 @@ public class MsgManager {
 
     }
 
+    
+    /** 
+     * @param msg
+     */
     public void displayMsg(String msg) {
         out.append(msg + "\n");
         out.setCaretPosition(out.getDocument().getLength());
     }
 
+    
+    /** 
+     * @return String
+     */
     public String getMsg() {
         synchronized (lock) {
             try {

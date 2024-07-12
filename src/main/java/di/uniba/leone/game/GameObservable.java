@@ -13,9 +13,20 @@ import java.util.Set;
  */
 public interface GameObservable {
     
+    /**
+     *
+     * @param o
+     */
     public void detach(GameObserver o);
     
+    /**
+     *
+     * @param o
+     */
     public void attach(GameObserver o);
     
+    /**
+     *
+     */
     public void notifyObservers();
 }

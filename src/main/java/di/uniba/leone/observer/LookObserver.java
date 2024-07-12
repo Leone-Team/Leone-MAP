@@ -8,8 +8,18 @@ import di.uniba.leone.type.Item;
 import java.io.Serializable;
 import java.util.List;
 
+/**
+ *
+ * @author giann
+ */
 public class LookObserver implements GameObserver, Serializable {
        private static final long serialVersionUID = 1L; 
+    
+    /** 
+     * @param game
+     * @param actioningame
+     * @return String
+     */
     @Override
     public String update(Game game, ActionInGame actioningame) {
         StringBuilder msg = new StringBuilder();

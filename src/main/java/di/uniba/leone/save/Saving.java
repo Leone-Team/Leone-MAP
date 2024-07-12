@@ -29,6 +29,17 @@ public class Saving implements Serializable{
     private Room currentRoom = new Room();
     private GameTime playerTime;
     
+    /**
+     *
+     * @param observers
+     * @param obsAttached
+     * @param items
+     * @param rooms
+     * @param inventory
+     * @param riddles
+     * @param currentRoom
+     * @param playerTime
+     */
     public Saving(Set<GameObserver> observers,Set<GameObserver> obsAttached, HashMap<Integer, Item> items, HashMap<String, Room> rooms, Set<Integer> inventory, HashMap<Integer, Riddle> riddles, Room currentRoom, GameTime playerTime){
         
         for(GameObserver o:observers){
@@ -46,33 +57,64 @@ public class Saving implements Serializable{
         this.playerTime = playerTime;
     }
 
+    /**
+     *
+     */
     public Saving(){
     }
 
+    
+    /** 
+     * @return HashMap<GameObserver, Boolean>
+     */
     public HashMap<GameObserver, Boolean> getObsStatus() {
         return obsStatus;
     }
 
+    
+    /** 
+     * @return HashMap<Integer, Item>
+     */
     public HashMap<Integer, Item> getItems() {
         return items;
     }
 
+    
+    /** 
+     * @return HashMap<String, Room>
+     */
     public HashMap<String, Room> getRooms() {
         return rooms;
     }
 
+    /**
+     *
+     * @return
+     */
     public Set<Integer> getInventory() {
         return inventory;
     }
 
+    /**
+     *
+     * @return
+     */
     public HashMap<Integer, Riddle> getRiddles() {
         return riddles;
     }
 
+    /**
+     *
+     * @return
+     */
     public Room getCurrentRoom() {
         return currentRoom;
     }
 
+    /**
+     *
+     * @return
+     */
     public GameTime getPlayerTime() {
         return playerTime;
     }

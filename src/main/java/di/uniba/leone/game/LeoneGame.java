@@ -45,6 +45,9 @@ public class LeoneGame extends Game implements GameObservable {
     private final List<String> messages = new ArrayList<>();
     private ActionInGame action;
 
+    /**
+     *
+     */
     @Override
     public void init() {
         setDbProperties("Leone", "1234");
@@ -222,6 +225,10 @@ public class LeoneGame extends Game implements GameObservable {
         setMrMsg(new MsgManager(getMainWindow().getDisplay(), getMainWindow().getInputField()));
     }
 
+    
+    /** 
+     * @param act
+     */
     @Override
     public void nextMove(ActionInGame act) {
         action = act;
@@ -252,6 +259,9 @@ public class LeoneGame extends Game implements GameObservable {
         }
     }
 
+    /**
+     *
+     */
     @Override
     public void checkRiddles() {
         Set<GameObserver> obsToDetach = new HashSet<>();
@@ -283,6 +293,10 @@ public class LeoneGame extends Game implements GameObservable {
         }
     }
 
+    
+    /** 
+     * @param o
+     */
     @Override
     public void attach(GameObserver o) {
         
@@ -291,11 +305,18 @@ public class LeoneGame extends Game implements GameObservable {
         }
     }
 
+    
+    /** 
+     * @param o
+     */
     @Override
     public void detach(GameObserver o) {
         getObsAttached().remove(o);
     }
 
+    /**
+     *
+     */
     @Override
     public void notifyObservers() {
         for (GameObserver o : getObsAttached()) {
@@ -303,6 +324,10 @@ public class LeoneGame extends Game implements GameObservable {
         }
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public String getWelcomeMessage() {
         String msg = """

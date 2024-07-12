@@ -5,9 +5,19 @@ import di.uniba.leone.game.GameObserver;
 import di.uniba.leone.parser.ActionInGame;
 import java.io.Serializable;
 
+/**
+ *
+ * @author giann
+ */
 public class MoveObserver implements GameObserver, Serializable {
     private static final long serialVersionUID = 1L;
     
+    
+    /** 
+     * @param game
+     * @param actioningame
+     * @return String
+     */
     @Override
     public String update(Game game, ActionInGame actioningame) {
         String msgNoDoor = "*sbam* Si beh vista la situazione sbattere la testa al muro potrebbe essere una soluzione si...\n Ma cosa ti salta in mente? Vedi forse una porta?? \n";

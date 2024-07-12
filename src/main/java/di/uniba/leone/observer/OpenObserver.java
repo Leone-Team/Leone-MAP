@@ -12,10 +12,20 @@ import di.uniba.leone.type.Container;
 import di.uniba.leone.type.Item;
 import java.io.Serializable;
 
+/**
+ *
+ * @author giann
+ */
 public class OpenObserver implements GameObserver, Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    
+    /** 
+     * @param game
+     * @param actioningame
+     * @return String
+     */
     @Override
     public String update(Game game, ActionInGame actioningame) {
         StringBuilder msg = new StringBuilder();

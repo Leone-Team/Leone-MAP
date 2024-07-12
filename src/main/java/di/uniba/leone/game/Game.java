@@ -31,6 +31,10 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Properties;
 
+/**
+ *
+ * @author giann
+ */
 public abstract class Game {
 
     private Window mainWindow;
@@ -48,91 +52,187 @@ public abstract class Game {
     private boolean running;
     private boolean win;
 
+    /**
+     *
+     * @return
+     */
     public abstract String getWelcomeMessage();
 
+    /**
+     *
+     */
     public abstract void init(); //inizializza il gioco
 
+    /**
+     *
+     * @param act
+     */
     public abstract void nextMove(ActionInGame act); //esegue l'azione in accordo con l'output dell'observer
 
+    /**
+     *
+     */
     public abstract void checkRiddles();//verifica la presenza di indovinelli nella stanza, avviandoli
 
+    
+    /** 
+     * @return List<Command>
+     */
     public List<Command> getCommands() {
         return commands;
     }
 
+    
+    /** 
+     * @return Set<Integer>
+     */
     public Set<Integer> getInventory() {
         return inventory;
     }
 
+    
+    /** 
+     * @param id
+     * @return Item
+     */
     public Item getItemByID(Integer id) {
         return items.get(id);
     }
 
+    /**
+     *
+     * @return
+     */
     public HashMap<Integer, Riddle> getRiddles() {
         return riddles;
     }
 
+    /**
+     *
+     * @return
+     */
     public HashMap<Integer, Item> getItems() {
         return items;
     }
 
+    /**
+     *
+     * @return
+     */
     public HashMap<String, Room> getRooms() {
         return rooms;
     }
 
+    /**
+     *
+     * @return
+     */
     public Room getCurrentRoom() {
         return currentRoom;
     }
 
+    /**
+     *
+     * @return
+     */
     public MsgManager getMrMsg() {
         return mrMsg;
     }
 
+    /**
+     *
+     * @return
+     */
     public Window getMainWindow() {
         return mainWindow;
     }
 
+    /**
+     *
+     * @return
+     */
     public GameTime getStopWatch() {
         return stopWatch;
     }
 
+    /**
+     *
+     * @return
+     */
     public boolean isWin() {
         return win;
     }
 
+    /**
+     *
+     * @return
+     */
     public Properties getDbprop() {
         return dbprop;
     }
 
+    /**
+     *
+     * @return
+     */
     public Set<GameObserver> getObsAttached() {
         return obsAttached;
     }
 
+    /**
+     *
+     * @return
+     */
     public Map<GameObserver, Set<CommandType>> getObservers() {
         return observers;
     }
 
+    /**
+     *
+     * @param win
+     */
     public void setWin(boolean win) {
         this.win = win;
     }
 
+    /**
+     *
+     * @param actualRoom
+     */
     public void setCurrentRoom(Room actualRoom) {
         this.currentRoom = actualRoom;
     }
 
+    /**
+     *
+     * @param running
+     */
     public void setRunning(boolean running) {
         this.running = running;
     }
 
+    /**
+     *
+     * @return
+     */
     public boolean isRunning() {
         return running;
     }
 
+    /**
+     *
+     * @param user
+     * @param password
+     */
     public void setDbProperties(String user, String password) {
         dbprop.setProperty("user", user);
         dbprop.setProperty("password", password);
     }
 
+    /**
+     *
+     * @param obsStatus
+     */
     public void setObsAttached(HashMap<GameObserver, Boolean> obsStatus) {
         Set<GameObserver> obsAttached = new HashSet<>();
         for(GameObserver o:obsStatus.keySet()){
@@ -143,34 +243,66 @@ public abstract class Game {
         this.obsAttached = obsAttached;
     }
 
+    /**
+     *
+     * @param items
+     */
     public void setItems(HashMap<Integer, Item> items) {
         this.items = items;
     }
 
+    /**
+     *
+     * @param rooms
+     */
     public void setRooms(HashMap<String, Room> rooms) {
         this.rooms = rooms;
     }
 
+    /**
+     *
+     * @param inventory
+     */
     public void setInventory(Set<Integer> inventory) {
         this.inventory = inventory;
     }
 
+    /**
+     *
+     * @param riddles
+     */
     public void setRiddles(HashMap<Integer, Riddle> riddles) {
         this.riddles = riddles;
     }
 
+    /**
+     *
+     * @param mrMsg
+     */
     public void setMrMsg(MsgManager mrMsg) {
         this.mrMsg = mrMsg;
     }
 
+    /**
+     *
+     * @param mainwWindow
+     */
     public void setMainWindow(Window mainwWindow) {
         this.mainWindow = mainwWindow;
     }
 
+    /**
+     *
+     * @param stopWatch
+     */
     public void setStopWatch(GameTime stopWatch) {
         this.stopWatch = stopWatch;
     }
 
+    /**
+     *
+     * @param obs
+     */
     public void setObservers(Set<GameObserver> obs) {
         HashMap<GameObserver, Set<CommandType>> observers = new HashMap();
         for (GameObserver o : obs) {

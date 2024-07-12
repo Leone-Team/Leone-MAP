@@ -15,13 +15,24 @@ public class Ranking implements Serializable {
     private static final long serialVersionUID = 1L;
     List<GameTime> ranking = new ArrayList();
 
+    /**
+     *
+     * @param ranking
+     */
     public Ranking(List<GameTime> ranking) {
         this.ranking = ranking;
     }
 
+    /**
+     *
+     */
     public Ranking() {
     }
 
+    
+    /** 
+     * @param mrMsg
+     */
     public void classification(MsgManager mrMsg) {
         List<GameTime> rnkWinner = new ArrayList();
         List<GameTime> rnkLoser = new ArrayList();
@@ -45,6 +56,10 @@ public class Ranking implements Serializable {
         }
     }
 
+    
+    /** 
+     * @param newPlayer
+     */
     public void addPlayerToRank(GameTime newPlayer) {
         Optional<GameTime> existingPlayerOpt = ranking.stream().filter(player -> player.getNickname().contentEquals(newPlayer.getNickname())).findFirst();
         if (existingPlayerOpt.isPresent()) {
