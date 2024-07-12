@@ -17,6 +17,12 @@ import java.io.Serializable;
  */
 public class wearObserver implements GameObserver, Serializable {
 
+    
+    /** 
+     * @param game
+     * @param actioningame
+     * @return String
+     */
     @Override
     public String update(Game game, ActionInGame actioningame) {
 

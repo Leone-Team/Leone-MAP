@@ -15,6 +15,10 @@ import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ *
+ * @author giann
+ */
 public class SaveManager {
 
     private final MsgManager mrMsg;
@@ -24,11 +28,20 @@ public class SaveManager {
     private File loadedMatch;
     private final File savingDirectory;
 
+    /**
+     *
+     * @param path
+     * @param mrMsg
+     */
     public SaveManager(String path, MsgManager mrMsg) {
         savingDirectory = new File(path.concat("/src/main/resources/leone_game/partite"));
         this.mrMsg = mrMsg;
     }
 
+    
+    /** 
+     * @return String
+     */
     public String newGame() {
         String newMatchPath = null;
         File[] matches = savingDirectory.listFiles();
@@ -51,6 +64,11 @@ public class SaveManager {
         return newMatchPath;
     }
 
+    
+    /** 
+     * @param game
+     * @return String
+     */
     public String loadMatch(Game game) {
         File selectedMatch = null;
         Saving data;
@@ -94,6 +112,10 @@ public class SaveManager {
         return selectedMatch.getAbsolutePath();
     }
 
+    
+    /** 
+     * @param match
+     */
     public void saveMatch(Saving match) {
         try (FileOutputStream matchToSave = new FileOutputStream(loadedMatch); ObjectOutputStream out = new ObjectOutputStream(matchToSave)) {
 
@@ -109,6 +131,10 @@ public class SaveManager {
         }
     }
 
+    /**
+     *
+     * @return
+     */
     public String connectToServer() {
         String ans = null;
         if (username.contentEquals("notLogged")) {
@@ -158,6 +184,9 @@ public class SaveManager {
         return ans;
     }
 
+    /**
+     *
+     */
     public void backUpServer() {
         mrMsg.displayMsg(">Vuoi eseguire un backup su server?\n>");
 
@@ -212,6 +241,9 @@ public class SaveManager {
         }
     }
 
+    /**
+     *
+     */
     public void recoveryFromServer() {
         mrMsg.displayMsg(">Vuoi ripristinare in locale le partite salvate su server?\n>");
 
@@ -275,6 +307,10 @@ public class SaveManager {
         }
     }
 
+    /**
+     *
+     * @return
+     */
     public Ranking getGlobalRanking() {
         Ranking ranking = new Ranking();
         try (Socket user = new Socket(SERVERADDRS, SERVERPORT)) {
@@ -306,6 +342,10 @@ public class SaveManager {
         return ranking;
     }
 
+    /**
+     *
+     * @param player
+     */
     public void addPlayerToGlobalRanking(GameTime player) {
         try (Socket user = new Socket(SERVERADDRS, SERVERPORT)) {
             try (ObjectOutputStream out = new ObjectOutputStream(user.getOutputStream()); ObjectInputStream in = new ObjectInputStream(user.getInputStream())) {
@@ -338,23 +378,43 @@ public class SaveManager {
         }
     }
 
+    /**
+     *
+     * @param loadedMatch
+     */
     public void setLoadedMatch(File loadedMatch) {
         this.loadedMatch = loadedMatch;
     }
 
+    /**
+     *
+     * @param match
+     */
     public void delete(File match) {
         if(match.exists())
             match.delete();
     }
 
+    /**
+     *
+     * @return
+     */
     public File getSavingDirectory() {
         return savingDirectory;
     }
 
+    /**
+     *
+     * @return
+     */
     public File getLoadedMatch() {
         return loadedMatch;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getUsername() {
         return username;
     }

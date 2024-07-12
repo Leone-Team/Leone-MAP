@@ -329,6 +329,10 @@ public class Server {
 
     private static List<UserThread> users = Collections.synchronizedList(new ArrayList());
 
+    
+    /** 
+     * @param args
+     */
     public static void main(String[] args) {
         try (ServerSocket server = new ServerSocket(6666)) {
             System.out.println("<Server ONLINE - PORT 6666>");

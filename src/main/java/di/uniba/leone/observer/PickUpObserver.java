@@ -18,6 +18,12 @@ public class PickUpObserver implements GameObserver, Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    
+    /** 
+     * @param game
+     * @param actioningame
+     * @return String
+     */
     @Override
     public String update(Game game, ActionInGame actioningame) {
         StringBuilder msg = new StringBuilder();
@@ -58,6 +64,13 @@ public class PickUpObserver implements GameObserver, Serializable {
         return msg.toString();
     }
 
+    
+    /** 
+     * @param game
+     * @param itemID
+     * @param msg
+     * @return boolean
+     */
     private boolean scanContainersForItem(Game game, int itemID, StringBuilder msg) {
         List<Integer> itemIds = game.getCurrentRoom().getItems(); // Lista di ID degli item nella stanza
         for (Integer itemId : itemIds) {

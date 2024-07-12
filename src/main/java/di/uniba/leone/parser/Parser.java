@@ -14,10 +14,17 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-
+/**
+ *
+ * @author giann
+ */
 public class Parser {
     final private Set<String> stopwords = new HashSet();
     
+    /**
+     *
+     * @param stopwordsPath
+     */
     public Parser(String stopwordsPath)
     {
         Set<String> stopwords = new HashSet();
@@ -33,6 +40,11 @@ public class Parser {
         }
     }
     
+    
+    /** 
+     * @param line
+     * @return List<String>
+     */
     private List<String> parseString(String line){
         List<String> commandLine = new ArrayList();
         
@@ -43,6 +55,12 @@ public class Parser {
         return commandLine;
     }
     
+    
+    /** 
+     * @param token
+     * @param items
+     * @return int
+     */
     private int isItem(String token, Collection<Item> items){
         for(Item it:items)
             if (it.getNames().contains(token.toLowerCase()))
@@ -51,6 +69,12 @@ public class Parser {
     }
     
     
+    
+    /** 
+     * @param token
+     * @param commands
+     * @return int
+     */
     private int isCommand(String token, List<Command> commands){
         for(Command cmd:commands)
             if(cmd.getNames().contains(token.toLowerCase()))
@@ -59,6 +83,13 @@ public class Parser {
         return -1;
     }
    
+    /**
+     *
+     * @param commandLine
+     * @param items
+     * @param commands
+     * @return
+     */
     public ActionInGame parse(String commandLine, HashMap<Integer, Item> items, List<Command> commands){
         ActionInGame action = new ActionInGame();
         

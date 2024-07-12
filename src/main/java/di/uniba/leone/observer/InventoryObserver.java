@@ -19,6 +19,12 @@ public class InventoryObserver implements GameObserver, Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    
+    /** 
+     * @param game
+     * @param actioningame
+     * @return String
+     */
     @Override
     public String update(Game game, ActionInGame actioningame) {
         

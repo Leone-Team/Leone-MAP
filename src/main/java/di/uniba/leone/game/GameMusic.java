@@ -23,10 +23,17 @@ public class GameMusic implements Runnable {
     private boolean playing;
     private Thread playertThread;
     private Clip audioClip;
+
+    /**
+     *
+     */
     public GameMusic() {
         this.playing = false;
     }
 
+    /**
+     *
+     */
     @Override
     public void run() {
 
@@ -52,6 +59,9 @@ public class GameMusic implements Runnable {
         }
     }
 
+    /**
+     *
+     */
     public void stopMusic() {
         playing = false;
         
@@ -69,6 +79,9 @@ public class GameMusic implements Runnable {
         }
     }
     
+    /**
+     *
+     */
     public void startMusic(){
         if(!playing){
             playing = true;

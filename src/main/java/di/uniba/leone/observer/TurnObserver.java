@@ -13,10 +13,20 @@ import di.uniba.leone.type.Riddle;
 import java.io.Serializable;
 import java.util.Scanner;
 
+/**
+ *
+ * @author giann
+ */
 public class TurnObserver implements GameObserver, Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    
+    /** 
+     * @param game
+     * @param actioningame
+     * @return String
+     */
     @Override
     public String update(Game game, ActionInGame actioningame) {
         StringBuilder msg = new StringBuilder();
@@ -81,6 +91,12 @@ public class TurnObserver implements GameObserver, Serializable {
         return msg.toString();
     }
 
+    
+    /** 
+     * @param game
+     * @param item
+     * @param msg
+     */
     private void handleTurnOn(Game game, Item item, StringBuilder msg) {
         if (item.isTurnable()) {
             if (!item.isTurned_on()) {
@@ -123,6 +139,12 @@ public class TurnObserver implements GameObserver, Serializable {
         }
     }
 
+    
+    /** 
+     * @param game
+     * @param item
+     * @param msg
+     */
     private void handleTurnOff(Game game, Item item, StringBuilder msg) {
         if (item.isTurnable()) {
             if (item.isTurned_on()) {

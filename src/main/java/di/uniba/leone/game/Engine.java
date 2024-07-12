@@ -28,6 +28,10 @@ public class Engine {
     private final MsgManager MRMSG;
     private String commandLine = "";
 
+    /**
+     *
+     * @param game
+     */
     public Engine(Game game) {
         game.init();
         PARSER = new Parser("./src/main/resources/leone_game/stopwords.txt");
@@ -38,6 +42,9 @@ public class Engine {
         game.getMainWindow().setIconImage(windowIcon.getImage());
     }
 
+    /**
+     *
+     */
     public void execute() {
 
         Action sendMessageAction = new AbstractAction() {
@@ -180,6 +187,10 @@ public class Engine {
 
     }
 
+    
+    /** 
+     * @param args
+     */
     public static void main(String[] args) {
         Game game = new LeoneGame();
         Engine engine = new Engine(game);
