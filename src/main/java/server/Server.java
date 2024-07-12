@@ -294,6 +294,9 @@ public class Server {
                         }
                     }
                 }
+                if (line.contentEquals("notLogged")) {
+                    pass = false;
+                }
                 if (!pass) {
                     out.writeObject(">Nome utente non valido, reinserire:");
                     out.flush();
@@ -329,8 +332,7 @@ public class Server {
 
     private static List<UserThread> users = Collections.synchronizedList(new ArrayList());
 
-    
-    /** 
+    /**
      * @param args
      */
     public static void main(String[] args) {
