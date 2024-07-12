@@ -23,3 +23,7 @@ Questo progetto, realizzato in occasione dell'esame di Metodi Avanzati di Progra
 
 Giustino ha acquistato una casa super moderna dotata di intelligenza artificiale. Tuttavia, Giustino perde il controllo su di essa, finendo per essere espulso dalla casa e lasciando Leone e Marilù in preda alla casa imbizzarrita. 
 Sarà compito di Leone risolvere i vari enigmi a cui sarà sottoposto per disattivare una volta per tutte la casa e mettere fine a questo disastro. 
+
+## DIAGRAMMA DELLE CLASSI
+
+![](./img/Diagramma_Classi_MAP.jpg)
