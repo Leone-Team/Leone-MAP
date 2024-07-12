@@ -23,6 +23,7 @@ import di.uniba.leone.type.CommandType;
 import di.uniba.leone.type.ItemRiddle;
 import di.uniba.leone.type.QuestionRiddle;
 import di.uniba.leone.gui.Window;
+import di.uniba.leone.observer.wearObserver;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -208,6 +209,10 @@ public class LeoneGame extends Game implements GameObservable {
         attach(obs);
         getObservers().put(obs, new HashSet(Arrays.asList(CommandType.DROP)));
 
+        obs = new wearObserver();
+        attach(obs);
+        getObservers().put(obs, new HashSet(Arrays.asList(CommandType.WEAR)));
+        
         //istanzia la room attuale
         setCurrentRoom(getRooms().get("Camera da Letto"));
         setRunning(true);
@@ -268,6 +273,7 @@ public class LeoneGame extends Game implements GameObservable {
 
             }
         }
+
         for (GameObserver o : getObservers().keySet()) {
             if (obsToDetach.contains(o)) {
                 detach(o);
@@ -275,13 +281,11 @@ public class LeoneGame extends Game implements GameObservable {
                 attach(o);
             }
         }
-        System.out.println(getCurrentRoom().getName());
-        getObsAttached().forEach(o -> System.out.println(o.getClass()));
-        System.out.println("");
     }
 
     @Override
     public void attach(GameObserver o) {
+        
         if (!getObsAttached().contains(o)) {
             getObsAttached().add(o);
         }

@@ -12,8 +12,18 @@ import di.uniba.leone.type.Item;
 import di.uniba.leone.type.Room;
 import di.uniba.leone.type.Riddle;
 import di.uniba.leone.gui.Window;
-import java.io.File;
+import di.uniba.leone.observer.BreakObserver;
+import di.uniba.leone.observer.DropObserver;
+import di.uniba.leone.observer.InventoryObserver;
+import di.uniba.leone.observer.LookObserver;
+import di.uniba.leone.observer.MoveObserver;
+import di.uniba.leone.observer.OpenObserver;
+import di.uniba.leone.observer.PickUpObserver;
+import di.uniba.leone.observer.TurnObserver;
+import di.uniba.leone.observer.UseObserver;
+import di.uniba.leone.observer.wearObserver;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
@@ -34,9 +44,9 @@ public abstract class Game {
     private List<Command> commands = new ArrayList();
     private Set<Integer> inventory = new HashSet();
     private Room currentRoom;
+    private GameTime stopWatch = new GameTime();
     private boolean running;
     private boolean win;
-
 
     public abstract String getWelcomeMessage();
 
@@ -82,8 +92,24 @@ public abstract class Game {
         return mainWindow;
     }
 
+    public GameTime getStopWatch() {
+        return stopWatch;
+    }
+
     public boolean isWin() {
         return win;
+    }
+
+    public Properties getDbprop() {
+        return dbprop;
+    }
+
+    public Set<GameObserver> getObsAttached() {
+        return obsAttached;
+    }
+
+    public Map<GameObserver, Set<CommandType>> getObservers() {
+        return observers;
     }
 
     public void setWin(boolean win) {
@@ -107,19 +133,13 @@ public abstract class Game {
         dbprop.setProperty("password", password);
     }
 
-    public Properties getDbprop() {
-        return dbprop;
-    }
-
-    public Set<GameObserver> getObsAttached() {
-        return obsAttached;
-    }
-
-    public Map<GameObserver, Set<CommandType>> getObservers() {
-        return observers;
-    }
-
-    public void setObsAttached(Set<GameObserver> obsAttached) {
+    public void setObsAttached(HashMap<GameObserver, Boolean> obsStatus) {
+        Set<GameObserver> obsAttached = new HashSet<>();
+        for(GameObserver o:obsStatus.keySet()){
+            if(obsStatus.get(o)){
+                obsAttached.add(o);
+            }
+        }
         this.obsAttached = obsAttached;
     }
 
@@ -147,4 +167,53 @@ public abstract class Game {
         this.mainWindow = mainwWindow;
     }
 
+    public void setStopWatch(GameTime stopWatch) {
+        this.stopWatch = stopWatch;
+    }
+
+    public void setObservers(Set<GameObserver> obs) {
+        HashMap<GameObserver, Set<CommandType>> observers = new HashMap();
+        for (GameObserver o : obs) {
+            if (o instanceof LookObserver) {
+                observers.put(o, new HashSet(Arrays.asList(CommandType.LOOK)));
+            }
+
+            if (o instanceof BreakObserver) {
+                observers.put(o, new HashSet(Arrays.asList(CommandType.BREAK)));
+            }
+
+            if (o instanceof InventoryObserver) {
+                observers.put(o, new HashSet(Arrays.asList(CommandType.INVENTORY)));
+            }
+
+            if (o instanceof MoveObserver) {
+                observers.put(o, new HashSet(Arrays.asList(CommandType.EAST, CommandType.NORTH, CommandType.SOUTH, CommandType.WEST, CommandType.GO_DOWN, CommandType.GO_UP)));
+            }
+
+            if (o instanceof OpenObserver) {
+                observers.put(o, new HashSet(Arrays.asList(CommandType.OPEN)));
+            }
+
+            if (o instanceof PickUpObserver) {
+                observers.put(o, new HashSet(Arrays.asList(CommandType.PICK_UP)));
+            }
+
+            if (o instanceof TurnObserver) {
+                observers.put(o, new HashSet(Arrays.asList(CommandType.TURN_ON, CommandType.TURN_OFF, CommandType.WEAR)));
+            }
+
+            if (o instanceof UseObserver) {
+                observers.put(o, new HashSet(Arrays.asList(CommandType.USE)));
+            }
+
+            if (o instanceof DropObserver) {
+                observers.put(o, new HashSet(Arrays.asList(CommandType.DROP)));
+            }
+
+            if (o instanceof wearObserver) {
+                observers.put(o, new HashSet(Arrays.asList(CommandType.WEAR)));
+            }
+        }
+        this.observers = observers;
+    }
 }

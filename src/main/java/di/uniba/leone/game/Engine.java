@@ -22,7 +22,6 @@ public class Engine {
 
     private final Game GAME;
     private boolean matchLoaded;
-    private final GameTime PLAYERTIME = new GameTime();
     private final GameMusic MIXER = new GameMusic();
     private final SaveManager MRS;
     private final Parser PARSER;
@@ -45,6 +44,9 @@ public class Engine {
             @Override
             public void actionPerformed(ActionEvent e) {
                 MRMSG.enterMsg();
+                if (!GAME.isRunning()) {
+                    GAME.getMainWindow().dispose();
+                }
             }
         };
         GAME.getMainWindow().getInputField().addActionListener(sendMessageAction);
@@ -52,7 +54,7 @@ public class Engine {
 
         MRS.connectToServer();
         if (!MRS.getUsername().contentEquals("notLogged")) {
-            PLAYERTIME.setNickname(MRS.getUsername());
+            GAME.getStopWatch().setNickname(MRS.getUsername());
         }
 
         MRMSG.displayMsg(" ");
@@ -68,7 +70,7 @@ public class Engine {
             } else if (action.getCommand() != null && action.getCommand().getType() == CommandType.NEW_GAME && !matchLoaded) {
                 MRS.setLoadedMatch(new File(MRS.newGame()));
                 matchLoaded = true;
-                PLAYERTIME.start();
+                GAME.getStopWatch().start();
 
                 MRMSG.displayMsg("Inizio partita\n");
                 MIXER.startMusic();
@@ -84,7 +86,7 @@ public class Engine {
                 MRMSG.displayMsg("\n");
                 MRS.setLoadedMatch(new File(MRS.loadMatch(GAME)));
                 matchLoaded = true;
-                PLAYERTIME.start();
+                GAME.getStopWatch().start();
 
                 MRMSG.displayMsg(">Inizio partita\n");
                 MIXER.startMusic();
@@ -97,41 +99,44 @@ public class Engine {
             } else if (action.getCommand() != null && action.getCommand().getType() == CommandType.QUIT) {
                 Boolean pass = true;
                 MIXER.stopMusic();
-                PLAYERTIME.stop();
-                MRMSG.displayMsg(">Vuoi salvare?\n?>");
-                do {
+                GAME.getStopWatch().stop();
+                if (matchLoaded) {
+                    MRMSG.displayMsg(">Vuoi salvare?\n?>");
+                    do {
 
-                    switch (MRMSG.getMsg().toLowerCase()) {
-                        case "si" -> {
-                            Saving s = new Saving(GAME.getObsAttached(), GAME.getItems(), GAME.getRooms(), GAME.getInventory(), GAME.getRiddles(), GAME.getCurrentRoom(), PLAYERTIME);
-                            MRS.saveMatch(s);
-                            MRS.backUpServer();
-                            if (!MRS.getUsername().contentEquals("notLogged")) {
-                                MRS.addPlayerToGlobalRanking(PLAYERTIME);
+                        switch (MRMSG.getMsg().toLowerCase()) {
+                            case "si" -> {
+                                Saving s = new Saving(GAME.getObservers().keySet(), GAME.getObsAttached(), GAME.getItems(), GAME.getRooms(), GAME.getInventory(), GAME.getRiddles(), GAME.getCurrentRoom(), GAME.getStopWatch());
+                                MRS.saveMatch(s);
+                                MRS.backUpServer();
+                                if (!MRS.getUsername().contentEquals("notLogged")) {
+                                    MRS.addPlayerToGlobalRanking(GAME.getStopWatch());
+                                }
+                                MRMSG.displayMsg("\n");
                             }
-                            MRMSG.displayMsg("\n");
+                            case "no" ->
+                                MRMSG.displayMsg(">Non sei Leone il cane fifone, sei solo un fifone!");
+                            default ->
+                                pass = false;
                         }
-                        case "no" ->
-                            MRMSG.displayMsg(">Non sei Leone il cane fifone, sei solo un fifone!");
-                        default ->
-                            pass = false;
-                    }
-                } while (!pass);
+                    } while (!pass);
 
-                if (MRS.getUsername().contentEquals("notLogged")) {
-                    PLAYERTIME.showScore(MRMSG);
-                } else {
-                    Ranking ranking = new Ranking();
-                    MRS.addPlayerToGlobalRanking(PLAYERTIME);
-                    ranking = MRS.getGlobalRanking();
-                    ranking.classification(MRMSG);
+                    if (MRS.getUsername().contentEquals("notLogged")) {
+                        GAME.getStopWatch().showScore(MRMSG);
+                    } else {
+                        Ranking ranking = new Ranking();
+                        MRS.addPlayerToGlobalRanking(GAME.getStopWatch());
+                        ranking = MRS.getGlobalRanking();
+                        ranking.classification(MRMSG);
+                    }
                 }
+
                 MRMSG.displayMsg(">Arrivederci.");
                 GAME.setRunning(false);
                 break;
             } else if (action.getCommand() != null && action.getCommand().getType() == CommandType.SAVE && matchLoaded) {
                 //salvataggio
-                Saving s = new Saving(GAME.getObsAttached(), GAME.getItems(), GAME.getRooms(), GAME.getInventory(), GAME.getRiddles(), GAME.getCurrentRoom(), PLAYERTIME);
+                Saving s = new Saving(GAME.getObservers().keySet(), GAME.getObsAttached(), GAME.getItems(), GAME.getRooms(), GAME.getInventory(), GAME.getRiddles(), GAME.getCurrentRoom(), GAME.getStopWatch());
                 MRS.saveMatch(s);
             } else if (action.getCommand() != null && action.getCommand().getType() == CommandType.HELP && matchLoaded) {
                 MRMSG.displayMsg(">I comandi possibili sono i seguenti:");
@@ -149,23 +154,25 @@ public class Engine {
             } else if (GAME.isRunning()) {
                 GAME.nextMove(action);
                 if (GAME.isWin()) {
-                    PLAYERTIME.setWin(true);
+                    MRMSG.displayMsg(">Hai vinto A.L.! Adesso Marilù e Leone saranno al sicuro! Anche Giustino.");
+                    GAME.getStopWatch().setWin(true);
                     MIXER.stopMusic();
-                    PLAYERTIME.stop();
+                    GAME.getStopWatch().stop();
                     MRS.connectToServer();
                     if (MRS.getUsername().contentEquals("notLogged")) {
-                        PLAYERTIME.showScore(MRMSG);
+                        GAME.getStopWatch().showScore(MRMSG);
                     } else {
                         Ranking ranking = new Ranking();
-                        MRS.addPlayerToGlobalRanking(PLAYERTIME);
+                        GAME.getStopWatch().setNickname(MRS.getUsername());
+                        MRS.addPlayerToGlobalRanking(GAME.getStopWatch());
                         ranking = MRS.getGlobalRanking();
                         ranking.classification(MRMSG);
                     }
                     MRMSG.displayMsg(">La tua avventura termina qui! Complimenti!");
                     GAME.setRunning(false);
-                    if (MRS.getLoadedMatch().exists()) {
-                        MRS.delete(MRS.getLoadedMatch());
-                    }
+
+                    MRS.delete(MRS.getLoadedMatch());
+
                 }
             }
 
