@@ -97,3 +97,196 @@ La classe 'Riddle' rappresenta gli indovinelli a cui il giocatore sarà sottopos
 ## Command & CommandType
 
 La classe 'Command' rappresenta i comandi impartibili dall'utente. È dotata semplicemente di un insieme di nomi, 'names', per riferirsi ad un determinato comando ed è strettamente legata alla classe enumerativa 'CommandType' in quando possiede un attributo 'type' proprio di quel tipo, necessario per identificare il comando in maniera indipendente dal nome adoperato dal giocatore.
+
+## SPECIFICHE ALGEBRICHE
+
+### Lista
+
+La lista è una struttura dati che permette di contenere dati e muoversi tra di essi sfruttando l'indice di posizione associato. 
+
+### Specifica Sintattica
+
+### Tipi e Operatori
+
+<pre>
++-------------------------------------------------------------------------------------------+
+|                                          Tipi                                             |
++-------------------------------------------------------------------------------------------+
+|                            List, Item, Integer, Boolean                                   |
++-------------------------------------------------------------------------------------------+
+|                                       Operatori                                           |
++--------------------------------------------------+----------------------------------------+
+| newList() -> List                                | Crea una nuova lista vuota             |
++--------------------------------------------------+----------------------------------------+
+| add(List, Item, Integer) -> List                 | Aggiunge un elemento alla lista nella  |
+|                                                  | posizione specificata                  |
++--------------------------------------------------+----------------------------------------+
+| isEmpty(List) -> Boolean                         | Restituisce true se la lista è vuota   |
+|                                                  | altrimenti false                       |
++--------------------------------------------------+----------------------------------------+
+| size(List) -> Integer                            | Restituisce l'ultima posizione occupata|
+|                                                  | da un elemento                         |
++--------------------------------------------------+----------------------------------------+
+| getIndex(List, Item) -> Integer                  | Restituisce la posizione dell'elemento |
+|                                                  | specificato                            |
++--------------------------------------------------+----------------------------------------+
+| getItem(List, Integer) -> Item                   | Restituisce l'elemento nella posizione |
+|                                                  | specificata                            |
++--------------------------------------------------+----------------------------------------+
+| remove(List, Integer) -> List                    | Rimuove dalla lista l'elemento nella   |
+|                                                  | posizione specificata                  |
++--------------------------------------------------+----------------------------------------+
+| contains(List, Item) -> Boolean                  | Restituisce true se l'elemento         |
+|                                                  | specificato è contenuto nella lista    |
++--------------------------------------------------+----------------------------------------+
+</pre>
+
+
+### Osservazioni e Costruttori
+
+<pre>
++-----------------------------------------------------------------------------------------------+
+|                                             Costruttori di l'                                 |
++--------------------------+-------------------+------------------------------------------------+
+|                          |    newList        |                   add(l, it, id)               |
++--------------------------+-------------------+------------------------------------------------+
+|       Osservazioni       |                   |                                                |
+| isEmpty(l')              |      true         |                       false                    |
++--------------------------+-------------------+------------------------------------------------+
+| size(l')                 |      error        | if isEmpty(l) then 1 else getLastIndex(l) + 1  |
++--------------------------+-------------------+------------------------------------------------+
+| getIndex(l', it')        |      error        | if it = it' then id else getIndex(l, it')      |
++--------------------------+-------------------+------------------------------------------------+
+| getItem(l', id')         |      error        | if id = id' then it else getItem(l, id')       |
++--------------------------+-------------------+------------------------------------------------+
+| remove(l', id')          |      error        | if id = id' then l else add(remove(l, id'), it)|
++--------------------------+-------------------+------------------------------------------------+
+| contains(l', it')        |      false        | if it = it' then true else contains(l, it')    |
++--------------------------+-------------------+------------------------------------------------+
+</pre>
+
+
+### SPECIFICA SEMANTICA
+**DECLARE**
+<pre>
+- l, l'   : List
+- it, it' : Item
+- id, id' : Integer
+</pre>
+
+### Operazioni
+
+<pre>
+- isEmpty(newList)                      = true
+- isEmpty(add(l, it, id))               = false
+- getLastIndex(add(l, it, id))          = if isEmpty(l) then 1 else getLastIndex(l) + 1
+- getIndex(add(l, it, id), it')         = if it = it' then id else getIndex(l, it')
+- getItem(add(l, it, id), id')          = if id = id' then it else getItem(l, id')
+- remove(add(l, it, id), id')           = if id = id' then l else add(remove(l, id'), it)
+- contains(newList, it')                = false
+- contains(add(l, it, id), it')         = if it = it' then true else contains(l, it')
+</pre>
+
+
+### Specifica di restrizione
+### Restrizioni
+
+<pre>
+- getLastIndex(newList)   = error
+- getIndex(newList, it')  = error
+- getItem(newList, id')   = error
+- remove(newList, id')    = error
+</pre>
+
+### Mappa
+
+La mappa è una struttura dati che associa una chiave ad un valore, permettendo di memorizzare e recuperare informazioni in modo efficiente.
+
+### Specifica sintattica
+
+<pre>
++----------------------------------------+-----------------------------------------------+
+|                 Tipi                   |                                               |
++----------------------------------------+-----------------------------------------------+
+| Map, Key, Value, Boolean, Integer      |                                               |
++----------------------------------------+-----------------------------------------------+
+|               Operatori                |                                               |
++----------------------------------------+-----------------------------------------------+
+| newMap() -> Map                        | Crea una nuova mappa vuota                    |
++----------------------------------------+-----------------------------------------------+
+| isEmpty(Map) -> Boolean                | Restituisce true se la mappa è vuota,         |
+|                                        | false altrimenti                              |
++----------------------------------------+-----------------------------------------------+
+| put(Map, Key, Value) -> Map            | Aggiunge una coppia chiave-valore alla mappa, |
+|                                        | o, se già presente, ne aggiorna il valore     |
++----------------------------------------+-----------------------------------------------+
+| get(Map, Key) -> Value                 | Restituisce il valore associato alla chiave   |
+|                                        | specificata                                   |
++----------------------------------------+-----------------------------------------------+
+| containsKey(Map, Key) -> Boolean       | Restituisce true se la chiave specificata è   |
+|                                        | presente nella mappa                          |
++----------------------------------------+-----------------------------------------------+
+| containsValue(Map, Value) -> Boolean   | Restituisce true se il valore specificato è   |
+|                                        | presente nella mappa                          |
++----------------------------------------+-----------------------------------------------+
+| remove(Map, Key) -> Map                | Rimuove la chiave ed il valore associato      |
+|                                        | ad essa dalla mappa                           |
++----------------------------------------+-----------------------------------------------+
+| size(Map) -> Integer                   | Restituisce il numero di coppie chiave-valore |
+|                                        | presenti nella mappa                          |
++----------------------------------------+-----------------------------------------------+
+</pre>
+
+### Osservazioni e Costruttori
+
+<pre>
++---------------------------------------------------------------------------------------------+
+|                                   Costruttori di m'                                         |
++--------------------------------------------+------------------------------------------------+
+| Osservazioni         | newMap               |              put(m, k, v)                     |
++--------------------------------------------+------------------------------------------------+
+| isEmpty(m')          | true                 |              false                            |
++--------------------------------------------+------------------------------------------------+
+| containsKey(m', k')  | false                | if k = k' then true else containsKey(m, k')   |
++--------------------------------------------+------------------------------------------------+
+| containsValue(m', v')| false                | if v = v' then true else containsValue(m, v')|
++--------------------------------------------+------------------------------------------------+
+| get(m', k')          | error                | if k = k' then v else get(m, k')              |
++--------------------------------------------+------------------------------------------------+
+| remove(m', k')       | error                | if k = k' then m else put(remove(m, k'), k, v)|
++--------------------------------------------+------------------------------------------------+
+| size(m')             | 0                    | if isEmpty(m) then 1 else size(m) + 1         |
++--------------------------------------------+------------------------------------------------+
+</pre>
+
+### Specifica semantica
+
+**DECLARE**
+
+<pre>
+- m, m'   : Map
+- k, k'   : Key
+- v, v'   : Value
+</pre>
+
+### Operazioni
+
+<pre>
+- isEmpty(newMap)                      = true
+- isEmpty(put(m, k, v))                = false
+- containsKey(newMap, k')              = false
+- containsKey(put(m, k, v), k')        = if k = k' then true else containsKey(m, k')
+- containsValue(newMap, v')            = false
+- containsValue(put(m, k, v), v')      = if v = v' then true else containsValue(m, v')
+- get(put(m, k, v), k')                = if k = k' then v else get(m, k')
+- remove(put(m, k, v), k')             = if k = k' then m else put(remove(m, k'), k, v)
+- size(newMap)                         = 0
+- size(put(m, k, v))                   = size(m) + 1
+</pre>
+
+### Specifica di restrizione
+### Restrizioni
+<pre>
+- get(newMap, k')    = error
+- remove(newMap, k') = error
+</pre>
