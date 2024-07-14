@@ -5,6 +5,7 @@
 - [Diagramma delle Classi](#diagramma-delle-classi)
 - [Specifiche Algebriche](#specifiche-algebriche)
 - [Applicazione Argomenti del Corso](#applicazione-argomenti-del-corso)
+- [Guida al Gioco](#guida-al-gioco)
 
 ## INTRODUZIONE
 
@@ -73,11 +74,11 @@ checkRiddle invece è necessario per vedre se vi sono indovinelli nella stanza a
 ## Parser
 
 Il parser ci permette di ricavare dall'input dell'utente una azione, ActionInGame, che si suddivide in comando, item1 e item2.
-Il metodo parse suddivide in token l'input ricevuto, e una volta eliminato le stopwords, inizializzate con la creazine del parser e contenute in un file apposito, verifica la struttura del comando, vedendo se è un comando diretto, un azione con un oggetto o un azione con 2 oggetti. Sulla base di questa informazione costruisce l'output ActionInGame, che verrà mandato al nextMove implementato dalla classe che eredità da Game.
+Il metodo parse suddivide in token l'input ricevuto, e una volta eliminato le stopwords, inizializzate con la creazione del parser e contenute in un file apposito, verifica la struttura del comando, vedendo se è un comando diretto, un azione con un oggetto o un azione con 2 oggetti. Sulla base di questa informazione costruisce l'output ActionInGame, che verrà mandato al nextMove implementato dalla classe che erediterà da Game.
 
 ## Item
 
-La classe 'Item' rappresenta gli oggetti presenti nell'avventura testuale, dotati di attributi per indicare come il giocatore può effettivamente interagire con essi. Ad esempio, pickupable indica che l'oggetto è rompibile, turnable che si può accendere e così via. È inoltre dotato di una descrizione da mostrare al giocatore e di una lista di alias, nonché nomi alternativi per riferirsi ad esso.  
+La classe 'Item' rappresenta gli oggetti presenti nell'avventura testuale, dotati di attributi per indicare come il giocatore può effettivamente interagire con essi. Ad esempio, pickupable indica che l'oggetto è raccoglibile, turnable che si può accendere e così via. È inoltre dotato di una descrizione da mostrare al giocatore e di una lista di alias, nonché sinonimi per riferirsi ad esso.  
 
 ## Room
 
@@ -299,7 +300,7 @@ All'interno del nostro progetto, i file sono stati utilizzati principalmente in 
 2) Creare un file "stopwords" per il parser
 3) Creare un file "ranking", cioè una classifica
 
-Per quanto riguarda i salvataggi della partita, nel momento in cui si avvia il gioco, viene immediatamente chiesto al giocatore se vuole iniziare una nuova partita o caricare dei salavataggi già esistenti. Inoltre, nel momento in cui si esce dal gioco con l'apposito comando "esci", viene chiesto se si desidera salvare. In caso di risposta affermativa, verrà creato un file di salvataggio nella cartella relativa all'utente, in caso avesse fatto un login/signin. 
+Per quanto riguarda i salvataggi della partita, nel momento in cui si avvia il gioco, viene immediatamente chiesto al giocatore se vuole iniziare una nuova partita o caricare dei salvataggi già esistenti. Inoltre, nel momento in cui si esce dal gioco con l'apposito comando "esci", viene chiesto se si desidera salvare. In caso di risposta affermativa, verrà creato un file di salvataggio nella cartella relativa all'utente, in caso avesse fatto un login/signin. 
 
 Per quanto riguarda i file "stopwords", esso contiene delle parole, banalmente proposizioni ed articoli, che il parser deve ignorare nel riconoscimento del comando impartito dall'utente. 
 
@@ -328,16 +329,30 @@ Nel caso della musica, è stata realizzata una classe GameMusic che implementa R
 
 Nel caso del cronometro, è stata realizzata una classe GameTime che implementa Runnable, in modo da avere un thread che fa partire il conteggio del tempo nel momento in cui viene avviata una nuova partita, per fermarlo nel momento in cui la partita termina o il giocatore abbandona il gioco. 
 
-Nel caso del Socket, è stata creata una classe Server contenente una classe UserThread che estende Thread, in modo da gestire accuratamente il signin e il login dell'utente. Infatti, nel momento in cui viene avviata una nuova partita e si decide di collegarsi al server, viene chiesto al giocatore di effettuare il login oppure un signin (ovvero una prima registrazione per utenti nuovi) e l'UserThread gestirà sia il corretto login o signin, sia l'eventuale richiesta da parte dell'utente di caricare salvataggi caricati su server o di caricarne di nuovi (eseguendo un backup).
+Nel caso del Socket, è stata creata una classe Server contenente una classe UserThread che estende Thread, in modo da gestire accuratamente il signin e il login dell'utente. Infatti, nel momento in cui viene avviata una nuova partita e si decide di collegarsi al server, viene chiesto al giocatore di effettuare il login oppure un signin (ovvero una prima registrazione per utenti nuovi) e ogni UserThread gestirà il proprio user collegato, indipendentemente dagli altri UserThread.
 
 ### Socket
 
-All'interno del nostro progetto, i socket sono stati utilizzati per realizzare la classse Server, collogata in un package diverso da quello utilizzato per il resto del progetto (ovvero di.uniba.leone.*nome_package*). Infatti, se si desidera sfruttare le implementazioni relative ai server del nostro gioco, questa classe dev'essere avviata precedentemente all'avvio dell'Engine di gioco, in quanto fa partire un collegamento a server su porta 6666 per gestire login, signin e backup e caricamento di salvataggi, come spiegato nella sezione dedicata ai [thread](#thread). 
+All'interno del nostro progetto, i socket sono stati utilizzati per realizzare la classe Server, collocata in un package diverso da quello utilizzato per il resto del progetto (ovvero di.uniba.leone.*nome_package*). Infatti, se si desidera sfruttare le implementazioni relative ai server del nostro gioco, questa classe dev'essere avviata precedentemente all'avvio dell'Engine di gioco, in quanto fa partire un collegamento a server su porta 6666 per gestire login, signin e backup e caricamento di salvataggi, come spiegato precedentemente nella sezione [Server](#server).
 
 ### Swing
 
-All'interno del nostro progetto sono state usate le Java Swing per creare una GUI, nonché un'interfaccia grafica per il nostro gioco. 
+All'interno del nostro progetto sono state usate le Java Swing per creare una GUI, ovvero un'interfaccia grafica per il nostro gioco. 
 
-Abbiamo implementato due classi nel package gui, ovvero Window e MsgManager. Window è quella in cui sono state impostate tutte le accortezze grafiche della nostra GUI, infatti essa estende JFrame e contiene a sua volta una classe BackgroundPanel che invece estende JPanel. Quest'ultima è un pannello su cui è stata applicata un'immagine di sfondo su cui vengono mostrate tutte le interazioni con l'utente. 
+Abbiamo implementato due classi nel package gui, ovvero Window e MsgManager. Window è quella in cui sono state impostate tutte le accortezze grafiche della nostra GUI, infatti essa estende JFrame e contiene a sua volta una classe BackgroundPanel che invece estende JPanel. L'oggetto mainPanel implementa BackgroundPanel con l'immagine da noi scelta come sfondo e al di sopra del BackgroundPanel vi è posto il centerPanel contenente i componenti necessari per gestire input e output. 
 
-Infatti, la nostra GUI si basa sull'aver trasposto l'avventura testuale che normalmente verrebbe mostrata sul terminale, su un campo di testo della GUI, fornendo inoltre all'utente un campo di testo in cui scrivere i comandi (poi sottoposti al parser in modo da azionare la logica di gioco ad essi legata). 
+Infatti, tramite la nostra GUI gestiamo completamente le operazioni di input e output, bypassando il terminale che viene utilizzato solo per stampare eventuali messaggi d'errore necessari unicamente allo sviluppatore. 
+
+### Lambda
+
+All'interno del nostro progetto sono state usate le Lambda Expression per compattare, laddove possibile, blocchi di codice, la cui implementazione sarebbe altrimenti stata più complessa e di difficile interpretazione. 
+
+Abbiamo inoltre utilizzato le Lambda Expression per implementare l'action che verrà poi associata all'input field e all'enter button, per permettere la lettura dell'input dalla GUI.
+
+## GUIDA AL GIOCO
+
+Abbiamo pensato di realizzare un walkthrough per rendere più facile esplorare il nostro gioco senza impegnarsi troppo nella risoluzione degli enigmi, o anche banalmente per capire come risolverne uno dopo essersi bloccati. 
+
+L'abbiamo appositamente caricato su YouTube, eccone il link:
+
+https://youtu.be/IXKkh2-nxrA
