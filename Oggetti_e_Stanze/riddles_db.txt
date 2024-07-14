@@ -37,8 +37,7 @@ DEATHMSG:>Sei morto affogato...non il top degli eroi direi.
 
 ID:4
 BLACKLIST:INVENTORY, LOOK, PICK_UP, OPEN, CLOSE
-DESC:Raccatata dalla pattumiera, la vecchia televisione di Giustino non   fatta per occhi deboli.
-La luce indonda la stanza, non vedi nulla.
+DESC:Raccattata dalla pattumiera, la vecchia televisione di Giustino non e' fatta per occhi deboli. La luce indonda la stanza, non vedi nulla.
 SOLVED:FALSE
 TARGETITEM:9
 ITEMRIDDLE:TRUE
