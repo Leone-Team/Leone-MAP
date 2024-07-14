@@ -73,3 +73,9 @@ UPDATE rooms SET desc = ? WHERE id = ? [42102-200]
 2024-07-11 18:05:28 jdbc[3]: exception
 org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "RIDDLE" not found; SQL statement:
 UPDATE riddle SET  names=? WHERE type = ? [42102-200]
+2024-07-14 19:37:50 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "Raccattata dalla pattumiera, la vecchia televisione di Giustino non e' fatta per occhi deboli. La luce indonda la stanza, non vedi nulla."; SQL statement:
+UPDATE riddles SET desc = ? WHERE id = ? [22018-200]
+2024-07-14 19:37:50 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "Raccattata dalla pattumiera, la vecchia televisione di Giustino non e' fatta per occhi deboli. La luce indonda la stanza, non vedi nulla."; SQL statement:
+UPDATE riddles SET desc = ? WHERE id = ? [22018-200]

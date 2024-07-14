@@ -69,3 +69,31 @@ SELECT * FROM rooms [90001-200]
 2024-06-27 10:46:54 jdbc[3]: exception
 org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "RIDDLES" not found; SQL statement:
 UPDATE riddles SET SOUTH = ? WHERE name = ? [42102-200]
+2024-07-14 19:26:19 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Column "DESCRIPTION" not found; SQL statement:
+UPDATE rooms SET Description = ? WHERE name = ? [42122-200]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:453)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:429)
+	at org.h2.message.DbException.get(DbException.java:205)
+	at org.h2.message.DbException.get(DbException.java:181)
+	at org.h2.table.Table.getColumn(Table.java:703)
+	at org.h2.command.Parser.readTableColumn(Parser.java:1274)
+	at org.h2.command.Parser.parseUpdateSetClause(Parser.java:1325)
+	at org.h2.command.Parser.parseUpdate(Parser.java:1290)
+	at org.h2.command.Parser.parsePrepared(Parser.java:1005)
+	at org.h2.command.Parser.parse(Parser.java:843)
+	at org.h2.command.Parser.parse(Parser.java:815)
+	at org.h2.command.Parser.prepareCommand(Parser.java:738)
+	at org.h2.engine.Session.prepareLocal(Session.java:657)
+	at org.h2.engine.Session.prepareCommand(Session.java:595)
+	at org.h2.jdbc.JdbcConnection.prepareCommand(JdbcConnection.java:1235)
+	at org.h2.jdbc.JdbcPreparedStatement.<init>(JdbcPreparedStatement.java:76)
+	at org.h2.jdbc.JdbcCallableStatement.<init>(JdbcCallableStatement.java:50)
+	at org.h2.jdbc.JdbcConnection.prepareCall(JdbcConnection.java:923)
+	at di.uniba.map.dbmanager.DbManager.main(DbManager.java:25)
+2024-07-14 19:26:35 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "USERS" not found; SQL statement:
+SELECT * FROM users [42102-200]
+2024-07-14 19:37:37 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "RIDDLES" not found; SQL statement:
+UPDATE riddles SET desc = ? WHERE id = ? [42102-200]
