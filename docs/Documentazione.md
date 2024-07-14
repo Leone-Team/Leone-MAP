@@ -289,3 +289,55 @@ La mappa è una struttura dati che associa una chiave ad un valore, permettendo 
 - get(newMap, k')    = error
 - remove(newMap, k') = error
 </pre>
+
+## APPLICAZIONE ARGOMENTI DEL CORSO
+
+### FILE
+
+All'interno del nostro progetto, i file sono stati utilizzati principalmente in tre casi:
+1) Creare dei salvataggi della partita
+2) Creare un file "stopwords" per il parser
+3) Creare un file "ranking", cioè una classifica
+
+Per quanto riguarda i salvataggi della partita, nel momento in cui si avvia il gioco, viene immediatamente chiesto al giocatore se vuole iniziare una nuova partita o caricare dei salavataggi già esistenti. Inoltre, nel momento in cui si esce dal gioco con l'apposito comando "esci", viene chiesto se si desidera salvare. In caso di risposta affermativa, verrà creato un file di salvataggio nella cartella relativa all'utente, in caso avesse fatto un login/signin. 
+
+Per quanto riguarda i file "stopwords", esso contiene delle parole, banalmente proposizioni ed articoli, che il parser deve ignorare nel riconoscimento del comando impartito dall'utente. 
+
+Per quanto riguarda il file "ranking", si tratta di una classifica ordinata in base ai giocatori che hanno impiegato il minor tempo per completare il gioco
+
+Nel caso dei salvataggi e del ranking sono stati usati file serializzati con estensione .ser, per avere una corrispondenza con gli oggetti effettivamente implementati nel progetto. Nel caso del file "stopwords" invece, è stato usato un semplice .txt 
+
+### DATABASE
+
+All'interno del nostro progetto, i database sono stati usati per avere tutti gli oggetti utilizzati all'interno del gioco sottoforma di "tabelle" riempite comodamente tramite comandi SQL. Infatti, nel momento in cui viene avviata una nuova partita, vengono inizializzati tutti gli oggetti tramite i valori precedentemente inseriti nei rispettivi database. 
+
+Abbiamo quindi creato 4 file di database che corrispondono ai 4 oggetti alla base del nostro progetto, nonché:
+1) Un database dedicato ai commands, ovvero ai comandi che il giocatore può impartire
+2) Un database dedicato agli item, ovvero gli oggetti contenuti nelle varie stanze o eventualmente nell'inventario del giocatore
+3) Un database dedicato ai riddles, ovvero agli enigmi presenti in determinate stanze del gioco
+4) un database dedicato alle rooms, ovvero alle stanze di cui la mappa del nostro gioco è composto
+
+### THREAD
+
+All'interno del nostro progetto, i thread sono stati utilizzati per:
+1) Musica
+2) Cronometro
+3) Server (Socket)
+
+Nel caso della musica, è stata realizzata una classe GameMusic che implementa Runnable, in modo da avere un thread che controlla l'esecuzione del file audio utilizzato come musica di background per il nostro gioco, che si avvia nel momento in cui viene avviata una nuova partita e si ferma nel momento in cui si completa o si abbandona il gioco. 
+
+Nel caso del cronometro, è stata realizzata una classe GameTime che implementa Runnable, in modo da avere un thread che fa partire il conteggio del tempo nel momento in cui viene avviata una nuova partita, per fermarlo nel momento in cui la partita termina o il giocatore abbandona il gioco. 
+
+Nel caso del Socket, è stata creata una classe Server contenente una classe UserThread che estende Thread, in modo da gestire accuratamente il signin e il login dell'utente. Infatti, nel momento in cui viene avviata una nuova partita e si decide di collegarsi al server, viene chiesto al giocatore di effettuare il login oppure un signin (ovvero una prima registrazione per utenti nuovi) e l'UserThread gestirà sia il corretto login o signin, sia l'eventuale richiesta da parte dell'utente di caricare salvataggi caricati su server o di caricarne di nuovi (eseguendo un backup).
+
+### Socket
+
+All'interno del nostro progetto, i socket sono stati utilizzati per realizzare la classse Server, collogata in un package diverso da quello utilizzato per il resto del progetto (ovvero di.uniba.leone.*nome_package*). Infatti, se si desidera sfruttare le implementazioni relative ai server del nostro gioco, questa classe dev'essere avviata precedentemente all'avvio dell'Engine di gioco, in quanto fa partire un collegamento a server su porta 6666 per gestire login, signin e backup e caricamento di salvataggi, come spiegato nella sezione dedicata ai [thread](#thread). 
+
+### Swing
+
+All'interno del nostro progetto sono state usate le Java Swing per creare una GUI, nonché un'interfaccia grafica per il nostro gioco. 
+
+Abbiamo implementato due classi nel package gui, ovvero Window e MsgManager. Window è quella in cui sono state impostate tutte le accortezze grafiche della nostra GUI, infatti essa estende JFrame e contiene a sua volta una classe BackgroundPanel che invece estende JPanel. Quest'ultima è un pannello su cui è stata applicata un'immagine di sfondo su cui vengono mostrate tutte le interazioni con l'utente. 
+
+Infatti, la nostra GUI si basa sull'aver trasposto l'avventura testuale che normalmente verrebbe mostrata sul terminale, su un campo di testo della GUI, fornendo inoltre all'utente un campo di testo in cui scrivere i comandi (poi sottoposti al parser in modo da azionare la logica di gioco ad essi legata). 
