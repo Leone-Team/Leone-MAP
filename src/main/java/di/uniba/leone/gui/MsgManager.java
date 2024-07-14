@@ -1,4 +1,3 @@
-
 package di.uniba.leone.gui;
 
 import javax.swing.JTextArea;
